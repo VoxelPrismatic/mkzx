@@ -1,0 +1,82 @@
+@font-face {
+    font-family: "Ubuntu Mono";
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: local("Ubuntu Mono Italic"), local("UbuntuMono-Italic"), local("UbuntuMono-RI"), local("Ubuntu Mono"), url("/prizm.dev/assets/css/ubuntu/UbuntuMono-RI.ttf");
+} @font-face {
+    font-family: "Ubuntu Mono";
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: local("Ubuntu Mono Bold Italic"), local("UbuntuMono-BoldItalic"), local("UbuntuMono-BI"), local("Ubuntu Mono"), url("/prizm.dev/assets/css/ubuntu/UbuntuMono-BI.ttf");
+}
+
+
+@font-face {
+    font-family: "Ubuntu Mono";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local("Ubuntu Mono"), local("UbuntuMono"), local("UbuntuMono-R"), local("Ubuntu Mono"), url("/prizm.dev/assets/css/ubuntu/UbuntuMono-R.ttf");
+} @font-face {
+    font-family: "Ubuntu Mono";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: local("Ubuntu Mono Bold"), local("UbuntuMono-Bold"), local("UbuntuMono-B"), local("Ubuntu Mono"), url("/prizm.dev/assets/css/ubuntu/UbuntuMono-B.ttf");
+}
+
+
+@font-face {
+    font-family: "Ubuntu";
+    font-style: italic;
+    font-weight: 300;
+    font-display: swap;
+    src: local("Ubuntu Light Italic"), local("Ubuntu-Light-Italic"), local("Ubuntu-LI"), local("Ubuntu"), url("/prizm.dev/assets/css/ubuntu/Ubuntu-LI.ttf");
+} @font-face {
+    font-family: "Ubuntu";
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: local("Ubuntu Italic"), local("Ubuntu-Italic"), local("Ubuntu-RI"), local("Ubuntu"), url("/prizm.dev/assets/css/ubuntu/Ubuntu-RI.ttf");
+} @font-face {
+    font-family: "Ubuntu";
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: local("Ubuntu"), local("Ubuntu-Medium-Italic"), local("Ubuntu-MI"), local("Ubuntu"), url("/prizm.dev/assets/css/ubuntu/Ubuntu-MI.ttf");
+} @font-face {
+    font-family: "Ubuntu";
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: local("Ubuntu Bold Italic"), local("Ubuntu-BoldItalic"), local("Ubuntu-BI"), local("Ubuntu"), url("/prizm.dev/assets/css/ubuntu/Ubuntu-BI.ttf");
+}
+
+
+@font-face {
+    font-family: "Ubuntu";
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: local("Ubuntu Light"), local("Ubuntu-Light"), local("Ubuntu-L"), local("Ubuntu"), url("/prizm.dev/assets/css/ubuntu/Ubuntu-L.ttf");
+} @font-face {
+    font-family: "Ubuntu";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local("Ubuntu"), local("Ubuntu"), local("Ubuntu-R"), local("Ubuntu"), url("/prizm.dev/assets/css/ubuntu/Ubuntu-R.ttf");
+} @font-face {
+    font-family: "Ubuntu";
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: local("Ubuntu"), local("Ubuntu-Medium"), local("Ubuntu-M"), local("Ubuntu"), url("/prizm.dev/assets/css/ubuntu/Ubuntu-M.ttf");
+} @font-face {
+    font-family: "Ubuntu";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: local("Ubuntu Bold"), local("Ubuntu-Bold"), local("Ubuntu-B"), local("Ubuntu"), url("/prizm.dev/assets/css/ubuntu/Ubuntu-B.ttf");
+}

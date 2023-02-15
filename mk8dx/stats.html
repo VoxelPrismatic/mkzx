@@ -64,7 +64,7 @@
                     background-color: #ff0;
                 }
                 33% {
-                    background-color: #fa0;
+                    background-color: #fc0;
                 }
                 66% {
                     background-color: #ff8;
@@ -348,6 +348,7 @@
             </table>
             <div id="just-a-sec">Just a sec, generating...</div>
             <div id="wait-for-done">Waiting for you to finish...</div>
+            <div id="avoid-stall">To avoid stalling your browser, the search for similar builds has stopped here</div>
 
         </div>
         <script type="text/javascript">
@@ -561,7 +562,11 @@
                 handle = Math.floor($("#slide-handle").value);
                 trxn = Math.floor($("#slide-trxn").value);
 
-                for(var combo in cache_combo) {
+                var ls = [...Object.keys(cache_combo)];
+                while(ls.length) {
+                    var i = Math.floor(Math.random() * ls.length);
+                    var combo = ls[i];
+                    ls.splice(i, 1);
                     [b_speed, b_accel, b_weight, b_handle, b_trxn] = cache_combo_floor[combo];
                     if(b_speed == speed && b_accel == accel && b_weight == weight && b_handle == handle && b_trxn == trxn) {
                         [z_char, z_kart, z_wheel, z_kite] = combo.split(/\+/g);
@@ -587,6 +592,11 @@
                         cell.innerHTML = $(`#kite [data-src*='${z_kite}.webp']`).outerHTML;
                         if(alts["body"].includes(z_kite))
                             cell.children[0].src = `./img/karts/kite/alt/${z_kite}/${z_char}.webp`;
+
+                        if(table.rows.length >= 1024) {
+                            $("#avoid-stall").style.display = "";
+                            break;
+                        }
                     }
                 }
                 for(var sel of $$("#others .select"))
@@ -628,6 +638,7 @@
                 window.clearTimeout(similar_builds_timeout);
                 $("#wait-for-done").style.display = "";
                 $("#just-a-sec").style.display = "none";
+                $("#avoid-stall").style.display = "none";
                 similar_builds_timeout = window.setTimeout(() => {
                     similar_builds_timeout = window.setTimeout(input_changed, 100, 1);
                     $("#wait-for-done").style.display = "none";

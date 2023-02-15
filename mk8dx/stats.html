@@ -563,6 +563,7 @@
                 trxn = Math.floor($("#slide-trxn").value);
 
                 var ls = [...Object.keys(cache_combo)];
+                var time = new Date();
                 while(ls.length) {
                     var i = Math.floor(Math.random() * ls.length);
                     var combo = ls[i];
@@ -592,10 +593,11 @@
                         cell.innerHTML = $(`#kite [data-src*='${z_kite}.webp']`).outerHTML;
                         if(alts["body"].includes(z_kite))
                             cell.children[0].src = `./img/karts/kite/alt/${z_kite}/${z_char}.webp`;
-
-                        if(table.rows.length >= 1024) {
-                            $("#avoid-stall").style.display = "";
-                            break;
+                        if(table.rows.length % 32 == 0) {
+                            if(table.rows.length >= 1024 || (new Date() - time) > 4000) {
+                                $("#avoid-stall").style.display = "";
+                                break;
+                            }
                         }
                     }
                 }

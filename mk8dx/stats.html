@@ -82,6 +82,9 @@
                 opacity: 0%;
             } .kart-select img:nth-child(1), .kart-select img:nth-child(3) {
                 opacity: 50%;
+            } .kart-select h3 {
+                position: relative;
+                z-index: 3;
             }
 
             .kart-build {
@@ -114,7 +117,7 @@
 
             .stats h3 {
                 margin-bottom: 0;
-            } .stats input {
+            } .stats input[type="range"] {
                 width: 360px;
                 height: 36px;
             }
@@ -142,7 +145,14 @@
 
             .stats {
                 position: relative;
-                top: 16px;
+                padding-left: 8px;
+                padding-right: 8px;
+                border-right: 2px solid #ccc;
+            }
+
+            .stats-breakdown {
+                font-size: small;
+                padding-left: 8px;
             }
         </style>
 
@@ -217,7 +227,7 @@
                         <td><img data-src="./img/karts/char/Mii.webp" title="Mii (Medium size)" class="char-img" onclick="select_item(this)"/></td>
                     </tr>
                 </table>
-                <h3 id="char-name" class="item-name">Mario</h4>
+                <h3 id="char-name" class="item-name"><span>Mario</span> <input type="checkbox" id="match-char" onchange="list_timeout()"/></h3>
             </div>
             <div class="kart-select">
                 <div id="body">
@@ -263,7 +273,7 @@
                     <img data-src="./img/karts/body/BoneRattler.webp" title="Bone Rattler" class="kart-img" onclick="select_item(this)"/>
                     <img data-src="./img/karts/body/SplatBuggy.webp" title="Splat Buggy" class="kart-img" onclick="select_item(this)"/>
                 </div>
-                <h3 id="body-name" class="item-name">Standard Kart</h4>
+                <h3 id="body-name" class="item-name"><span>Standard Kart</span> <input type="checkbox" id="match-kart" onchange="list_timeout()"/></h3>
             </div>
             <div class="kart-select">
                 <div id="wheel">
@@ -290,7 +300,7 @@
                     <img data-src="./img/karts/wheel/Triforce.webp" title="Triforce Tires" class="kart-img" onclick="select_item(this)"/>
                     <img data-src="./img/karts/wheel/Ancient.webp" title="Ancient Tires" class="kart-img" onclick="select_item(this)"/>
                 </div>
-                <h3 id="wheel-name" class="item-name">Standard</h4>
+                <h3 id="wheel-name" class="item-name"><span>Standard</span> <input type="checkbox" id="match-wheel" onchange="list_timeout()"/></h3>
             </div>
             <div class="kart-select">
                 <div id="kite">
@@ -310,40 +320,137 @@
                     <img data-src="./img/karts/kite/HylianKite.webp" title="Hylian Kite" class="kart-img" onclick="select_item(this)"/>
                     <img data-src="./img/karts/kite/Paraglider.webp" title="Paraglider" class="kart-img" onclick="select_item(this)"/>
                 </div>
-                <h3 id="kite-name" class="item-name">Super Glider</h4>
+                <h3 id="kite-name" class="item-name"><span>Super Glider</span> <input type="checkbox" id="match-kite" onchange="list_timeout()"/></h3>
             </div>
             <div class="stats">
-                <h3>Speed</h3>
+                <br><br>
+                <h3>Speed <input id="check-speed" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
                 <div class="stats-bar">
                     <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
                 </div>
-                <input id="slide-speed" type="range" min="0" max="6" step="0.25" onchange="input_changed(this)"/>
-                <h3>Acceleration</h3>
-                <div class="stats-bar">
-                    <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
-                </div>
-                <input id="slide-accel" type="range" min="0" max="6" step="0.25" onchange="input_changed(this)"/>
-                <h3>Weight</h3>
-                <div class="stats-bar">
-                    <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
-                </div>
-                <input id="slide-weight" type="range" min="0" max="6" step="0.25" onchange="input_changed(this)"/>
-                <h3>Handling</h3>
-                <div class="stats-bar">
-                    <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
-                </div>
-                <input id="slide-handle" type="range" min="0" max="6" step="0.25" onchange="input_changed(this)"/>
-                <h3>Traction</h3>
-                <div class="stats-bar">
-                    <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
-                </div>
-                <input id="slide-trxn" type="range" min="0" max="6" step="0.25" onchange="input_changed(this)"/>
+                <input id="slide-speed" type="range" min="0" max="6" step="0.25" onchange="list_timeout()"/>
 
+                <h3>Acceleration <input id="check-accel" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
+                <div class="stats-bar">
+                    <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
+                </div>
+                <input id="slide-accel" type="range" min="0" max="6" step="0.25" onchange="list_timeout()"/>
+
+                <h3>Weight <input id="check-weight" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
+                <div class="stats-bar">
+                    <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
+                </div>
+                <input id="slide-weight" type="range" min="0" max="6" step="0.25" onchange="list_timeout()"/>
+
+                <h3>Handling <input id="check-handle" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
+                <div class="stats-bar">
+                    <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
+                </div>
+                <input id="slide-handle" type="range" min="0" max="6" step="0.25" onchange="list_timeout()"/>
+
+                <h3>Traction <input id="check-trxn" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
+                <div class="stats-bar">
+                    <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
+                </div>
+                <input id="slide-trxn" type="range" min="0" max="6" step="0.25" onchange="list_timeout()"/>
+            </div>
+            <div class="stats-breakdown">
+                <br style="font-size: large">
+                <table class="stats-table">
+                    <tr>
+                        <td><b>Speed</b></td>
+                    </tr>
+                    <tr>
+                        <td>Ground</td>
+                        <td><progress id="stat-speed-ground" value="0.5"></progress></td>
+                    </tr>
+                    <tr>
+                        <td>Water</td>
+                        <td><progress id="stat-speed-water" value="0.5"></progress></td>
+                    </tr>
+                    <tr>
+                        <td>Anti Gravity</td>
+                        <td><progress id="stat-speed-anti-gravity" value="0.5"></progress></td>
+                    </tr>
+                    <tr>
+                        <td>Air (Kite)</td>
+                        <td><progress id="stat-speed-air" value="0.5"></progress></td>
+                    </tr>
+
+                    <tr><td>&nbsp;</td></tr>
+
+                    <tr>
+                        <td><b>Acceleration</b></td>
+                    </tr>
+                    <tr>
+                        <td>All</td>
+                        <td><progress id="stat-accel" value="0.5"></progress></td>
+                    </tr>
+
+                    <tr><td>&nbsp;</td></tr>
+
+                    <tr>
+                        <td><b>Weight</b></td>
+                    </tr>
+                    <tr>
+                        <td>All</td>
+                        <td><progress id="stat-weight" value="0.5"></progress></td>
+                    </tr>
+
+                    <tr><td>&nbsp;</td></tr>
+
+                    <tr>
+                        <td><b>Handling</b></td>
+                        <td>(Turn speed without drift)</td>
+                    </tr>
+                    <tr>
+                        <td>Ground</td>
+                        <td><progress id="stat-handle-ground" value="0.5"></progress></td>
+                    </tr>
+                    <tr>
+                        <td>Water</td>
+                        <td><progress id="stat-handle-water" value="0.5"></progress></td>
+                    </tr>
+                    <tr>
+                        <td>Anti Gravity</td>
+                        <td><progress id="stat-handle-anti-gravity" value="0.5"></progress></td>
+                    </tr>
+                    <tr>
+                        <td>Air (Kite)</td>
+                        <td><progress id="stat-handle-air" value="0.5"></progress></td>
+                    </tr>
+
+                    <tr><td>&nbsp;</td></tr>
+
+                    <tr>
+                        <td><b>Traction</b></td>
+                        <td>(Drift turn tightness)</td>
+                    </tr>
+                    <tr>
+                        <td>On Road</td>
+                        <td><progress id="stat-trxn-on-road" value="0.5"></progress></td>
+                    </tr>
+                    <tr>
+                        <td>Off Road</td>
+                        <td><progress id="stat-trxn-off-road" value="0.5"></progress></td>
+                    </tr>
+
+                    <tr><td>&nbsp;</td></tr>
+
+                    <tr>
+                        <td><b>Mini-Turbo</b></td>
+                        <td>(Timeout between drift levels)</td>
+                    </tr>
+                    <tr>
+                        <td>Timeout</td>
+                        <td><progress id="stat-mini-turbo" value="0.5"></progress></td>
+                    </tr>
+                </table>
             </div>
         </div>
         <hr>
         <div id="similar-builds">
-            <h2>Other similar builds</h2>
+            <h2>Other similar builds <button onclick="input_changed(this)">generate</button></h2>
             <table id="others">
             </table>
             <div id="just-a-sec">Just a sec, generating...</div>
@@ -351,392 +458,7 @@
             <div id="avoid-stall">To avoid stalling your browser, the search for similar builds has stopped here</div>
 
         </div>
-        <script type="text/javascript">
-
-            function $(q, e = document) { return e.querySelector(q); }
-            function $$(q, e = document) { return e.querySelectorAll(q); }
-
-            $("#slide-speed").value = 0;
-            $("#slide-accel").value = 0;
-            $("#slide-weight").value = 0;
-            $("#slide-handle").value = 0;
-            $("#slide-trxn").value = 0;
-
-            for(var img of $$("img:not([src])"))
-                img.src = img.dataset.src;
-
-            const chars = {
-                "Mario":            [6, 2, 4, 2, 2, 6, 6, 6, 6, 4, 4, 4, 4],
-                "Luigi":            [6, 2, 5, 1, 2, 6, 6, 6, 6, 5, 5, 5, 5],
-                "Peach":            [4, 3, 3, 3, 3, 5, 5, 5, 5, 5, 5, 5, 5],
-                "Daisy":            [4, 3, 3, 3, 3, 5, 5, 5, 5, 5, 5, 5, 5],
-                "Rosalina":         [7, 1, 9, 3, 2, 7, 7, 7, 7, 3, 3, 3, 3],
-                "TanookiMario":     [5, 3, 7, 1, 3, 5, 5, 5, 5, 5, 5, 5, 5],
-                "CatPeach":         [3, 4, 2, 3, 3, 4, 4, 4, 4, 6, 6, 6, 6],
-                "Yoshi":            [4, 3, 3, 3, 3, 5, 5, 5, 5, 5, 5, 5, 5],
-                "Toad":             [3, 4, 3, 4, 3, 3, 3, 3, 3, 7, 7, 7, 7],
-                "Koopa":            [2, 4, 1, 5, 4, 2, 2, 2, 2, 8, 8, 8, 8],
-                "ShyGuy":           [3, 4, 3, 4, 3, 3, 3, 3, 3, 7, 7, 7, 7],
-                "Lakitu":           [2, 4, 1, 5, 4, 2, 2, 2, 2, 8, 8, 8, 8],
-                "Toadette":         [2, 5, 4, 2, 4, 2, 2, 2, 2, 7, 7, 7, 7],
-                "KingBoo":          [7, 1, 9, 3, 2, 7, 7, 7, 7, 3, 3, 3, 3],
-                "BabyMario":        [1, 5, 2, 4, 4, 1, 1, 1, 1, 8, 8, 8, 8],
-                "BabyLuigi":        [1, 5, 2, 4, 4, 1, 1, 1, 1, 8, 8, 8, 8],
-                "BabyPeach":        [0, 4, 3, 5, 5, 0, 0, 0, 0, 10, 10, 10, 10],
-                "BabyDaisy":        [0, 4, 3, 5, 5, 0, 0, 0, 0, 10, 10, 10, 10],
-                "BabyRosalina":     [0, 5, 4, 3, 5, 0, 0, 0, 0, 9, 9, 9, 9],
-                "MetalMario":       [10, 1, 8, 1, 1, 8, 8, 8, 8, 3, 3, 3, 3],
-                "GoldMario":        [10, 1, 8, 1, 1, 8, 8, 8, 8, 3, 3, 3, 3],
-                "PinkGoldPeach":    [10, 1, 8, 1, 1, 8, 8, 8, 8, 3, 3, 3, 3],
-                "Wario":            [9, 0, 5, 1, 0, 10, 10, 10, 10, 1, 1, 1, 1],
-                "Waluigi":          [8, 1, 10, 0, 1, 9, 9, 9, 9, 2, 2, 2, 2],
-                "DonkeyKong":       [8, 1, 10, 0, 1, 9, 9, 9, 9, 2, 2, 2, 2],
-                "Bowser":           [10, 0, 6, 0, 0, 10, 10, 10, 10, 0, 0, 0, 0],
-                "DryBones":         [1, 5, 2, 4, 4, 1, 1, 1, 1, 8, 8, 8, 8],
-                "BowserJr":         [2, 4, 1, 5, 4, 2, 2, 2, 2, 8, 8, 8, 8],
-                "DryBowser":        [9, 0, 5, 1, 0, 10, 10, 10, 10, 1, 1, 1, 1],
-                "Larry":            [3, 4, 3, 4, 3, 3, 3, 3, 3, 7, 7, 7, 7],
-                "Lemmy":            [0, 5, 4, 3, 5, 0, 0, 0, 0, 9, 9, 9, 9],
-                "Wendy":            [2, 5, 4, 2, 4, 2, 2, 2, 2, 7, 7, 7, 7],
-                "Ludwig":           [6, 2, 4, 2, 2, 6, 6, 6, 6, 4, 4, 4, 4],
-                "Iggy":             [6, 2, 5, 1, 2, 6, 6, 6, 6, 5, 5, 5, 5],
-                "Morton":           [10, 0, 6, 0, 0, 10, 10, 10, 10, 0, 0, 0, 0],
-                "Roy":              [8, 1, 10, 0, 1, 9, 9, 9, 9, 2, 2, 2, 2],
-                "InklingGirl":      [3, 4, 2, 3, 3, 4, 4, 4, 4, 6, 6, 6, 6],
-                "InklingBoy":       [5, 3, 7, 1, 3, 5, 5, 5, 5, 5, 5, 5, 5],
-                "Link":             [7, 1, 9, 3, 2, 7, 7, 7, 7, 3, 3, 3, 3],
-                "LinkBotW":         [7, 1, 9, 3, 2, 7, 7, 7, 7, 3, 3, 3, 3],
-                "MaleVillager":     [5, 3, 7, 1, 3, 5, 5, 5, 5, 5, 5, 5, 5],
-                "FemaleVillager":   [3, 4, 2, 3, 3, 4, 4, 4, 4, 6, 6, 6, 6],
-                "Isabelle":         [2, 5, 4, 2, 4, 2, 2, 2, 2, 7, 7, 7, 7],
-                "Mii":              [6, 2, 4, 2, 2, 6, 6, 6, 6, 4, 4, 4, 4]
-            }
-            const karts = {
-                "StandardKart":     [2, 4, 3, 3, 4, 3, 3, 3, 3, 3, 2, 3, 3],
-                "PipeFrame":        [1, 6, 3, 4, 6, 1, 3, 1, 1, 5, 4, 4, 2],
-                "Mach8":            [3, 3, 2, 4, 4, 3, 3, 5, 4, 2, 2, 4, 2],
-                "SteelDriver":      [4, 1, 1, 3, 2, 4, 5, 2, 0, 1, 5, 1, 1],
-                "CatCruiser":       [2, 5, 4, 3, 5, 2, 2, 3, 4, 4, 2, 3, 4],
-                "CircuitSpecial":   [3, 1, 3, 1, 1, 5, 1, 4, 2, 1, 1, 2, 0],
-                "TriSpeeder":       [4, 1, 1, 3, 2, 4, 5, 2, 0, 1, 5, 1, 1],
-                "Badwagon":         [4, 0, 2, 5, 0, 5, 2, 3, 1, 0, 1, 1, 0],
-                "Prancer":          [1, 2, 1, 2, 3, 4, 3, 3, 3, 3, 3, 2, 3],
-                "Biddybuggy":       [0, 7, 1, 4, 7, 0, 1, 2, 1, 5, 4, 5, 4],
-                "Landship":         [0, 6, 0, 6, 6, 1, 5, 0, 2, 4, 5, 2, 3],
-                "Sneeker":          [2, 2, 1, 0, 3, 4, 2, 3, 3, 3, 2, 3, 2],
-                "SportsCoupe":      [3, 3, 2, 4, 4, 3, 3, 5, 4, 2, 2, 4, 2],
-                "GoldStandard":     [2, 2, 1, 0, 3, 4, 2, 3, 3, 3, 2, 3, 2],
-                "StandardBike":     [1, 5, 3, 5, 5, 2, 2, 4, 3, 4, 3, 4, 3],
-                "Comet":            [2, 5, 4, 3, 5, 2, 2, 3, 4, 4, 2, 3, 4],
-                "SportBike":        [1, 2, 1, 2, 3, 4, 3, 3, 3, 3, 3, 2, 3],
-                "TheDuke":          [2, 4, 3, 3, 4, 3, 3, 3, 3, 3, 2, 3, 3],
-                "FlameRider":       [1, 5, 3, 5, 5, 2, 2, 4, 3, 4, 3, 4, 3],
-                "Varmint":          [1, 6, 3, 4, 6, 1, 3, 1, 1, 5, 4, 4, 2],
-                "MrScooty":         [0, 7, 1, 4, 7, 0, 1, 2, 1, 5, 4, 5, 4],
-                "JetBike":          [1, 2, 1, 2, 3, 4, 3, 3, 3, 3, 3, 2, 3],
-                "YoshiBike":        [2, 5, 4, 3, 5, 2, 2, 3, 4, 4, 2, 3, 4],
-                "StandardATV":      [4, 0, 2, 5, 0, 5, 2, 3, 1, 0, 1, 1, 0],
-                "WildWiggler":      [1, 5, 3, 5, 5, 2, 2, 4, 3, 4, 3, 4, 3],
-                "TeddyBuggy":       [2, 5, 4, 3, 5, 2, 2, 3, 4, 4, 2, 3, 4],
-                "Benz-GLA":         [4, 0, 2, 5, 0, 5, 2, 3, 1, 0, 1, 1, 0],
-                "Benz-SilverArrow": [1, 5, 3, 5, 5, 2, 2, 4, 3, 4, 3, 4, 3],
-                "Benz-Roadster":    [2, 4, 3, 3, 4, 3, 3, 3, 3, 3, 2, 3, 3],
-                "BlueFalcon":       [0, 3, 1, 3, 3, 4, 2, 4, 3, 2, 3, 5, 1],
-                "Tanooki":          [3, 2, 4, 7, 3, 2, 4, 3, 3, 4, 4, 3, 3],
-                "BDasher":          [3, 1, 3, 1, 1, 5, 1, 4, 2, 1, 1, 2, 0],
-                "MasterCycle":      [2, 2, 1, 0, 3, 4, 2, 3, 3, 3, 2, 3, 2],
-                "Streetle":         [0, 6, 0, 6, 6, 1, 5, 0, 2, 4, 5, 2, 3],
-                "PWing":            [3, 1, 3, 1, 1, 5, 1, 4, 2, 1, 1, 2, 0],
-                "CityTripper":      [1, 6, 3, 4, 6, 1, 3, 1, 1, 5, 4, 4, 2],
-                "BoneRattler":      [4, 1, 1, 3, 2, 4, 5, 2, 0, 1, 5, 1, 1],
-                "KoopaClown":       [3, 2, 4, 7, 3, 2, 4, 3, 3, 4, 4, 3, 3],
-                "SplatBuggy":       [0, 3, 1, 3, 3, 4, 2, 4, 3, 2, 3, 5, 1],
-                "InkStriker":       [3, 3, 2, 4, 4, 3, 3, 5, 4, 2, 2, 4, 2],
-                "MasterCycleZero":  [3, 2, 4, 7, 3, 2, 4, 3, 3, 4, 4, 3, 3]
-            }
-            const wheels = {
-                "Standard":         [2, 4, 2, 5, 3, 2, 3, 2, 3, 3, 3, 3, 3],
-                "Monster":          [4, 2, 3, 7, 2, 2, 2, 2, 1, 0, 1, 0, 1],
-                "Roller":           [0, 6, 0, 4, 6, 0, 3, 0, 3, 4, 4, 4, 4],
-                "Slim":             [2, 2, 4, 1, 2, 3, 2, 4, 2, 4, 4, 3, 4],
-                "Slick":            [3, 1, 4, 0, 0, 4, 0, 4, 0, 2, 0, 2, 1],
-                "Metal":            [4, 0, 1, 2, 0, 4, 3, 1, 2, 2, 2, 1, 0],
-                "Button":           [0, 5, 1, 3, 5, 1, 2, 2, 2, 3, 3, 4, 2],
-                "OffRoad":          [3, 3, 3, 6, 1, 3, 4, 2, 1, 1, 1, 2, 2],
-                "Sponge":           [1, 4, 2, 6, 4, 1, 1, 1, 4, 2, 1, 2, 3],
-                "Wood":             [2, 2, 4, 1, 2, 3, 2, 4, 2, 4, 4, 3, 4],
-                "Cushion":          [1, 4, 2, 6, 4, 1, 1, 1, 4, 2, 1, 2, 3],
-                "BlueStandard":     [2, 4, 2, 5, 3, 2, 3, 2, 3, 3, 3, 3, 3],
-                "HotMonster":       [4, 2, 3, 7, 2, 2, 2, 2, 1, 0, 1, 0, 1],
-                "AzureRoller":      [0, 6, 0, 4, 6, 0, 3, 0, 3, 4, 4, 4, 4],
-                "CrimsonSlim":      [2, 2, 4, 1, 2, 3, 2, 4, 2, 4, 4, 3, 4],
-                "CyberSlick":       [3, 1, 4, 0, 0, 4, 0, 4, 0, 2, 0, 2, 1],
-                "RetroOffRoad":     [3, 3, 3, 6, 1, 3, 4, 2, 1, 1, 1, 2, 2],
-                "Gold":             [4, 0, 1, 2, 0, 4, 3, 1, 2, 2, 2, 1, 0],
-                "Benz-GLA":         [2, 4, 2, 5, 3, 2, 3, 2, 3, 3, 3, 3, 3],
-                "Triforce":         [3, 3, 3, 6, 1, 3, 4, 2, 1, 1, 1, 2, 2],
-                "Leaf":             [0, 5, 1, 3, 5, 1, 2, 2, 2, 3, 3, 4, 2],
-                "Ancient":          [4, 2, 3, 7, 2, 2, 2, 2, 1, 0, 1, 0, 1]
-            }
-            const kites = {
-                "SuperGlider":      [1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 0, 1, 1],
-                "CloudGlider":      [0, 2, 1, 1, 2, 0, 1, 1, 1, 1, 0, 1, 2],
-                "WarioWing":        [2, 1, 2, 0, 1, 1, 0, 1, 2, 1, 1, 0, 1],
-                "WaddleWing":       [1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 0, 1, 1],
-                "PeachParasol":     [1, 2, 2, 0, 2, 0, 0, 1, 1, 1, 1, 0, 2],
-                "Parachute":        [0, 2, 1, 1, 2, 0, 1, 1, 1, 1, 0, 1, 2],
-                "Parafoil":         [1, 2, 2, 0, 2, 0, 0, 1, 1, 1, 1, 0, 2],
-                "FlowerGlider":     [0, 2, 1, 1, 2, 0, 1, 1, 1, 1, 0, 1, 2],
-                "BowserKite":       [1, 2, 2, 0, 2, 0, 0, 1, 1, 1, 1, 0, 2],
-                "PlaneGlider":      [2, 1, 2, 0, 1, 1, 0, 1, 2, 1, 1, 0, 1],
-                "MKTVParafoil":     [1, 2, 2, 0, 2, 0, 0, 1, 1, 1, 1, 0, 2],
-                "GoldGlider":       [2, 1, 2, 0, 1, 1, 0, 1, 2, 1, 1, 0, 1],
-                "HylianKite":       [1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 0, 1, 1],
-                "PaperGlider":      [0, 2, 1, 1, 2, 0, 1, 1, 1, 1, 0, 1, 2],
-                "Paraglider":       [2, 1, 2, 0, 1, 1, 0, 1, 2, 1, 1, 0, 1]
-            }
-
-            var cache_combo = {}
-            var cache_combo_floor = {}
-
-
-            const alts = {
-                "body": [
-                    "StandardKart",
-                    "PipeFrame",
-                    "CircuitSpecial",
-                    "Biddybuggy",
-                    "Sneeker",
-                    "StandardBike",
-                    "SportBike",
-                    "StandardATV",
-                    "Benz-GLA",
-                    "CityTripper"
-                ],
-                "kite": [
-                    "SuperGlider"
-                ]
-            }
-
-            var current_char = "Mario";
-            var current_body = "StandardKart";
-            var current_wheel = "Standard";
-            var current_kite = "SuperGlider";
-
-            var similar_builds_timeout = 0;
-
-            function calculate_this(char, body, wheel, kite) {
-                var ls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                for(var i = 0; i < 14; i++)
-                    ls[i] += chars[char][i] + karts[body][i] + wheels[wheel][i] + kites[kite][i];
-
-                var weight = (ls[0] + 3) / 4;
-                var accel = (ls[1] + 3) / 4;
-                var trxn = (ls[3] + 3) / 4;
-                var speed = (ls[5] + 3) / 4;
-                var handle = (ls[9] + 3) / 4;
-
-                return [speed, accel, weight, handle, trxn];
-            }
-
-
-            function input_changed(natural = 0) {
-
-                for(var elem of $$("#others tr"))
-                    elem.remove();
-
-                if(!natural) {
-                    for(var sel of $$(".select"))
-                        sel.classList.remove("select");
-                }
-
-                var table = $("#others")
-
-                var speed, accel, weight, handle, trxn;
-                var b_speed, b_accel, b_weight, b_handle, b_trxn;
-                var z_char, z_kart, z_wheel, z_kite;
-
-                speed = Math.floor($("#slide-speed").value);
-                accel = Math.floor($("#slide-accel").value);
-                weight = Math.floor($("#slide-weight").value);
-                handle = Math.floor($("#slide-handle").value);
-                trxn = Math.floor($("#slide-trxn").value);
-
-                var ls = [...Object.keys(cache_combo)];
-                var time = new Date();
-                while(ls.length) {
-                    var i = Math.floor(Math.random() * ls.length);
-                    var combo = ls[i];
-                    ls.splice(i, 1);
-                    [b_speed, b_accel, b_weight, b_handle, b_trxn] = cache_combo_floor[combo];
-                    if(b_speed == speed && b_accel == accel && b_weight == weight && b_handle == handle && b_trxn == trxn) {
-                        [z_char, z_kart, z_wheel, z_kite] = combo.split(/\+/g);
-                        var row = $("#others").insertRow();
-
-                        // character
-                        var cell = row.insertCell();
-                        cell.innerHTML = $(`#char [data-src*='${z_char}.webp']`).outerHTML;
-
-
-                        // kart
-                        cell = row.insertCell();
-                        cell.innerHTML = $(`#body [data-src*='${z_kart}.webp']`).outerHTML;
-                        if(alts["body"].includes(z_kart))
-                            cell.children[0].src = `./img/karts/body/alt/${z_kart}/${z_char}.webp`;
-
-                        // wheel
-                        cell = row.insertCell();
-                        cell.innerHTML = $(`#wheel [data-src*='${z_wheel}.webp']`).outerHTML;
-
-                        // kite
-                        cell = row.insertCell();
-                        cell.innerHTML = $(`#kite [data-src*='${z_kite}.webp']`).outerHTML;
-                        if(alts["body"].includes(z_kite))
-                            cell.children[0].src = `./img/karts/kite/alt/${z_kite}/${z_char}.webp`;
-
-                        if(table.rows.length >= 1024 || (new Date() - time) > 4000) {
-                            $("#avoid-stall").style.display = "";
-                            break;
-                        }
-                    }
-                }
-                for(var sel of $$("#others .select"))
-                    sel.classList.remove("select");
-                for(var img of $$("#others img"))
-                    img.onclick = (evt) => select_match(evt.currentTarget);
-                if(table.rows.length == 0) {
-                    table.insertRow().insertCell().innerHTML = "[no matches]"
-                }
-
-                $("#wait-for-done").style.display = "none";
-                $("#just-a-sec").style.display = "none";
-            }
-
-            function calculate() {
-                var speed, accel, weight, handle, trxn;
-
-                try {
-                    [speed, accel, weight, handle, trxn] = cache_combo[`${current_char}+${current_body}+${current_wheel}+${current_kite}`];
-                } catch(err) {
-                    current_char = $("#char .select").dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-                    current_body = $("#body .select").dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-                    current_wheel = $("#wheel .select").dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-                    current_kite = $("#kite .select").dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-                    [speed, accel, weight, handle, trxn] = cache_combo[`${current_char}+${current_body}+${current_wheel}+${current_kite}`];
-                }
-
-
-                localStorage.setItem("mk8dx_combo", JSON.stringify([current_char, current_body, current_wheel, current_kite]));
-                $("#slide-speed").value = speed;
-                $("#slide-accel").value = accel;
-                $("#slide-weight").value = weight;
-                $("#slide-handle").value = handle;
-                $("#slide-trxn").value = trxn;
-
-
-                for(var elem of $$("#others tr"))
-                    elem.remove();
-                window.clearTimeout(similar_builds_timeout);
-                $("#wait-for-done").style.display = "";
-                $("#just-a-sec").style.display = "none";
-                $("#avoid-stall").style.display = "none";
-                similar_builds_timeout = window.setTimeout(() => {
-                    similar_builds_timeout = window.setTimeout(input_changed, 100, 1);
-                    $("#wait-for-done").style.display = "none";
-                    $("#just-a-sec").style.display = "";
-                }, 5000, 1);
-            }
-
-            function select_item(elem) {
-                var parent = elem;
-                while(parent.nodeName != "DIV")
-                    parent = parent.parentElement;
-                for(var e of $$(".select", parent))
-                    e.classList.remove("select");
-                elem.classList.add("select");
-
-
-                if(parent.id == "char") {
-                    current_char = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-                    for(var alt of alts["body"])
-                        $(`[data-src*='${alt}.webp']`).src = `./img/karts/body/alt/${alt}/${current_char}.webp`
-                    for(var alt of alts["kite"])
-                        $(`[data-src*='${alt}.webp']`).src = `./img/karts/kite/alt/${alt}/${current_char}.webp`
-                    $("#char-name").innerHTML = elem.title;
-                    return calculate();
-                }
-
-                if(parent.children[0].className.includes("select"))
-                    parent.prepend(parent.lastElementChild)
-                else if(parent.children[2].className.includes("select"))
-                    parent.append(parent.firstElementChild)
-                if(parent.id == "body") {
-                    current_body = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-                    $("#body-name").innerHTML = elem.title;
-                }
-                else if(parent.id == "wheel") {
-                    current_wheel = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-                    $("#wheel-name").innerHTML = elem.title;
-                }
-                else if(parent.id == "kite") {
-                    current_body = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-                    $("#kite-name").innerHTML = elem.title;
-                }
-                return calculate();
-            }
-
-            function select_match(elem = 0) {
-                for(var sel of $$(".select"))
-                    sel.classList.remove("select");
-
-                if(elem) {
-                    var row = elem.parentElement.parentElement;
-                    current_char = row.children[0].children[0].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-                    current_body = row.children[1].children[0].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-                    current_wheel = row.children[2].children[0].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-                    current_kite = row.children[3].children[0].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-                }
-                for(var elem of $$("#others tr"))
-                    elem.remove();
-
-                $(`[data-src*='${current_char}.webp']`).classList.add("select");
-
-                var column = $("#body");
-                while(!column.children[1].dataset.src.includes(current_body + ".webp"))
-                    column.prepend(column.lastElementChild);
-                column.children[1].classList.add("select");
-
-                var column = $("#wheel");
-                while(!column.children[1].dataset.src.includes(current_wheel + ".webp"))
-                    column.prepend(column.lastElementChild);
-                column.children[1].classList.add("select");
-
-                var column = $("#kite");
-                while(!column.children[1].dataset.src.includes(current_kite + ".webp"))
-                    column.prepend(column.lastElementChild);
-                column.children[1].classList.add("select");
-
-                select_item($(`[data-src*='${current_char}.webp']`));
-                calculate();
-            }
-
-            [current_char, current_body, current_wheel, current_kite] = JSON.parse(localStorage.getItem("mk8dx_combo") || '["Mario","StandardKart","Standard","SuperGlider"]')
-
-            console.time("Calculating")
-            for(var char in chars) {
-                for(var kart in karts) {
-                    for(var wheel in wheels) {
-                        for(var kite in kites) {
-                            var ls = calculate_this(char, kart, wheel, kite);
-                            cache_combo[`${char}+${kart}+${wheel}+${kite}`] = ls;
-                            cache_combo_floor[`${char}+${kart}+${wheel}+${kite}`] = [Math.floor(ls[0]), Math.floor(ls[1]), Math.floor(ls[2]), Math.floor(ls[3]), Math.floor(ls[4]), Math.floor(ls[5])];
-                        }
-                    }
-                }
-            }
-            console.timeEnd("Calculating")
-
-            select_match();
-        </script>
+        <script type="text/javascript" src="./stat-data.js"></script>
+        <script type="text/javascript" src="../stats.js"></script>
     </body>
 </html>

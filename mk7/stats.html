@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en_US">
+    <head>
+        <meta charset="utf-8"/>
+        <title>MK7 / Kart Stats</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
+        <meta name="theme-color" content="#FF0000">
+        <meta name="author" content="PRIZ ;]" />
+
+        <meta name="twitter:site" content="@VoxelPrismatic">
+        <meta name="twitter:creator" content="@VoxelPrismatic">
+        <meta name="twitter:card" content="summary">
+
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="MK7 / Kart Stats">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" type="text/css" href="../css/fonts.css" />
+
+        <!-- DYNAMIC BETWEEN PAGES -->
+        <meta property="og:title" content="MK7 / Kart Stats" id="title" />
+        <meta property="og:description" content="Figure out Kart Stats in Mario Kart 7" />
+        <meta name="description" content="Figure out Kart Stats in Mario Kart 7" />
+
+        <style type="text/css">
+            body {
+                font-family: "ubuntu";
+            }
+
+            img:hover {
+                background-color: #ccc;
+                border-radius: 16px;
+            }
+
+            img.char-img {
+                border-radius: 16px;
+                width: 96px;
+                cursor: pointer;
+            } img.char-img-half:first-child {
+                width: 48px;
+                display: block;
+                cursor: pointer;
+            } img.char-img-half:last-child {
+                width: 48px;
+                float: right;
+                cursor: pointer;
+            } img.char-img-half.select:first-child {
+                width: 72px;
+                margin: 0px -24px -24px 0px;
+                position: relative;
+                z-index: 8;
+            } img.char-img-half.select:last-child {
+                width: 72px;
+                margin: -24px 0px 0px -24px;
+                position: relative;
+                z-index: 8;
+            } img.select {
+                animation: select-anim 1s infinite ease-in-out;
+                border-radius: 16px;
+            }
+            @keyframes select-anim {
+                0% {
+                    background-color: #ff0;
+                }
+                33% {
+                    background-color: #fc0;
+                }
+                66% {
+                    background-color: #ff8;
+                }
+                100% {
+                    background-color: #ff0;
+                }
+            }
+
+            .kart-select img {
+                display: block;
+                width: 200px;
+                height: 128px;
+                object-fit: contain;
+            } .kart-select img:nth-child(n+4) {
+                display: inline;
+                width: 1px;
+                opacity: 0%;
+            } .kart-select img:nth-child(1), .kart-select img:nth-child(3) {
+                opacity: 50%;
+            } .kart-select h3 {
+                position: relative;
+                z-index: 3;
+            }
+
+            .kart-build {
+                display: flex;
+            }
+            .char-select, .kart-select {
+                padding-right: 16px;
+                margin-left: 16px;
+                border-right: 2px solid #ccc;
+                vertical-align: center;
+            }
+            .kart-select > div {
+                height: 480px;
+                width: 200px;
+                position: relative;
+                top: 40px;
+            } .char-select > table {
+                height: 480px;
+            }
+
+            .kart-img {
+                cursor: pointer;
+            }
+
+
+            .item-name {
+                margin: 0;
+                text-align: center;
+            }
+
+            .stats h3 {
+                margin-bottom: 0;
+            } .stats input[type="range"] {
+                width: 360px;
+                height: 36px;
+            }
+
+
+            div.stats-bar {
+                position: absolute;
+                font-size: xx-large;
+                width: 360px;
+                display: flex;
+                z-index: -1;
+            }
+            div.stats-bar > div:nth-last-child(n+2) {
+                flex: 1;
+            }
+
+            button {
+                cursor: pointer;
+            }
+
+            #others img {
+                width: 96px;
+                cursor: default;
+            }
+
+            .stats {
+                position: relative;
+                padding-left: 8px;
+                padding-right: 8px;
+                border-right: 2px solid #ccc;
+            }
+
+            .stats-breakdown {
+                font-size: small;
+                padding-left: 8px;
+            }
+        </style>
+
+    </head>
+    <body>
+        <h1>Mario Kart 7 Kart Stats</h1>
+        <div>
+            <a href="./progress.html">Progress</a> | <a href="../index.html">Home</a><br>
+            <sub><i>Lazily slapped together by <b>PRIZ ;]</b>. No, it will not ever be pretty, nor work well on mobile</i></sub>
+        </div>
+        <div class="kart-build">
+            <div class="char-select" id="char">
+                <table>
+                    <tr>
+                        <td><img data-src="./img/karts/char/Mario.webp" title="Mario" class="char-img select" onclick="select_item(this)"/></td>
+                        <td><img data-src="./img/karts/char/Luigi.webp" title="Luigi" class="char-img" onclick="select_item(this)"/></td>
+                        <td><img data-src="./img/karts/char/Peach.webp" title="Peach" class="char-img" onclick="select_item(this)"/></td>
+                        <td><img data-src="./img/karts/char/Yoshi.webp" title="Yoshi" class="char-img" onclick="select_item(this)"/></td>
+                    </tr>
+                    <tr>
+                        <td><img data-src="./img/karts/char/Bowser.webp" title="Bowser" class="char-img" onclick="select_item(this)"/></td>
+                        <td><img data-src="./img/karts/char/DonkeyKong.webp" title="Donkey Kong" class="char-img" onclick="select_item(this)"/></td>
+                        <td><img data-src="./img/karts/char/Toad.webp" title="Toad" class="char-img" onclick="select_item(this)"/></td>
+                        <td><img data-src="./img/karts/char/Koopa.webp" title="Koopa Troopa" class="char-img" onclick="select_item(this)"/></td>
+                    </tr>
+                    <tr>
+                        <td><img data-src="./img/karts/char/Daisy.webp" title="Daisy" class="char-img" onclick="select_item(this)"/></td>
+                        <td><img data-src="./img/karts/char/Wario.webp" title="Wario" class="char-img" onclick="select_item(this)"/></td>
+                        <td><img data-src="./img/karts/char/Rosalina.webp" title="Rosalina" class="char-img" onclick="select_item(this)"/></td>
+                        <td><img data-src="./img/karts/char/MetalMario.webp" title="Metal Mario" class="char-img" onclick="select_item(this)"/></td>
+                    </tr>
+                    <tr>
+                        <td><img data-src="./img/karts/char/ShyGuy.webp" title="Shy Guy" class="char-img" onclick="select_item(this)"/></td>
+                        <td><img data-src="./img/karts/char/HoneyQueen.webp" title="Honey Queen" class="char-img" onclick="select_item(this)"/></td>
+                        <td><img data-src="./img/karts/char/Wiggler.webp" title="Wiggler" class="char-img" onclick="select_item(this)"/></td>
+                        <td><img data-src="./img/karts/char/Lakitu.webp" title="Lakitu" class="char-img" onclick="select_item(this)"/></td>
+                    </tr>
+                </table>
+                <h3 id="char-name" class="item-name"><span>Mario</span> <input type="checkbox" id="match-char" onchange="list_timeout()"/></h3>
+            </div>
+            <div class="kart-select">
+                <div id="body">
+                    <img data-src="./img/karts/body/BoneRattler.webp" title="Bone Rattler" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/StandardKart.webp" title="Standard Kart" class="kart-img select" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/PipeFrame.webp" title="Pipe Frame" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/Mach8.webp" title="Mach 8" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/SteelDriver.webp" title="Steel Driver" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/CatCruiser.webp" title="Cat Cruiser" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/CircuitSpecial.webp" title="Circuit Special" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/TriSpeeder.webp" title="Tri-Speeder" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/Badwagon.webp" title="Badwagon" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/Prancer.webp" title="Prancer" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/Biddybuggy.webp" title="Biddybuggy" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/Landship.webp" title="Landship" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/Sneeker.webp" title="Sneeker" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/SportsCoupe.webp" title="Sports Coupe" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/GoldStandard.webp" title="Gold Standard" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/Benz-GLA.webp" title="Benz GLA" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/Benz-SilverArrow.webp" title="Benz Silver Arrow" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/Benz-Roadster.webp" title="Benz Roadster" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/BlueFalcon.webp" title="Blue Falcon" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/Tanooki.webp" title="Tanooki Kart" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/BDasher.webp" title="B Dasher" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/Streetle.webp" title="Streetle" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/PWing.webp" title="P-Wing" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/StandardBike.webp" title="Standard Bike" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/Comet.webp" title="Comet" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/SportBike.webp" title="Sport Bike" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/TheDuke.webp" title="The Duke" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/FlameRider.webp" title="Flame Rider" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/Varmint.webp" title="Varmint" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/MrScooty.webp" title="Mr. Scooty" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/JetBike.webp" title="Jet Bike" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/YoshiBike.webp" title="Yoshi Bike" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/MasterCycle.webp" title="Master Cycle" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/CityTripper.webp" title="City Tripper" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/StandardATV.webp" title="Standard ATV" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/WildWiggler.webp" title="Wild Wiggler" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/body/TeddyBuggy.webp" title="Teddy Buggy" class="kart-img" onclick="select_item(this)"/>
+                </div>
+                <h3 id="body-name" class="item-name"><span>Standard Kart</span> <input type="checkbox" id="match-kart" onchange="list_timeout()"/></h3>
+            </div>
+            <div class="kart-select">
+                <div id="wheel">
+                    <img data-src="./img/karts/wheel/Leaf.webp" title="Leaf Tires" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/Standard.webp" title="Standard" class="kart-img select" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/Monster.webp" title="Monster" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/Roller.webp" title="Roller" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/Slim.webp" title="Slim" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/Slick.webp" title="Slick" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/Metal.webp" title="Metal" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/Button.webp" title="Button" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/OffRoad.webp" title="Off-Road" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/Sponge.webp" title="Sponge" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/Wood.webp" title="Wood" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/Cushion.webp" title="Cushion" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/BlueStandard.webp" title="Blue Standard" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/HotMonster.webp" title="Hot Monster" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/AzureRoller.webp" title="Azure Roller" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/CrimsonSlim.webp" title="Crimson Slim" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/CyberSlick.webp" title="Cyber Slick" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/RetroOffRoad.webp" title="Retro Off-Road" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/Gold.webp" title="Gold Tires" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/Benz-GLA.webp" title="Benz GLA Tires" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/Triforce.webp" title="Triforce Tires" class="kart-img" onclick="select_item(this)"/>
+                </div>
+                <h3 id="wheel-name" class="item-name"><span>Standard</span> <input type="checkbox" id="match-wheel" onchange="list_timeout()"/></h3>
+            </div>
+            <div class="kart-select">
+                <div id="kite">
+                    <img data-src="./img/karts/kite/PaperGlider.webp" title="Paper Glider" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/kite/SuperGlider.webp" title="Super Glider" class="kart-img select" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/kite/CloudGlider.webp" title="Cloud Glider" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/kite/WarioWing.webp" title="Wario Wing" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/kite/WaddleWing.webp" title="Waddle Wing" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/kite/PeachParasol.webp" title="Peach Parasol" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/kite/Parachute.webp" title="Parachute" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/kite/Parafoil.webp" title="Parafoil" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/kite/FlowerGlider.webp" title="Flower Glider" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/kite/BowserKite.webp" title="Bowser Kite" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/kite/PlaneGlider.webp" title="Plane Glider" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/kite/MKTVParafoil.webp" title="MKTV Parafoil" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/kite/GoldGlider.webp" title="Gold Glider" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/kite/HylianKite.webp" title="Hylian Kite" class="kart-img" onclick="select_item(this)"/>
+                </div>
+                <h3 id="kite-name" class="item-name"><span>Super Glider</span> <input type="checkbox" id="match-kite" onchange="list_timeout()"/></h3>
+            </div>
+            <div class="stats">
+                <br><br>
+                <h3>Speed <input id="check-speed" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
+                <div class="stats-bar">
+                    <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
+                </div>
+                <input id="slide-speed" type="range" min="0" max="6" step="0.25" onchange="list_timeout()"/>
+
+                <h3>Acceleration <input id="check-accel" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
+                <div class="stats-bar">
+                    <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
+                </div>
+                <input id="slide-accel" type="range" min="0" max="6" step="0.25" onchange="list_timeout()"/>
+
+                <h3>Weight <input id="check-weight" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
+                <div class="stats-bar">
+                    <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
+                </div>
+                <input id="slide-weight" type="range" min="0" max="6" step="0.25" onchange="list_timeout()"/>
+
+                <h3>Handling <input id="check-handle" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
+                <div class="stats-bar">
+                    <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
+                </div>
+                <input id="slide-handle" type="range" min="0" max="6" step="0.25" onchange="list_timeout()"/>
+
+                <h3>Traction <input id="check-trxn" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
+                <div class="stats-bar">
+                    <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
+                </div>
+                <input id="slide-trxn" type="range" min="0" max="6" step="0.25" onchange="list_timeout()"/>
+            </div>
+            <div class="stats-breakdown">
+                <br style="font-size: large">
+                <table class="stats-table">
+                    <tr>
+                        <td><b>Speed</b></td>
+                    </tr>
+                    <tr>
+                        <td>Ground</td>
+                        <td><progress id="stat-speed-ground" value="0.5"></progress></td>
+                    </tr>
+                    <tr>
+                        <td>Water</td>
+                        <td><progress id="stat-speed-water" value="0.5"></progress></td>
+                    </tr>
+                    <tr>
+                        <td>Air (Kite)</td>
+                        <td><progress id="stat-speed-air" value="0.5"></progress></td>
+                    </tr>
+
+                    <tr><td>&nbsp;</td></tr>
+
+                    <tr>
+                        <td><b>Acceleration</b></td>
+                    </tr>
+                    <tr>
+                        <td>All</td>
+                        <td><progress id="stat-accel" value="0.5"></progress></td>
+                    </tr>
+
+                    <tr><td>&nbsp;</td></tr>
+
+                    <tr>
+                        <td><b>Weight</b></td>
+                    </tr>
+                    <tr>
+                        <td>All</td>
+                        <td><progress id="stat-weight" value="0.5"></progress></td>
+                    </tr>
+
+                    <tr><td>&nbsp;</td></tr>
+
+                    <tr>
+                        <td><b>Handling</b></td>
+                        <td>(Turn speed without drift)</td>
+                    </tr>
+                    <tr>
+                        <td>Ground</td>
+                        <td><progress id="stat-handle-ground" value="0.5"></progress></td>
+                    </tr>
+                    <tr>
+                        <td>Water</td>
+                        <td><progress id="stat-handle-water" value="0.5"></progress></td>
+                    </tr>
+                    <tr>
+                        <td>Air (Kite)</td>
+                        <td><progress id="stat-handle-air" value="0.5"></progress></td>
+                    </tr>
+
+                    <tr><td>&nbsp;</td></tr>
+
+                    <tr>
+                        <td><b>Traction</b></td>
+                        <td>(Drift turn tightness)</td>
+                    </tr>
+                    <tr>
+                        <td>On Road</td>
+                        <td><progress id="stat-trxn-on-road" value="0.5"></progress></td>
+                    </tr>
+                    <tr>
+                        <td>Off Road</td>
+                        <td><progress id="stat-trxn-off-road" value="0.5"></progress></td>
+                    </tr>
+
+                    <tr><td>&nbsp;</td></tr>
+
+                    <tr>
+                        <td><b>Drift</b></td>
+                    </tr>
+                    <tr>
+                        <td>Delay</td>
+                        <td><progress id="stat-drift-delay" value="0.5"></progress></td>
+                    </tr>
+                    <tr>
+                        <td>Timeout</td>
+                        <td><progress id="stat-mini-turbo" value="0.5"></progress></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <hr>
+        <div id="similar-builds">
+            <h2>Other similar builds <button onclick="input_changed(this)">generate</button></h2>
+            <table id="others">
+            </table>
+            <div id="just-a-sec">Just a sec, generating...</div>
+            <div id="wait-for-done">Waiting for you to finish...</div>
+            <div id="avoid-stall">To avoid stalling your browser, the search for similar builds has stopped here</div>
+
+        </div>
+        <script type="text/javascript" src="./karts.js"></script>
+        <script type="text/javascript" src="../stats.js"></script>
+    </body>
+</html>

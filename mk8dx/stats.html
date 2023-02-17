@@ -30,12 +30,13 @@
             }
 
             img:hover {
-                border-radius: 16px;
                 background-color: #ccc;
+                border-radius: 16px;
             }
 
             img.char-img {
                 width: 64px;
+                border-radius: 16px;
                 cursor: pointer;
             } img.char-img-half:first-child {
                 width: 32px;
@@ -76,6 +77,9 @@
 
             .kart-select img {
                 display: block;
+                width: 200px;
+                height: 128px;
+                object-fit: contain;
             } .kart-select img:nth-child(n+4) {
                 display: inline;
                 width: 1px;
@@ -189,7 +193,7 @@
                         <td><img data-src="./img/karts/char/BabyLuigi.webp" title="Baby Luigi" class="char-img" onclick="select_item(this)"/></td>
                         <td><img data-src="./img/karts/char/BabyPeach.webp" title="Baby Peach" class="char-img" onclick="select_item(this)"/></td>
                         <td><img data-src="./img/karts/char/BabyDaisy.webp" title="Baby Daisy" class="char-img" onclick="select_item(this)"/></td>
-                        <td><img data-src="./img/karts/char/BabyRosalina.webp" title="Mario" class="char-img" onclick="select_item(this)"/></td>
+                        <td><img data-src="./img/karts/char/BabyRosalina.webp" title="Baby Rosalina" class="char-img" onclick="select_item(this)"/></td>
                         <td>
                             <img data-src="./img/karts/char/MetalMario.webp" title="Metal Mario" class="char-img-half" onclick="select_item(this)"/>
                             <img data-src="./img/karts/char/GoldMario.webp" title="Gold Mario" class="char-img-half" onclick="select_item(this)"/>
@@ -458,7 +462,7 @@
             <div id="avoid-stall">To avoid stalling your browser, the search for similar builds has stopped here</div>
 
         </div>
-        <script type="text/javascript" src="./stat-data.js"></script>
-        <script type="text/javascript" src="../stats.js"></script>
+        <script type="text/javascript" src="./karts.js"></script>
+        <script type="text/javascript" src="../js/8/stats.js"></script>
     </body>
 </html>

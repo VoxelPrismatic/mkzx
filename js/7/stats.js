@@ -151,7 +151,7 @@ function input_changed(natural = 0) {
     for(var img of $$("#others img"))
         img.onclick = (evt) => select_match(evt.currentTarget);
     if(table.rows.length == 0) {
-        table.insertRow().insertCell().innerHTML = "[no matches] [" + Math.floor(Math.random() * 65536).toString(16).padStart(4, "0");
+        table.insertRow().insertCell().innerHTML = "[no matches] [" + Math.floor(Math.random() * 65536).toString(16).padStart(4, "0") + "]";
     }
 
     $("#wait-for-done").style.display = "none";

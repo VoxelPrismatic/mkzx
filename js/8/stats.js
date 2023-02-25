@@ -138,7 +138,7 @@ function input_changed(natural = 0) {
             // kite
             cell = row.insertCell();
             cell.innerHTML = $(`#kite [data-src*='/${z_kite}.webp']`).outerHTML;
-            if(alts["body"].includes(z_kite))
+            if(alts["kite"].includes(z_kite))
                 cell.children[0].src = `./img/karts/kite/alt/${z_kite}/${z_char}.webp`;
 
         }

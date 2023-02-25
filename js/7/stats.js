@@ -302,6 +302,11 @@ for(var char in chars) {
         }
     }
 }
-console.timeEnd("Calculating")
+console.timeEnd("Calculating");
+
+window.onkeyup = (evt) => {
+    if(evt.key == 'Enter')
+        input_changed(1);
+}
 
 select_match();

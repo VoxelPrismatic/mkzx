@@ -121,22 +121,22 @@ function input_changed(natural = 0) {
 
             // character
             var cell = row.insertCell();
-            cell.innerHTML = $(`#char [data-src*='${z_char}.webp']`).outerHTML;
+            cell.innerHTML = $(`#char [data-src*='/${z_char}.webp']`).outerHTML;
 
 
             // kart
             cell = row.insertCell();
-            cell.innerHTML = $(`#body [data-src*='${z_kart}.webp']`).outerHTML;
+            cell.innerHTML = $(`#body [data-src*='/${z_kart}.webp']`).outerHTML;
             if(alts["body"].includes(z_kart))
                 cell.children[0].src = `./img/karts/body/alt/${z_kart}/${z_char}.webp`;
 
             // wheel
             cell = row.insertCell();
-            cell.innerHTML = $(`#wheel [data-src*='${z_wheel}.webp']`).outerHTML;
+            cell.innerHTML = $(`#wheel [data-src*='/${z_wheel}.webp']`).outerHTML;
 
             // kite
             cell = row.insertCell();
-            cell.innerHTML = $(`#kite [data-src*='${z_kite}.webp']`).outerHTML;
+            cell.innerHTML = $(`#kite [data-src*='/${z_kite}.webp']`).outerHTML;
             if(alts["body"].includes(z_kite))
                 cell.children[0].src = `./img/karts/kite/alt/${z_kite}/${z_char}.webp`;
 
@@ -264,22 +264,22 @@ function select_match(elem = 0) {
         elem.remove();
 
     $(`[data-src*='${current_char}.webp']`).classList.add("select");
-    $("#char-name span").innerHTML = $(`[data-src*='${current_char}.webp']`).title;
+    $("#char-name span").innerHTML = $(`[data-src*='/${current_char}.webp']`).title;
 
     var column = $("#body");
-    while(!column.children[1].dataset.src.includes(current_body + ".webp"))
+    while(!column.children[1].dataset.src.includes("/" + current_body + ".webp"))
         column.prepend(column.lastElementChild);
     column.children[1].classList.add("select");
     $("#body-name span").innerHTML = column.children[1].title;
 
     var column = $("#wheel");
-    while(!column.children[1].dataset.src.includes(current_wheel + ".webp"))
+    while(!column.children[1].dataset.src.includes("/" + current_wheel + ".webp"))
         column.prepend(column.lastElementChild);
     column.children[1].classList.add("select");
     $("#wheel-name span").innerHTML = column.children[1].title;
 
     var column = $("#kite");
-    while(!column.children[1].dataset.src.includes(current_kite + ".webp"))
+    while(!column.children[1].dataset.src.includes("/" + current_kite + ".webp"))
         column.prepend(column.lastElementChild);
     column.children[1].classList.add("select");
     $("#kite-name span").innerHTML = column.children[1].title;

@@ -53,7 +53,7 @@ function calculate_this(char, body, wheel, kite) {
 
 
 function input_changed(natural = 0) {
-
+    window.clearTimeout(similar_builds_timeout);
     for(var elem of $$("#others tr"))
         elem.remove();
 

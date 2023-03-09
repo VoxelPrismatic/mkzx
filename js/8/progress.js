@@ -123,9 +123,20 @@ function update_table() {
     random_cup();
 }
 
-function rotate_progress(elem, store = 1) {
+progress_indexes = ["N", "B", "S", "G0", "G1", "G2", "G3"];
+inverse_progress = {
+    "N": "G2",
+    "B": "G3",
+    "S": "N",
+    "G0": "B",
+    "G1": "S",
+    "G2": "G0",
+    "G3": "G1"
+}
+
+function rotate_progress(elem, store = 1, s = '') {
     var new_val, new_html;
-    switch(elem.dataset.cup) {
+    switch(s || elem.dataset.cup) {
         case "N":
             new_val = "B";
             new_html = `<img src="./img/trophy/Bronze.svg" class="trophy"></img>`
@@ -156,6 +167,10 @@ function rotate_progress(elem, store = 1) {
     }
     elem.innerHTML = new_html;
     elem.dataset.cup = new_val;
+    if(elem.cellIndex == 4 || elem.cellIndex == 3) {
+        if(progress_indexes.indexOf(elem.dataset.cup) > progress_indexes.indexOf(elem.previousElementSibling.dataset.cup))
+            return rotate_progress(elem.previousElementSibling, 1, progress_indexes[progress_indexes.indexOf(elem.dataset.cup) - 1]);
+    }
     if(store) {
         store_data();
         update_table();
@@ -188,6 +203,10 @@ for(var cup in cups) {
         cell = row.insertCell();
         cell.id = `${cup}_trophy_${x}`;
         cell.onclick = (evt) => rotate_progress(evt.currentTarget);
+        cell.oncontextmenu = (evt) => {
+            evt.preventDefault();
+            rotate_progress(evt.currentTarget, 1, inverse_progress[evt.currentTarget.dataset.cup]);
+        }
         cell.dataset.cup = "N";
         cell.classList.add("trophy");
         cell.innerHTML = `-`;

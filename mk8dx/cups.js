@@ -107,5 +107,17 @@ const cups = {
         "DS_PeachGardens",
         "MK8_MerryMountain",
         "3DS_RainbowRoad"
+    ],
+    "Fruit": [
+        "Tour_AmsterdamDrift",
+        "GBA_RiversidePark",
+        "Wii_DKSummit",
+        "YoshisIsland"
+    ],
+    "Boomerang": [
+        "Tour_BangkokRush",
+        "DS_MarioCircuit",
+        "GCN_WaluigiStadium",
+        "Tour_SingaporeSpeedway"
     ]
 };

@@ -313,3 +313,20 @@ window.onkeyup = (evt) => {
 }
 
 select_match();
+
+function random_kart() {
+    var columns = [
+        $("#body"),
+        $("#wheel"),
+        $("#kite")
+    ]
+    for(var column of columns) {
+        var y = Math.floor(Math.random() * column.children.length);
+        for(var x = 0; x < y; x++)
+            column.prepend(column.lastElementChild);
+        column.children[1].click();
+    }
+
+    var ls = $$("#char img");
+    ls[Math.floor(Math.random() * ls.length)].click();
+}

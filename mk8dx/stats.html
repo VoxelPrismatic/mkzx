@@ -57,21 +57,41 @@
                 position: relative;
                 z-index: 8;
             } img.select {
-                animation: select-anim 1s infinite ease-in-out;
+                animation: select-anim 2s infinite ease-in-out;
+                border-radius: 16px;
+            } img.select:hover {
+                animation: select-hover-anim 2s infinite ease-in-out;
+                border-radius: 16px;
+            } .x-hover img.select {
+                animation: select-hover-anim 2s infinite ease-in-out;
                 border-radius: 16px;
             }
             @keyframes select-anim {
                 0% {
-                    background-color: #ff0;
-                }
-                33% {
-                    background-color: #fc0;
-                }
-                66% {
                     background-color: #ff8;
                 }
+                33% {
+                    background-color: #fd8;
+                }
+                66% {
+                    background-color: #ffa;
+                }
                 100% {
-                    background-color: #ff0;
+                    background-color: #ff8;
+                }
+            }
+            @keyframes select-hover-anim {
+                0% {
+                    background-color: #8ff;
+                }
+                33% {
+                    background-color: #8df;
+                }
+                66% {
+                    background-color: #aff;
+                }
+                100% {
+                    background-color: #8ff;
                 }
             }
 
@@ -303,7 +323,7 @@
                     <img data-src="./img/karts/wheel/CyberSlick.webp" title="Cyber Slick" class="kart-img" onclick="select_item(this)"/>
                     <img data-src="./img/karts/wheel/RetroOffRoad.webp" title="Retro Off-Road" class="kart-img" onclick="select_item(this)"/>
                     <img data-src="./img/karts/wheel/Gold.webp" title="Gold Tires" class="kart-img" onclick="select_item(this)"/>
-                    <img data-src="./img/karts/wheel/Benz-GLA.webp" title="Benz GLA Tires" class="kart-img" onclick="select_item(this)"/>
+                    <img data-src="./img/karts/wheel/Benz-GLA-Tires.webp" title="Benz GLA Tires" class="kart-img" onclick="select_item(this)"/>
                     <img data-src="./img/karts/wheel/Triforce.webp" title="Triforce Tires" class="kart-img" onclick="select_item(this)"/>
                     <img data-src="./img/karts/wheel/Ancient.webp" title="Ancient Tires" class="kart-img" onclick="select_item(this)"/>
                 </div>
@@ -460,10 +480,13 @@
             <h2>Other similar builds <button onclick="input_changed(this)">generate</button></h2>
             <table id="others">
             </table>
-            <div id="just-a-sec">Just a sec, generating...</div>
-            <div id="wait-for-done">Waiting for you to finish...</div>
-            <div id="avoid-stall">To avoid stalling your browser, the search for similar builds has stopped here</div>
-
+            <div id="just-a-sec" style="display:none">Just a sec, generating...</div>
+            <div id="wait-for-done" style="display:none">Waiting for you to finish...</div>
+            <div id="avoid-stall" style="display:none">To avoid stalling your browser, the search for similar builds has stopped here</div>
+            <div id="init">Just a sec, initializing...</div>
+            <noscript>
+                <h1>Scripts are required for this tool</h1>
+            </noscript>
         </div>
         <script type="text/javascript" src="./karts.js"></script>
         <script type="text/javascript" src="../js/8/stats.js"></script>

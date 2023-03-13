@@ -108,7 +108,7 @@ const wheels = {
     "CyberSlick":       [3, 1, 4, 0, 1, 4, 0, 4, 0, 2, 0, 2, 1],
     "RetroOffRoad":     [3, 3, 3, 6, 2, 3, 4, 2, 1, 1, 1, 2, 2],
     "Gold":             [4, 0, 1, 2, 1, 4, 3, 1, 2, 2, 2, 1, 0],
-    "Benz-GLA":         [2, 4, 2, 5, 4, 2, 3, 2, 3, 3, 3, 3, 3],
+    "Benz-GLA-Tires":   [2, 4, 2, 5, 4, 2, 3, 2, 3, 3, 3, 3, 3],
     "Triforce":         [3, 3, 3, 6, 2, 3, 4, 2, 1, 1, 1, 2, 2],
     "Leaf":             [0, 5, 1, 3, 5, 1, 2, 2, 2, 3, 3, 4, 2],
     "Ancient":          [4, 2, 3, 7, 2, 2, 2, 2, 1, 0, 1, 0, 1]
@@ -145,7 +145,8 @@ const alts = {
         "CityTripper"
     ],
     "kite": [
-        "SuperGlider"
+        "SuperGlider",
+        "PeachParasol"
     ]
 }
 

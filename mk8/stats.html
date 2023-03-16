@@ -30,7 +30,7 @@
                 line-height: 1.2;
             }
 
-            img:hover {
+            img:not(#logo):hover {
                 background-color: #ccc;
                 border-radius: 16px;
             }
@@ -178,6 +178,7 @@
             .stats-breakdown {
                 font-size: small;
                 padding-left: 8px;
+                min-width: 256px;
             }
             span#kart-class {
                 font-size: x-small;
@@ -185,12 +186,20 @@
                 font-style: italic;
                 position: absolute;
                 top: -16px;
+            } #logo + h1 {
+                display: inline;
+                position: relative;
+                bottom: 52px;
             }
         </style>
 
     </head>
     <body>
-        <h1>Mario Kart 8 (Wii U) Kart Stats</h1>
+        <div>
+            <img id="logo" src="../img/MK8u.webp" style="width: 512px;"></img>
+            <h1>Kart Stats</h1><br>
+        </div>
+        <br>
         <div>
             <a href="./progress.html">Progress</a> | <a href="../index.html">Home</a><br>
             <sub><i>Lazily slapped together by <b>PRIZ ;]</b>. No, it will not ever be pretty, nor work well on mobile</i></sub><br>

@@ -77,7 +77,7 @@
             }
 
 
-            img {
+            table img {
                 width: 98%;
                 display: block;
                 left: 0px;
@@ -130,11 +130,19 @@
                 background-color: #ddd !important;
             } tr:nth-child(1) th:nth-child(3) {
                 background-color: #ddd !important;
+            } #logo + h1 {
+                display: inline;
+                position: relative;
+                bottom: 52px;
             }
         </style>
     </head>
     <body>
-        <h1>Mario Kart 8 (Wii U) Progress</h1>
+        <div>
+            <img id="logo" src="../img/MK8u.webp" style="width: 512px;"></img>
+            <h1>Progress</h1><br>
+        </div>
+        <br>
         <div>
             <a href="./stats.html">Kart Stats</a> | <a href="../index.html">Home</a><br>
             <sub><i>Lazily slapped together by <b>PRIZ ;]</b>. No, it will not ever be pretty, nor work well on mobile</i></sub>

@@ -140,3 +140,55 @@ const alts = {
 function S(num) {
     return (num + 3) / 4
 }
+
+const kart_classes = {
+    "Kart": [
+        "Standard",
+        "PipeFrame",
+        "Mach8",
+        "SteelDriver",
+        "CatCruiser",
+        "CircuitSpecial",
+        "TriSpeeder",
+        "Badwagon",
+        "Prancer",
+        "Biddybuggy",
+        "Landship",
+        "Sneeker",
+        "SportsCoupe",
+        "GoldStandard",
+        "Benz-GLA",
+        "Benz-SilverArrow",
+        "Benz-Roadster",
+        "BlueFalcon",
+        "Tanooki",
+        "BDasher",
+        "Streetle",
+        "PWing",
+        "KoopaClown",
+    ],
+    "Bike": [
+        "Standard",
+        "TheDuke",
+        "FlameRider",
+        "Varmint",
+        "MrScooty",
+        "MasterCycleZero",
+        "CityTripper"
+    ],
+    "Inside Drift": [
+        "Comet",
+        "SportBike",
+        "JetBike",
+        "YoshiBike",
+        "MasterCycle"
+    ],
+    "ATV": [
+        "StandardATV",
+        "WildWiggler",
+        "TeddyBuggy",
+        "BoneRattler",
+        "SplatBuggy",
+        "InkStriker"
+    ]
+}

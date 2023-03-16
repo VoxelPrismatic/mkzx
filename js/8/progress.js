@@ -190,6 +190,7 @@ function random_cup() {
     console.log(n)
     $("#rng_img").src = $("table").rows[n + 2].cells[1].children[0].src;
 }
+const tt_empty = Array(8).fill(Array(2).fill("[tbd]"));
 
 var progress_table = $("table");
 for(var cup in cups) {
@@ -198,7 +199,7 @@ for(var cup in cups) {
 
     cell.innerHTML = `<input type="checkbox" onclick="update_table()" id="${cup}_complete"></input>`;
     cell = row.insertCell();
-    cell.innerHTML = `<img class="cup_img" src="./img/cups/${cup}.webp">`;
+    cell.innerHTML = `<img class="cup_img" src="./img/cups/${cup}.webp" alt="${names[cup]}" title="${names[cup]}">`;
     for(var x of ["50cc", "100cc", "150cc", "mirror", "200cc"]) {
         cell = row.insertCell();
         cell.id = `${cup}_trophy_${x}`;
@@ -215,10 +216,10 @@ for(var cup in cups) {
         cell = row.insertCell();
         cell.innerHTML = `
 <div style="display: flex; width: 98%;">
-<div><img class="track_img" src="./img/tracks/${cups[cup][x]}.webp"></div>
+<div><img class="track_img" src="./img/tracks/${cups[cup][x]}.webp" alt="${labels[cup][x]}" title="${labels[cup][x]}"></div>
 <span style="margin:auto;height:min-content">
-<input type="checkbox" onchange="store_data();update_table();" id="${cup}_${x}_tt_150cc" title="150cc"/><br><br>
-<input type="checkbox" onchange="store_data();update_table();" id="${cup}_${x}_tt_200cc" title="200cc"/>
+<input type="checkbox" onchange="store_data();update_table();" id="${cup}_${x}_tt_150cc" title="150cc - ${(times[cup] || tt_empty)[x][0]}"/><br><br>
+<input type="checkbox" onchange="store_data();update_table();" id="${cup}_${x}_tt_200cc" title="200cc - ${(times[cup] || tt_empty)[x][1]}"/>
 </span>
 </div>`;
     }

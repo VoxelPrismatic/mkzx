@@ -26,7 +26,8 @@
 
         <style type="text/css">
             body {
-                font-family: "ubuntu";
+                font-family: "Shin Go", "ubuntu";
+                line-height: 1.2;
             }
 
             img:hover {
@@ -97,7 +98,7 @@
 
             .kart-select img {
                 display: block;
-                width: 200px;
+                width: 220px;
                 height: 128px;
                 object-fit: contain;
             } .kart-select img:nth-child(n+4) {
@@ -122,7 +123,7 @@
             }
             .kart-select > div {
                 height: 480px;
-                width: 200px;
+                width: 220px;
                 position: relative;
                 top: 40px;
             } .char-select > table {
@@ -177,6 +178,15 @@
             .stats-breakdown {
                 font-size: small;
                 padding-left: 8px;
+                min-width: 256px;
+            }
+            #kart-class {
+                font-size: x-small;
+                font-weight: 200;
+                position: absolute;
+                top: -16px;
+                left: 0;
+                right: 0;
             }
         </style>
 
@@ -300,7 +310,7 @@
                     <img data-src="./img/karts/body/BoneRattler.webp" title="Bone Rattler" class="kart-img" onclick="select_item(this)"/>
                     <img data-src="./img/karts/body/SplatBuggy.webp" title="Splat Buggy" class="kart-img" onclick="select_item(this)"/>
                 </div>
-                <h3 id="body-name" class="item-name"><span>Standard Kart</span> <input type="checkbox" id="match-kart" onchange="list_timeout()"/></h3>
+                <h3 id="body-name" class="item-name"><span>Standard Kart</span> <input type="checkbox" id="match-kart" onchange="list_timeout()"/><div id="kart-class">Kart</div></h3>
             </div>
             <div class="kart-select">
                 <div id="wheel">
@@ -389,19 +399,19 @@
                     </tr>
                     <tr>
                         <td>Ground</td>
-                        <td><progress id="stat-speed-ground" value="0.5"></progress></td>
+                        <td><progress id="stat-speed-ground" value="0.5"></progress><span></span></td>
                     </tr>
                     <tr>
                         <td>Water</td>
-                        <td><progress id="stat-speed-water" value="0.5"></progress></td>
+                        <td><progress id="stat-speed-water" value="0.5"></progress><span></span></td>
                     </tr>
                     <tr>
                         <td>Anti Gravity</td>
-                        <td><progress id="stat-speed-anti-gravity" value="0.5"></progress></td>
+                        <td><progress id="stat-speed-anti-gravity" value="0.5"></progress><span></span></td>
                     </tr>
                     <tr>
                         <td>Air (Kite)</td>
-                        <td><progress id="stat-speed-air" value="0.5"></progress></td>
+                        <td><progress id="stat-speed-air" value="0.5"></progress><span></span></td>
                     </tr>
 
                     <tr><td>&nbsp;</td></tr>
@@ -411,7 +421,7 @@
                     </tr>
                     <tr>
                         <td>All</td>
-                        <td><progress id="stat-accel" value="0.5"></progress></td>
+                        <td><progress id="stat-accel" value="0.5"></progress><span></span></td>
                     </tr>
 
                     <tr><td>&nbsp;</td></tr>
@@ -421,56 +431,56 @@
                     </tr>
                     <tr>
                         <td>All</td>
-                        <td><progress id="stat-weight" value="0.5"></progress></td>
+                        <td><progress id="stat-weight" value="0.5"></progress><span></span></td>
                     </tr>
 
                     <tr><td>&nbsp;</td></tr>
 
                     <tr>
                         <td><b>Handling</b></td>
-                        <td>(Turn speed without drift)</td>
+                        <td>(Turn radius)</td>
                     </tr>
                     <tr>
                         <td>Ground</td>
-                        <td><progress id="stat-handle-ground" value="0.5"></progress></td>
+                        <td><progress id="stat-handle-ground" value="0.5"></progress><span></span></td>
                     </tr>
                     <tr>
                         <td>Water</td>
-                        <td><progress id="stat-handle-water" value="0.5"></progress></td>
+                        <td><progress id="stat-handle-water" value="0.5"></progress><span></span></td>
                     </tr>
                     <tr>
                         <td>Anti Gravity</td>
-                        <td><progress id="stat-handle-anti-gravity" value="0.5"></progress></td>
+                        <td><progress id="stat-handle-anti-gravity" value="0.5"></progress><span></span></td>
                     </tr>
                     <tr>
                         <td>Air (Kite)</td>
-                        <td><progress id="stat-handle-air" value="0.5"></progress></td>
+                        <td><progress id="stat-handle-air" value="0.5"></progress><span></span></td>
                     </tr>
 
                     <tr><td>&nbsp;</td></tr>
 
                     <tr>
                         <td><b>Traction</b></td>
-                        <td>(Drift turn tightness)</td>
+                        <td>(Grip)</td>
                     </tr>
                     <tr>
                         <td>On Road</td>
-                        <td><progress id="stat-trxn-on-road" value="0.5"></progress></td>
+                        <td><progress id="stat-trxn-on-road" value="0.5"></progress><span></span></td>
                     </tr>
                     <tr>
                         <td>Off Road</td>
-                        <td><progress id="stat-trxn-off-road" value="0.5"></progress></td>
+                        <td><progress id="stat-trxn-off-road" value="0.5"></progress><span></span></td>
                     </tr>
 
                     <tr><td>&nbsp;</td></tr>
 
                     <tr>
                         <td><b>Mini-Turbo</b></td>
-                        <td>(Timeout between drift levels)</td>
+                        <td></td>
                     </tr>
                     <tr>
-                        <td>Timeout</td>
-                        <td><progress id="stat-mini-turbo" value="0.5"></progress></td>
+                        <td>Duration</td>
+                        <td><progress id="stat-mini-turbo" value="0.5"></progress><span></span></td>
                     </tr>
                 </table>
             </div>

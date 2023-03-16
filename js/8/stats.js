@@ -228,6 +228,12 @@ function list_timeout() {
     }, 5000, 1);
 }
 
+function stat_value(q, v) {
+    var e = $("#stat-" + q);
+    e.value = S(v) / 6;
+    e.nextElementSibling.textContent = " " + v;
+}
+
 function calculate() {
     var speed, accel, weight, handle, trxn;
 
@@ -252,19 +258,20 @@ function calculate() {
     var sums = new Array(13);
     for(var i = 0; i < 13; i++)
         sums[i] = chars[current_char][i] + karts[current_body][i] + wheels[current_wheel][i] + kites[current_kite][i];
-    $("#stat-weight").value = S(sums[Y.WG]) / 6;
-    $("#stat-accel").value = S(sums[Y.AC]) / 6;
-    $("#stat-trxn-on-road").value = S(sums[Y.ON]) / 6;
-    $("#stat-trxn-off-road").value = S(sums[Y.OF]) / 6;
-    $("#stat-mini-turbo").value = S(sums[Y.MT]) / 6;
-    $("#stat-speed-ground").value = S(sums[Y.SL]) / 6;
-    $("#stat-speed-water").value = S(sums[Y.SW]) / 6;
-    $("#stat-speed-anti-gravity").value = S(sums[Y.SA]) / 6;
-    $("#stat-speed-air").value = S(sums[Y.SG]) / 6;
-    $("#stat-handle-ground").value = S(sums[Y.TL]) / 6;
-    $("#stat-handle-water").value = S(sums[Y.TW]) / 6;
-    $("#stat-handle-anti-gravity").value = S(sums[Y.TA]) / 6;
-    $("#stat-handle-air").value = S(sums[Y.TG]) / 6;
+    stat_value("weight", sums[Y.WG]);
+    stat_value("accel", sums[Y.AC]);
+    stat_value("trxn-on-road", sums[Y.ON]);
+    stat_value("trxn-off-road", sums[Y.OF]);
+    stat_value("mini-turbo", sums[Y.MT]);
+    stat_value("speed-ground", sums[Y.SL]);
+    stat_value("speed-water", sums[Y.SW]);
+    stat_value("speed-anti-gravity", sums[Y.SA]);
+    stat_value("speed-air", sums[Y.SG]);
+    stat_value("handle-ground", sums[Y.TL]);
+    stat_value("handle-water", sums[Y.TW]);
+    stat_value("handle-anti-gravity", sums[Y.TA]);
+    stat_value("handle-air", sums[Y.TG]);
+
 
     list_timeout();
 }
@@ -295,6 +302,10 @@ function select_item(elem) {
     if(parent.id == "body") {
         current_body = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
         $("#body-name span").innerHTML = elem.title;
+        for(var type in kart_classes) {
+            if(kart_classes[type].includes(current_body))
+                $("#kart-class").textContent = type;
+        }
     }
     else if(parent.id == "wheel") {
         current_wheel = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
@@ -329,6 +340,10 @@ function select_match(elem = 0) {
         column.prepend(column.lastElementChild);
     column.children[1].classList.add("select");
     $("#body-name span").innerHTML = column.children[1].title;
+    for(var type in kart_classes) {
+        if(kart_classes[type].includes(current_body))
+            $("#kart-class").textContent = type;
+    }
 
     var column = $("#wheel");
     while(!column.children[1].dataset.src.includes("/" + current_wheel + ".webp"))

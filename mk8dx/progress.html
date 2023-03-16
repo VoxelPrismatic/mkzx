@@ -26,12 +26,12 @@
 
         <style type="text/css">
             body {
-                font-family: "ubuntu"
+                font-family: "Shin Go", "ubuntu";
+                line-height: 1.2;
             }
             table {
-                border-spacing: 0px;
-                border-collapse: collapse;
-                max-width: 1640px;
+                border-spacing: 0;
+                max-width: 1780px;
                 width: 100%;
 /*                 table-layout: fixed; */
             }
@@ -104,6 +104,32 @@
                 width: 16px;
                 padding-right: 2px;
             }
+
+            td, th {
+                font-weight: 200 !important;
+            } td:nth-child(n+3):nth-child(-n+7) {
+                min-width: 120px;
+            } td:nth-child(n+8):not(:last-child) {
+                min-width: 136px;
+            } td:nth-child(2) {
+                min-width: 54px;
+            } tr:nth-child(1) th {
+                position: sticky;
+                top: 0px;
+                font-weight: 800 !important;
+                font-size: x-large;
+            } tr:nth-child(-n+2) th {
+                background-color: #fff !important;
+                z-index: 5;
+            } tr:nth-child(2) th {
+                position: sticky;
+                top: 30px;
+                border-bottom: 2px solid #000;
+            } tr:nth-child(2) th:nth-child(n+8):not(:last-child) {
+                background-color: #ddd !important;
+            } tr:nth-child(1) th:nth-child(3) {
+                background-color: #ddd !important;
+            }
         </style>
     </head>
     <body>
@@ -144,10 +170,10 @@
                     <th>150cc</th>
                     <th>Mirror</th>
                     <th>200cc</th>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>4</th>
+                    <th>Track 1</th>
+                    <th>Track 2</th>
+                    <th>Track 3</th>
+                    <th>Track 4</th>
                     <th></th>
                 </tr>
             </tbody>

@@ -107,3 +107,14 @@
     font-display: swap;
     src: local("Shin Go Bold"), local("Shin Go-Bold"), local("Shin Go-B"), local("Shin Go"), url("./shingo/ShinGo-B.otf");
 }
+
+#logo {
+    height: 148px;
+    object-fit: contain;
+    background-color: #fcc;
+    width: calc(100% + 8px);
+    padding: 16px;
+    left: -8px;
+    top: -8px;
+    position: relative;
+}

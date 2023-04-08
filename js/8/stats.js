@@ -340,7 +340,7 @@ function reset_selection() {
         column.prepend(column.lastElementChild);
     column.children[n].classList.add("select");
     $("#body-name span").innerHTML = column.children[n].title;
-    column.scrollTop = (n + 1 + IFRAMES) * 120;
+    column.scrollTop = (n - 1) * 128;
     for(var type in kart_classes) {
         if(kart_classes[type].includes(current_body))
             $("#kart-class").textContent = type;
@@ -354,7 +354,7 @@ function reset_selection() {
         column.prepend(column.lastElementChild);
     column.children[n].classList.add("select");
     $("#wheel-name span").innerHTML = column.children[n].title;
-    column.scrollTop = (n) * 120;
+    column.scrollTop = (n - 1) * 128;
 
     var column = $("#kite");
     for(var e of $$(".select", column))
@@ -364,7 +364,7 @@ function reset_selection() {
         column.prepend(column.lastElementChild);
     column.children[n].classList.add("select");
     $("#kite-name span").innerHTML = column.children[n].title;
-    column.scrollTop = (n) * 120;
+    column.scrollTop = (n - 1) * 128;
 
     select_item($(`[data-src*='${current_char}.webp']`));
 
@@ -629,16 +629,12 @@ function select_scroll(evt) {
     if(reset_scroll)
         return reset_scroll = false;
     var column = evt.currentTarget;
-    console.log(evt);
     column_rect = column.getBoundingClientRect();
     for(var elem of column.children) {
         var elem_rect = elem.getBoundingClientRect();
-        // console.log(column_rect.top - elem_rect.top, elem_rect.height);
         var diff = column_rect.top - elem_rect.top;
-        if(Math.abs(diff) <= elem_rect.height * 1.1 && diff < 0) {
-            console.log(elem.title);
+        if(Math.abs(diff) <= elem_rect.height * 1.5 && diff < 0)
             scrolled_elem = elem;
-        }
     }
     window.clearTimeout(scroll_timeout);
     scroll_timeout = window.setTimeout(() => select_item(scrolled_elem), 100);

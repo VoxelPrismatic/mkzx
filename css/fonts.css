@@ -117,4 +117,20 @@
     left: -8px;
     top: -8px;
     position: relative;
+} .shill {
+    padding: 8px 0px 8px 4px;
+    border-left: 4px solid #08f;
+    background-color: #cef;
+    margin: 16px;
+    border-radius: 4px;
+} .red-shill {
+    padding: 8px 0px 8px 4px;
+    border-left: 4px solid #f00;
+    background-color: #fcc;
+    margin: 16px;
+    border-radius: 4px;
+} t {
+    font-weight: 200;
+    font-style: italic;
+    font-size: small;
 }

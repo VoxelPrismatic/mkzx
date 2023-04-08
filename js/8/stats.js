@@ -14,12 +14,12 @@ $("#kite").innerHTML += $("#kite").innerHTML;
 for(var img of $$("img:not([src])"))
     img.src = img.dataset.src;
 
-function D(n) {
+function D(n, large = 0) {
     var q = S(n);
     var t = Math.floor(q);
     if(q == t)
         return q + ".-";
-    return t + "<span style='font-size: xx-small'>" + (q - t).toString().slice(1) + "</span>"
+    return t + `<span style='font-size: ${large ? 'smaller' : 'xx-small'}'>` + (q - t).toString().slice(1) + "</span>"
 }
 
 const Y = {
@@ -247,7 +247,7 @@ function list_timeout() {
 function stat_value(q, v) {
     var e = $("#stat-" + q);
     e.value = Math.round(S(v) / 6 * 100) / 100;
-    e.nextElementSibling.innerHTML = " " + D(v);
+    e.nextElementSibling.innerHTML = " " + D(v, 1);
 }
 
 function calculate() {

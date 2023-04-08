@@ -786,7 +786,7 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
                 <tr>
                     <td><b>Speed:</b> Ground</td>
                     <td><progress value="${S(sums[Y.SL]) / 6}" q="SL"></progress></td>
-                    <td> ${sums[Y.SL]}</td>
+                    <td> ${S(sums[Y.SL])}</td>
                 </tr>
                 <tr>
                     <td><b>Speed:</b> Water</td>

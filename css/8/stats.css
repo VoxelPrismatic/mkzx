@@ -190,34 +190,78 @@ progress {
     border: 2px solid #888;
     background-size: cover;
     width: 132px;
-} progress[q="SL"]::-moz-progress-bar {
-    background-color: #f60;
+}
+
+progress {
+    --GROUND:     #f60;
+    --WATER:      #08f;
+    --KITE:       #888;
+    --ANTI-GRAV:  #0f8;
+    --ACCEL:      #448;
+    --WEIGHT:     #844;
+    --TRACTION:   #804;
+    --MINI-TURBO: #a0f;
+    --I-FRAMES:   #f08;
+}
+
+progress[q="SL"]::-moz-progress-bar {
+    background-color: var(--GROUND);
 } progress[q="SW"]::-moz-progress-bar {
-    background-color: #08f;
+    background-color: var(--WATER);
 } progress[q="SG"]::-moz-progress-bar {
-    background-color: #888;
+    background-color: var(--KITE);
 } progress[q="SA"]::-moz-progress-bar {
-    background-color: #0f8;
+    background-color: var(--ANTI-GRAV);
 } progress[q="AC"]::-moz-progress-bar {
-    background-color: #448;
+    background-color: var(--ACCEL);
 } progress[q="WG"]::-moz-progress-bar {
-    background-color: #844;
+    background-color: var(--WEIGHT);
 } progress[q="TL"]::-moz-progress-bar {
-    background-color: #f60;
+    background-color: var(--GROUND);
 } progress[q="TW"]::-moz-progress-bar {
-    background-color: #08f;
+    background-color: var(--WATER);
 } progress[q="TG"]::-moz-progress-bar {
-    background-color: #888;
+    background-color: var(--KITE);
 } progress[q="TA"]::-moz-progress-bar {
-    background-color: #0f8;
+    background-color: var(--ANTI-GRAV);
 } progress[q="ON"]::-moz-progress-bar {
-    background-color: #804;
+    background-color: var(--TRACTION);
 } progress[q="OF"]::-moz-progress-bar {
-    background-color: #804;
+    background-color: var(--TRACTION);
 } progress[q="MT"]::-moz-progress-bar {
-    background-color: #a0f;
+    background-color: var(--MINI-TURBO);
 } progress[q="IF"]::-moz-progress-bar {
-    background-color: #f08;
+    background-color: var(--I-FRAMES);
+}
+
+progress[q="SL"]::-webkit-progress-bar {
+    background-color: var(--GROUND);
+} progress[q="SW"]::-webkit-progress-bar {
+    background-color: var(--WATER);
+} progress[q="SG"]::-webkit-progress-bar {
+    background-color: var(--KITE);
+} progress[q="SA"]::-webkit-progress-bar {
+    background-color: var(--ANTI-GRAV);
+} progress[q="AC"]::-webkit-progress-bar {
+    background-color: var(--ACCEL);
+} progress[q="WG"]::-webkit-progress-bar {
+    background-color: var(--WEIGHT);
+} progress[q="TL"]::-webkit-progress-bar {
+    background-color: var(--GROUND);
+} progress[q="TW"]::-webkit-progress-bar {
+    background-color: var(--WATER);
+} progress[q="TG"]::-webkit-progress-bar {
+    background-color: var(--KITE);
+} progress[q="TA"]::-webkit-progress-bar {
+    background-color: var(--ANTI-GRAV);
+} progress[q="ON"]::-webkit-progress-bar {
+    background-color: var(--TRACTION);
+} progress[q="OF"]::-webkit-progress-bar {
+    background-color: var(--TRACTION);
+} progress[q="MT"]::-webkit-progress-bar {
+    background-color: var(--MINI-TURBO);
+} progress[q="IF"]::-webkit-progress-bar {
+    background-color: var(--I-FRAMES);
 }
 
 td.hr {

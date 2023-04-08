@@ -24,170 +24,7 @@
         <meta property="og:description" content="Figure out Kart Stats in Mario Kart 8 (Wii U)" />
         <meta name="description" content="Figure out Kart Stats in Mario Kart 8 (Wii U)" />
 
-        <style type="text/css">
-            body {
-                font-family: "Shin Go", "ubuntu";
-                line-height: 1.2;
-            }
-
-            img:not(#logo):hover {
-                background-color: #ccc;
-                border-radius: 16px;
-            }
-
-            img.char-img {
-                border-radius: 16px;
-                width: 64px;
-                cursor: pointer;
-            } img.char-img-half:first-child {
-                width: 32px;
-                display: block;
-                cursor: pointer;
-            } img.char-img-half:last-child {
-                width: 32px;
-                float: right;
-                cursor: pointer;
-            } img.char-img-half.select:first-child {
-                width: 56px;
-                margin: 0px -24px -24px 0px;
-                position: relative;
-                z-index: 8;
-            } img.char-img-half.select:last-child {
-                width: 56px;
-                margin: -24px 0px 0px -24px;
-                position: relative;
-                z-index: 8;
-            } img.select {
-                animation: select-anim 2s infinite ease-in-out;
-                border-radius: 16px;
-            } img.select:hover {
-                animation: select-hover-anim 2s infinite ease-in-out;
-                border-radius: 16px;
-            } .x-hover img.select {
-                animation: select-hover-anim 2s infinite ease-in-out;
-                border-radius: 16px;
-            }
-            @keyframes select-anim {
-                0% {
-                    background-color: #ff8;
-                }
-                33% {
-                    background-color: #fd8;
-                }
-                66% {
-                    background-color: #ffa;
-                }
-                100% {
-                    background-color: #ff8;
-                }
-            }
-            @keyframes select-hover-anim {
-                0% {
-                    background-color: #8ff;
-                }
-                33% {
-                    background-color: #8df;
-                }
-                66% {
-                    background-color: #aff;
-                }
-                100% {
-                    background-color: #8ff;
-                }
-            }
-
-            .kart-select img {
-                display: block;
-                width: 200px;
-                height: 128px;
-                object-fit: contain;
-            } .kart-select img:nth-child(n+4) {
-                display: inline;
-                width: 1px;
-                opacity: 0%;
-            } .kart-select img:nth-child(1), .kart-select img:nth-child(3) {
-                opacity: 50%;
-            } .kart-select h3 {
-                position: relative;
-                z-index: 3;
-            }
-
-            .kart-build {
-                display: flex;
-            }
-            .char-select, .kart-select {
-                padding-right: 16px;
-                margin-left: 16px;
-                border-right: 2px solid #ccc;
-                vertical-align: center;
-            }
-            .kart-select > div {
-                height: 480px;
-                width: 220px;
-                position: relative;
-                top: 40px;
-            } .char-select > table {
-                height: 480px;
-            }
-
-            .kart-img {
-                cursor: pointer;
-            }
-
-
-            .item-name {
-                margin: 0;
-                text-align: center;
-            }
-
-            .stats h3 {
-                margin-bottom: 0;
-            } .stats input[type="range"] {
-                width: 360px;
-                height: 36px;
-            }
-
-
-            div.stats-bar {
-                position: absolute;
-                font-size: xx-large;
-                width: 360px;
-                display: flex;
-                z-index: -1;
-            }
-            div.stats-bar > div:nth-last-child(n+2) {
-                flex: 1;
-            }
-
-            button {
-                cursor: pointer;
-            }
-
-            #others img {
-                width: 96px;
-                cursor: default;
-            }
-
-            .stats {
-                position: relative;
-                padding-left: 8px;
-                padding-right: 8px;
-                border-right: 2px solid #ccc;
-            }
-
-            .stats-breakdown {
-                font-size: small;
-                padding-left: 8px;
-                min-width: 256px;
-            }
-            span#kart-class {
-                font-size: x-small;
-                font-weight: 220;
-                font-style: italic;
-                position: absolute;
-                top: -16px;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="../css/8/stats.css">
 
     </head>
     <img id="logo" src="../img/MK8u.webp"></img>
@@ -196,9 +33,10 @@
         <div>
             <a href="./progress.html">Progress</a> | <a href="../index.html">Home</a><br>
             <sub><i>Lazily slapped together by <b>PRIZ ;]</b>. No, it will not ever be pretty, nor work well on mobile</i></sub><br>
+            <h3>Tap on the kart/wheel/kite to change it, scrolling will not work</h3>
             <button onclick="random_kart()">[rng]</button>
         </div>
-        <div class="kart-build">
+        <div class="kart-build" style="flex-wrap: wrap;">
             <div class="char-select" id="char">
                 <table>
                     <tr>
@@ -258,6 +96,7 @@
                 </table>
                 <h3 id="char-name" class="item-name"><span>Mario</span> <input type="checkbox" id="match-char" onchange="list_timeout()"/></h3>
             </div>
+            <div style="display: flex">
             <div class="kart-select">
                 <div id="body">
                     <img data-src="./img/karts/body/BoneRattler.webp" title="Bone Rattler" class="kart-img" onclick="select_item(this)"/>
@@ -345,6 +184,8 @@
                 </div>
                 <h3 id="kite-name" class="item-name"><span>Super Glider</span> <input type="checkbox" id="match-kite" onchange="list_timeout()"/></h3>
             </div>
+            </div>
+            <div style="display: flex">
             <div class="stats">
                 <br><br>
                 <h3>Speed <input id="check-speed" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
@@ -385,19 +226,19 @@
                     </tr>
                     <tr>
                         <td>Ground</td>
-                        <td><progress id="stat-speed-ground" value="0.5"></progress><span></span></td>
+                        <td><progress id="stat-speed-ground" value="0.5" q="SL"></progress><span></span></td>
                     </tr>
                     <tr>
                         <td>Water</td>
-                        <td><progress id="stat-speed-water" value="0.5"></progress><span></span></td>
-                    </tr>
-                    <tr>
-                        <td>Anti Gravity</td>
-                        <td><progress id="stat-speed-anti-gravity" value="0.5"></progress><span></span></td>
+                        <td><progress id="stat-speed-water" value="0.5" q="SW"></progress><span></span></td>
                     </tr>
                     <tr>
                         <td>Air (Kite)</td>
-                        <td><progress id="stat-speed-air" value="0.5"></progress><span></span></td>
+                        <td><progress id="stat-speed-air" value="0.5" q="SG"></progress><span></span></td>
+                    </tr>
+                    <tr>
+                        <td>Anti-Gravity</td>
+                        <td><progress id="stat-speed-anti-gravity" value="0.5" q="SA"></progress><span></span></td>
                     </tr>
 
                     <tr><td>&nbsp;</td></tr>
@@ -407,7 +248,7 @@
                     </tr>
                     <tr>
                         <td>All</td>
-                        <td><progress id="stat-accel" value="0.5"></progress><span></span></td>
+                        <td><progress id="stat-accel" value="0.5" q="AC"></progress><span></span></td>
                     </tr>
 
                     <tr><td>&nbsp;</td></tr>
@@ -417,7 +258,7 @@
                     </tr>
                     <tr>
                         <td>All</td>
-                        <td><progress id="stat-weight" value="0.5"></progress><span></span></td>
+                        <td><progress id="stat-weight" value="0.5" q="WG"></progress><span></span></td>
                     </tr>
 
                     <tr><td>&nbsp;</td></tr>
@@ -428,19 +269,19 @@
                     </tr>
                     <tr>
                         <td>Ground</td>
-                        <td><progress id="stat-handle-ground" value="0.5"></progress><span></span></td>
+                        <td><progress id="stat-handle-ground" value="0.5" q="TL"></progress><span></span></td>
                     </tr>
                     <tr>
                         <td>Water</td>
-                        <td><progress id="stat-handle-water" value="0.5"></progress><span></span></td>
-                    </tr>
-                    <tr>
-                        <td>Anti Gravity</td>
-                        <td><progress id="stat-handle-anti-gravity" value="0.5"></progress><span></span></td>
+                        <td><progress id="stat-handle-water" value="0.5" q="TW"></progress><span></span></td>
                     </tr>
                     <tr>
                         <td>Air (Kite)</td>
-                        <td><progress id="stat-handle-air" value="0.5"></progress><span></span></td>
+                        <td><progress id="stat-handle-air" value="0.5" q="TG"></progress><span></span></td>
+                    </tr>
+                    <tr>
+                        <td>Anti-Gravity</td>
+                        <td><progress id="stat-handle-anti-gravity" value="0.5" q="TA"></progress><span></span></td>
                     </tr>
 
                     <tr><td>&nbsp;</td></tr>
@@ -451,11 +292,11 @@
                     </tr>
                     <tr>
                         <td>On Road</td>
-                        <td><progress id="stat-trxn-on-road" value="0.5"></progress><span></span></td>
+                        <td><progress id="stat-trxn-on-road" value="0.5" q="ON"></progress><span></span></td>
                     </tr>
                     <tr>
                         <td>Off Road</td>
-                        <td><progress id="stat-trxn-off-road" value="0.5"></progress><span></span></td>
+                        <td><progress id="stat-trxn-off-road" value="0.5" q="OF"></progress><span></span></td>
                     </tr>
 
                     <tr><td>&nbsp;</td></tr>
@@ -466,12 +307,17 @@
                     </tr>
                     <tr>
                         <td>Duration</td>
-                        <td><progress id="stat-mini-turbo" value="0.5"></progress><span></span></td>
+                        <td><progress id="stat-mini-turbo" value="0.5" q="MT"></progress><span></span></td>
                     </tr>
                 </table>
             </div>
+            </div>
         </div>
         <hr>
+        <div id="build-select">
+            <input type="radio" name="build-select" id="build-similar" onchange="similar_or_compare()">Similar builds</input><br>
+            <input type="radio" name="build-select" id="build-compare" onchange="similar_or_compare()">Compare</input>
+        </div>
         <div id="similar-builds">
             <h2>Other similar builds <button onclick="input_changed(this)">generate</button></h2>
             <table id="others">
@@ -483,6 +329,12 @@
             <noscript>
                 <h1>Scripts are required for this tool</h1>
             </noscript>
+        </div>
+        <div id="compare-builds">
+            <h2>Compare selected builds</h2>
+            <button onclick="add_build_compare()">compare current</button> | <button onclick="delete_compared_builds()">delete all</button>
+            <div style="display: flex; flex-wrap: wrap" id="compared">
+            </div>
         </div>
         <script type="text/javascript" src="./karts.js"></script>
         <script type="text/javascript" src="../js/8/stats.js"></script>

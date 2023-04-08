@@ -113,7 +113,7 @@
     object-fit: contain;
     background-color: #fcc;
     width: calc(100% + 8px);
-    padding: 16px;
+    padding: 16px 0px;
     left: -8px;
     top: -8px;
     position: relative;

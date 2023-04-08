@@ -191,23 +191,23 @@ progress {
     background-size: cover;
     width: 132px;
 } progress[q="SL"]::-moz-progress-bar {
-    background-color: #840;
+    background-color: #f60;
 } progress[q="SW"]::-moz-progress-bar {
     background-color: #08f;
 } progress[q="SG"]::-moz-progress-bar {
-    background-color: #666;
+    background-color: #888;
 } progress[q="SA"]::-moz-progress-bar {
     background-color: #0f8;
 } progress[q="AC"]::-moz-progress-bar {
     background-color: #448;
 } progress[q="WG"]::-moz-progress-bar {
-    background-color: #448;
+    background-color: #844;
 } progress[q="TL"]::-moz-progress-bar {
-    background-color: #840;
+    background-color: #f60;
 } progress[q="TW"]::-moz-progress-bar {
     background-color: #08f;
 } progress[q="TG"]::-moz-progress-bar {
-    background-color: #666;
+    background-color: #888;
 } progress[q="TA"]::-moz-progress-bar {
     background-color: #0f8;
 } progress[q="ON"]::-moz-progress-bar {
@@ -215,7 +215,7 @@ progress {
 } progress[q="OF"]::-moz-progress-bar {
     background-color: #804;
 } progress[q="MT"]::-moz-progress-bar {
-    background-color: #840;
+    background-color: #a0f;
 } progress[q="IF"]::-moz-progress-bar {
     background-color: #f08;
 }

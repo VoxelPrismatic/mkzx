@@ -14,6 +14,14 @@ $("#kite").innerHTML += $("#kite").innerHTML;
 for(var img of $$("img:not([src])"))
     img.src = img.dataset.src;
 
+function D(n) {
+    var q = S(n);
+    var t = Math.floor(q);
+    if(q == t)
+        return q + ".-";
+    return t + "<span style='font-size: xx-small'>" + (q - t).toString().slice(1) + "</span>"
+}
+
 const Y = {
     "WG": 0,    // Weight
     "AC": 1,    // Acceleration
@@ -239,7 +247,7 @@ function list_timeout() {
 function stat_value(q, v) {
     var e = $("#stat-" + q);
     e.value = Math.round(S(v) / 6 * 100) / 100;
-    e.nextElementSibling.textContent = " " + v;
+    e.nextElementSibling.innerHTML = " " + D(v);
 }
 
 function calculate() {
@@ -786,22 +794,22 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
                 <tr>
                     <td><b>Speed:</b> Ground</td>
                     <td><progress value="${S(sums[Y.SL]) / 6}" q="SL"></progress></td>
-                    <td> ${S(sums[Y.SL])}</td>
+                    <td> ${D(sums[Y.SL])}</td>
                 </tr>
                 <tr>
                     <td><b>Speed:</b> Water</td>
                     <td><progress value="${S(sums[Y.SW]) / 6}" q="SW"></progress></td>
-                    <td>${S(sums[Y.SW])}</td>
+                    <td>${D(sums[Y.SW])}</td>
                 </tr>
                 <tr>
                     <td><b>Speed:</b> Air</td>
                     <td><progress value="${S(sums[Y.SG]) / 6}" q="SG"></progress></td>
-                    <td>${S(sums[Y.SG])}</td>
+                    <td>${D(sums[Y.SG])}</td>
                 </tr>
                 <tr>
                     <td><b>Speed:</b> Anti-Grav</td>
                     <td><progress value="${S(sums[Y.SA]) / 6}" q="SA"></progress></td>
-                    <td>${S(sums[Y.SA])}</td>
+                    <td>${D(sums[Y.SA])}</td>
                 </tr>
                 <tr>
                     <td class="hr" colspan="3">&nbsp;</td>
@@ -809,7 +817,7 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
                 <tr>
                     <td><b>Acceleration</b></td>
                     <td><progress value="${S(sums[Y.AC]) / 6}" q="AC"></progress></td>
-                    <td>${S(sums[Y.AC])}</td>
+                    <td>${D(sums[Y.AC])}</td>
                 </tr>
                 <tr>
                     <td class="hr" colspan="3">&nbsp;</td>
@@ -817,7 +825,7 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
                 <tr>
                     <td><b>Weight</b></td>
                     <td><progress value="${S(sums[Y.WG]) / 6}" q="WG"></progress></td>
-                    <td>${S(sums[Y.WG])}</td>
+                    <td>${D(sums[Y.WG])}</td>
                 </tr>
                 <tr>
                     <td class="hr" colspan="3">&nbsp;</td>
@@ -825,22 +833,22 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
                 <tr>
                     <td><b>Handle:</b> Ground</td>
                     <td><progress value="${S(sums[Y.TL]) / 6}" q="TL"></progress></td>
-                    <td> ${S(sums[Y.TL])}</td>
+                    <td> ${D(sums[Y.TL])}</td>
                 </tr>
                 <tr>
                     <td><b>Handle:</b> Water</td>
                     <td><progress value="${S(sums[Y.TW]) / 6}" q="TW"></progress></td>
-                    <td>${S(sums[Y.TW])}</td>
+                    <td>${D(sums[Y.TW])}</td>
                 </tr>
                 <tr>
                     <td><b>Handle:</b> Air</td>
                     <td><progress value="${S(sums[Y.TG]) / 6}" q="TG"></progress></td>
-                    <td>${S(sums[Y.TG])}</td>
+                    <td>${D(sums[Y.TG])}</td>
                 </tr>
                 <tr>
                     <td><b>Handle:</b> Anti-Grav</td>
                     <td><progress value="${S(sums[Y.TA]) / 6}" q="TA"></progress></td>
-                    <td>${S(sums[Y.TA])}</td>
+                    <td>${D(sums[Y.TA])}</td>
                 </tr>
                 <tr>
                     <td class="hr" colspan="3">&nbsp;</td>
@@ -848,12 +856,12 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
                 <tr>
                     <td><b>Traction:</b> On Road</td>
                     <td><progress value="${S(sums[Y.ON]) / 6}" q="ON"></progress></td>
-                    <td>${S(sums[Y.ON])}</td>
+                    <td>${D(sums[Y.ON])}</td>
                 </tr>
                 <tr>
                     <td><b>Traction:</b> Off Road</td>
                     <td><progress value="${S(sums[Y.OF]) / 6}" q="OF"></progress></td>
-                    <td>${S(sums[Y.OF])}</td>
+                    <td>${D(sums[Y.OF])}</td>
                 </tr>
                 <tr>
                     <td class="hr" colspan="3">&nbsp;</td>
@@ -861,7 +869,7 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
                 <tr>
                     <td><b>Mini Turbo</b></td>
                     <td><progress value="${S(sums[Y.MT]) / 6}" q="MT"></progress></td>
-                    <td>${S(sums[Y.MT])}</td>
+                    <td>${D(sums[Y.MT])}</td>
                 </tr>
                 <tr ${IFRAMES ? '' : "style='display: none'"}>
                     <td class="hr" colspan="3">&nbsp;</td>
@@ -869,7 +877,7 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
                 <tr ${IFRAMES ? '' : "style='display: none'"}>
                     <td><b>Invincibility</b></td>
                     <td><progress value="${S(sums[Y.IF]) / 6}" q="IF"></progress></td>
-                    <td>${S(sums[Y.IF])}</td>
+                    <td>${D(sums[Y.IF])}</td>
                 </tr>
             </table>
         </div>

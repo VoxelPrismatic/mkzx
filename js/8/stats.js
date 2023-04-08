@@ -770,6 +770,14 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
                     <td class="hr" colspan="3">&nbsp;</td>
                 </tr>
                 <tr>
+                    <td><b>Weight</b></td>
+                    <td><progress value="${S(sums[Y.WG]) / 6}" q="WG"></progress></td>
+                    <td>${S(sums[Y.WG])}</td>
+                </tr>
+                <tr>
+                    <td class="hr" colspan="3">&nbsp;</td>
+                </tr>
+                <tr>
                     <td><b>Handle:</b> Ground</td>
                     <td><progress value="${S(sums[Y.TL]) / 6}" q="TL"></progress></td>
                     <td> ${sums[Y.TL]}</td>

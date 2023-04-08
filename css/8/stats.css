@@ -82,11 +82,9 @@ img.char-img {
     width: 200px;
     height: 128px;
     object-fit: contain;
-} .kart-select img:nth-child(n+4) {
-    display: inline;
-    width: 1px;
-    opacity: 0%;
-} .kart-select img:nth-child(1), .kart-select img:nth-child(3) {
+    scroll-margin: 0px;
+    scroll-snap-align: start;
+} .kart-select img:not(.select) {
     opacity: 50%;
 } .kart-select h3 {
     position: relative;
@@ -103,10 +101,13 @@ img.char-img {
     vertical-align: center;
 }
 .kart-select > div {
-    height: 480px;
+    height: 380px;
     width: 220px;
     position: relative;
     top: 40px;
+    margin-bottom: 100px;
+    scroll-snap-type: y mandatory;
+    overflow: auto;
 } .char-select > table {
     height: 480px;
 }

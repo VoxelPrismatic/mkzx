@@ -7,6 +7,10 @@ $("#slide-weight").value = 0;
 $("#slide-handle").value = 0;
 $("#slide-trxn").value = 0;
 
+$("#body").innerHTML += $("#body").innerHTML;
+$("#wheel").innerHTML += $("#wheel").innerHTML;
+$("#kite").innerHTML += $("#kite").innerHTML;
+
 for(var img of $$("img:not([src])"))
     img.src = img.dataset.src;
 
@@ -294,17 +298,15 @@ function select_item(elem) {
     if(parent.id == "char") {
         current_char = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
         for(var alt of alts["body"])
-            $(`[data-src*='${alt}.webp']`).src = `./img/karts/body/alt/${alt}/${current_char}.webp`
+            for(var q of $$(`#body [data-src*='/${alt}.webp']`))
+                q.src = `./img/karts/body/alt/${alt}/${current_char}.webp`
         for(var alt of alts["kite"])
-            $(`[data-src*='${alt}.webp']`).src = `./img/karts/kite/alt/${alt}/${current_char}.webp`
+            for(var q of $$(`#kite [data-src*='/${alt}.webp']`))
+                q.src = `./img/karts/kite/alt/${alt}/${current_char}.webp`
         $("#char-name span").innerHTML = elem.title;
         return calculate();
     }
 
-    if(parent.children[0].className.includes("select"))
-        parent.prepend(parent.lastElementChild)
-    else if(parent.children[2].className.includes("select"))
-        parent.append(parent.firstElementChild)
     if(parent.id == "body") {
         current_body = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
         $("#body-name span").innerHTML = elem.title;
@@ -318,10 +320,55 @@ function select_item(elem) {
         $("#wheel-name span").innerHTML = elem.title;
     }
     else if(parent.id == "kite") {
-        current_body = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
+        current_kite = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
         $("#kite-name span").innerHTML = elem.title;
     }
+
+    reset_selection();
     return calculate();
+}
+
+var reset_scroll = false
+function reset_selection() {
+    console.log(current_body, current_wheel, current_kite);
+    var column = $("#body");
+    for(var e of $$(".select", column))
+        e.classList.remove("select");
+    var n = column.children.length / 2;
+    console.log("n", n)
+    while(!column.children[n].dataset.src.includes("/" + current_body + ".webp"))
+        column.prepend(column.lastElementChild);
+    column.children[n].classList.add("select");
+    $("#body-name span").innerHTML = column.children[n].title;
+    column.scrollTop = (n + 1 + IFRAMES) * 120;
+    for(var type in kart_classes) {
+        if(kart_classes[type].includes(current_body))
+            $("#kart-class").textContent = type;
+    }
+
+    var column = $("#wheel");
+    for(var e of $$(".select", column))
+        e.classList.remove("select");
+    var n = column.children.length / 2;
+    while(!column.children[n].dataset.src.includes("/" + current_wheel + ".webp"))
+        column.prepend(column.lastElementChild);
+    column.children[n].classList.add("select");
+    $("#wheel-name span").innerHTML = column.children[n].title;
+    column.scrollTop = (n) * 120;
+
+    var column = $("#kite");
+    for(var e of $$(".select", column))
+        e.classList.remove("select");
+    var n = column.children.length / 2;
+    while(!column.children[n].dataset.src.includes("/" + current_kite + ".webp"))
+        column.prepend(column.lastElementChild);
+    column.children[n].classList.add("select");
+    $("#kite-name span").innerHTML = column.children[n].title;
+    column.scrollTop = (n) * 120;
+
+    select_item($(`[data-src*='${current_char}.webp']`));
+
+    reset_scroll = true;
 }
 
 function select_match(elem = 0) {
@@ -341,29 +388,7 @@ function select_match(elem = 0) {
     $(`[data-src*='${current_char}.webp']`).classList.add("select");
     $("#char-name span").innerHTML = $(`[data-src*='/${current_char}.webp']`).title;
 
-    var column = $("#body");
-    while(!column.children[1].dataset.src.includes("/" + current_body + ".webp"))
-        column.prepend(column.lastElementChild);
-    column.children[1].classList.add("select");
-    $("#body-name span").innerHTML = column.children[1].title;
-    for(var type in kart_classes) {
-        if(kart_classes[type].includes(current_body))
-            $("#kart-class").textContent = type;
-    }
-
-    var column = $("#wheel");
-    while(!column.children[1].dataset.src.includes("/" + current_wheel + ".webp"))
-        column.prepend(column.lastElementChild);
-    column.children[1].classList.add("select");
-    $("#wheel-name span").innerHTML = column.children[1].title;
-
-    var column = $("#kite");
-    while(!column.children[1].dataset.src.includes("/" + current_kite + ".webp"))
-        column.prepend(column.lastElementChild);
-    column.children[1].classList.add("select");
-    $("#kite-name span").innerHTML = column.children[1].title;
-
-    select_item($(`[data-src*='${current_char}.webp']`));
+    reset_selection();
     calculate();
 }
 
@@ -597,6 +622,30 @@ window.onclick = (evt) => {
     }
     LAST_ELEM = null;
 }
+
+var scrolled_elem = null;
+var scroll_timeout = 0;
+function select_scroll(evt) {
+    if(reset_scroll)
+        return reset_scroll = false;
+    var column = evt.currentTarget;
+    console.log(evt);
+    column_rect = column.getBoundingClientRect();
+    for(var elem of column.children) {
+        var elem_rect = elem.getBoundingClientRect();
+        // console.log(column_rect.top - elem_rect.top, elem_rect.height);
+        var diff = column_rect.top - elem_rect.top;
+        if(Math.abs(diff) <= elem_rect.height * 1.1 && diff < 0) {
+            console.log(elem.title);
+            scrolled_elem = elem;
+        }
+    }
+    window.clearTimeout(scroll_timeout);
+    scroll_timeout = window.setTimeout(() => select_item(scrolled_elem), 100);
+}
+$("#body").onscroll = (evt) => select_scroll(evt)
+$("#wheel").onscroll = (evt) => select_scroll(evt)
+$("#kite").onscroll = (evt) => select_scroll(evt)
 
 function restore_cache() {
     try {

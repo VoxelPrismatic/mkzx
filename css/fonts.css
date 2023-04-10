@@ -150,3 +150,7 @@ t {
     font-style: italic;
     font-size: small;
 }
+
+body {
+    min-width: 768px;
+}

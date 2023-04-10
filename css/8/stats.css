@@ -266,6 +266,8 @@ progress[q="SL"]::-webkit-progress-value {
     background-color: var(--MINI-TURBO);
 } progress[q="IF"]::-webkit-progress-value {
     background-color: var(--I-FRAMES);
+} progress::-webkit-progress-bar {
+    background: url("../../img/progress.webp");
 }
 
 td.hr {

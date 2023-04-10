@@ -384,10 +384,10 @@ function select_match(elem = 0) {
 
     if(elem) {
         var row = elem.parentElement.parentElement;
-        current_char = row.children[0].children[0].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-        current_body = row.children[1].children[0].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-        current_wheel = row.children[2].children[0].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-        current_kite = row.children[3].children[0].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
+        current_char = get_name(row.children[0].children[0]);
+        current_body = get_name(row.children[1].children[0]);
+        current_wheel = get_name(row.children[2].children[0]);
+        current_kite = get_name(row.children[3].children[0]);
     } else {
         // [current_char, current_body, current_wheel, current_kite] = last_build;
     }
@@ -802,10 +802,10 @@ function store_compare() {
     current_compare = [];
     for(var compared of $("#compared").children) {
         imgs = compared.querySelectorAll("img");
-        var char_name = imgs[2].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-        var kart_name = imgs[3].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-        var wheel_name = imgs[4].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-        var kite_name = imgs[5].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
+        var char_name = get_name(imgs[2]);
+        var kart_name = get_name(imgs[3]);
+        var wheel_name = get_name(imgs[4]);
+        var kite_name = get_name(imgs[5]);
         current_compare.push([char_name, kart_name, wheel_name, kite_name]);
     }
     localStorage.setItem("mkzx_compare_" + V, JSON.stringify(current_compare));
@@ -837,10 +837,10 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
     else
         var elem_kite = $("#kite .select");
 
-    var char_name = elem_char.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-    var kart_name = elem_kart.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-    var wheel_name = elem_wheel.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-    var kite_name = elem_kite.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
+    var char_name = get_name(elem_char);
+    var kart_name = get_name(elem_kart);
+    var wheel_name = get_name(elem_wheel);
+    var kite_name = get_name(elem_kite);
 
     var sums = new Array(14);
     for(var i = 0; i < 14; i++)

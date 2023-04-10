@@ -238,33 +238,33 @@ progress[q="SL"]::-moz-progress-bar {
     background-color: var(--I-FRAMES);
 }
 
-progress[q="SL"]::-webkit-progress-bar {
+progress[q="SL"]::-webkit-progress-inner-element {
     background-color: var(--GROUND);
-} progress[q="SW"]::-webkit-progress-bar {
+} progress[q="SW"]::-webkit-progress-inner-element {
     background-color: var(--WATER);
-} progress[q="SG"]::-webkit-progress-bar {
+} progress[q="SG"]::-webkit-progress-inner-element {
     background-color: var(--KITE);
-} progress[q="SA"]::-webkit-progress-bar {
+} progress[q="SA"]::-webkit-progress-inner-element {
     background-color: var(--ANTI-GRAV);
-} progress[q="AC"]::-webkit-progress-bar {
+} progress[q="AC"]::-webkit-progress-inner-element {
     background-color: var(--ACCEL);
-} progress[q="WG"]::-webkit-progress-bar {
+} progress[q="WG"]::-webkit-progress-inner-element {
     background-color: var(--WEIGHT);
-} progress[q="TL"]::-webkit-progress-bar {
+} progress[q="TL"]::-webkit-progress-inner-element {
     background-color: var(--GROUND);
-} progress[q="TW"]::-webkit-progress-bar {
+} progress[q="TW"]::-webkit-progress-inner-element {
     background-color: var(--WATER);
-} progress[q="TG"]::-webkit-progress-bar {
+} progress[q="TG"]::-webkit-progress-inner-element {
     background-color: var(--KITE);
-} progress[q="TA"]::-webkit-progress-bar {
+} progress[q="TA"]::-webkit-progress-inner-element {
     background-color: var(--ANTI-GRAV);
-} progress[q="ON"]::-webkit-progress-bar {
+} progress[q="ON"]::-webkit-progress-inner-element {
     background-color: var(--TRACTION);
-} progress[q="OF"]::-webkit-progress-bar {
+} progress[q="OF"]::-webkit-progress-inner-element {
     background-color: var(--TRACTION);
-} progress[q="MT"]::-webkit-progress-bar {
+} progress[q="MT"]::-webkit-progress-inner-element {
     background-color: var(--MINI-TURBO);
-} progress[q="IF"]::-webkit-progress-bar {
+} progress[q="IF"]::-webkit-progress-inner-element {
     background-color: var(--I-FRAMES);
 }
 
@@ -282,10 +282,6 @@ td.hr {
 
 .kart-select > div {
     mask-image: linear-gradient(to bottom, #0000, #0008 25%, #000 33%, #000 66%, #0008 75%, #0000);
-}
-
-img:has(+ img.select) {
-    background-color: #000 !important;
 }
 
 #build-graph {

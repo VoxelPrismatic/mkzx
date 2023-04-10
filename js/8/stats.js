@@ -214,8 +214,6 @@ function input_changed(natural = 0) {
 
     for(var sel of $$("#others .select"))
         sel.classList.remove("select");
-    for(var img of $$("#others img"))
-        img.onclick = (evt) => select_match(evt.currentTarget);
     if(block.children.length == 0) {
         block.innerHTML = "<div>There were no matches with that set of criteria.<br>" +
                           "If you think your browser is stalled, this code shouldn't change between cycles: " +

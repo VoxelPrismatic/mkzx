@@ -238,33 +238,33 @@ progress[q="SL"]::-moz-progress-bar {
     background-color: var(--I-FRAMES);
 }
 
-progress[q="SL"]::-webkit-progress-inner-element {
+progress[q="SL"]::-webkit-progress-value {
     background-color: var(--GROUND);
-} progress[q="SW"]::-webkit-progress-inner-element {
+} progress[q="SW"]::-webkit-progress-value {
     background-color: var(--WATER);
-} progress[q="SG"]::-webkit-progress-inner-element {
+} progress[q="SG"]::-webkit-progress-value {
     background-color: var(--KITE);
-} progress[q="SA"]::-webkit-progress-inner-element {
+} progress[q="SA"]::-webkit-progress-value {
     background-color: var(--ANTI-GRAV);
-} progress[q="AC"]::-webkit-progress-inner-element {
+} progress[q="AC"]::-webkit-progress-value {
     background-color: var(--ACCEL);
-} progress[q="WG"]::-webkit-progress-inner-element {
+} progress[q="WG"]::-webkit-progress-value {
     background-color: var(--WEIGHT);
-} progress[q="TL"]::-webkit-progress-inner-element {
+} progress[q="TL"]::-webkit-progress-value {
     background-color: var(--GROUND);
-} progress[q="TW"]::-webkit-progress-inner-element {
+} progress[q="TW"]::-webkit-progress-value {
     background-color: var(--WATER);
-} progress[q="TG"]::-webkit-progress-inner-element {
+} progress[q="TG"]::-webkit-progress-value {
     background-color: var(--KITE);
-} progress[q="TA"]::-webkit-progress-inner-element {
+} progress[q="TA"]::-webkit-progress-value {
     background-color: var(--ANTI-GRAV);
-} progress[q="ON"]::-webkit-progress-inner-element {
+} progress[q="ON"]::-webkit-progress-value {
     background-color: var(--TRACTION);
-} progress[q="OF"]::-webkit-progress-inner-element {
+} progress[q="OF"]::-webkit-progress-value {
     background-color: var(--TRACTION);
-} progress[q="MT"]::-webkit-progress-inner-element {
+} progress[q="MT"]::-webkit-progress-value {
     background-color: var(--MINI-TURBO);
-} progress[q="IF"]::-webkit-progress-inner-element {
+} progress[q="IF"]::-webkit-progress-value {
     background-color: var(--I-FRAMES);
 }
 

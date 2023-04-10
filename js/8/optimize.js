@@ -41,6 +41,7 @@ function D(n, large = 0) {
     return t + `<span style='font-size: ${large ? 'smaller' : 'xx-small'}'>` + (q - t).toString().slice(1) + "</span>"
 }
 
+[$("#var0").value, $("#var1").value] = JSON.parse(localStorage.getItem("mkzx_optimizer_" + V + "_chosen") || '["MT", "SL"]');
 
 const IFRAMES = Boolean($("#stat-iframe"));
 
@@ -129,6 +130,7 @@ function plot_points() {
     plot_pts = {};
     var var0 = $("#var0").value;
     var var1 = $("#var1").value;
+    localStorage.setItem("mkzx_optimizer_" + V + "_chosen", JSON.stringify([var0, var1]));
     var R = SVG_VARS.radius;
 
     var plot_only_char = $("#plot-only-char").checked;
@@ -247,8 +249,6 @@ function plot_points() {
         if(ttl_val0 >= current_stats[0] && ttl_val1 >= current_stats[1])
             superior_stats.push(ttl_val0 + "+" + ttl_val1);
     }
-
-    generate_matches();
 }
 
 function push_builds(ls, block) {
@@ -558,7 +558,8 @@ function begin_retrieve() {
     $("#plot-kart-text").textContent = imgs[3].title;
     $("#plot-wheel-text").textContent = imgs[4].title;
     $("#plot-kite-text").textContent = imgs[5].title;
-    localStorage.setItem(V + "_combo", JSON.stringify([current_char, current_body, current_wheel, current_kite]));
+    localStorage.setItem(V + "_combo", JSON.stringify([current_char, current_body, current_wheel, current_kite]))
+    generate_matches();
 }
 
 function compare_select(evt) {
@@ -568,7 +569,6 @@ function compare_select(evt) {
     current_wheel = imgs[4].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
     current_kite = imgs[5].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
     begin_retrieve();
-    generate_matches();
 }
 
 for(var q of $$("input + label")) {

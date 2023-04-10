@@ -368,6 +368,13 @@ function reset_selection() {
 
     $(`[data-src*='/${current_char}.webp']`).classList.add("select");
     $("#char-name span").innerHTML = $(`[data-src*='/${current_char}.webp']`).title;
+
+    for(var alt of alts["body"])
+        for(var q of $$(`#body [data-src*='/${alt}.webp']`))
+            q.src = `./img/karts/body/alt/${alt}/${current_char}.webp`
+    for(var alt of alts["kite"])
+        for(var q of $$(`#kite [data-src*='/${alt}.webp']`))
+            q.src = `./img/karts/kite/alt/${alt}/${current_char}.webp`
 }
 
 function select_match(elem = 0) {

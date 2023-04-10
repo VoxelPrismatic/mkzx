@@ -1000,3 +1000,7 @@ function prepare_scroll() {
 begin_retrieve();
 
 window.setTimeout(prepare_scroll, 100);
+
+$("#nuzlocke-rng").value = "-";
+$("#nuzlocke-kill").value = "-";
+$("#nuzlocke-resurrect").value = "-";

@@ -33,7 +33,50 @@
         <div>
             <a href="./progress.html">Progress</a> | <a href="../index.html">Home</a><br>
             <sub><i>Lazily slapped together by <b>PRIZ ;]</b>. No, it will not ever be pretty, nor work well on mobile</i></sub><br>
-            <button onclick="random_kart()">[rng]</button>
+        </div>
+        <div class="shill green">
+                <details>
+                    <summary><h3 style="margin:0;display:inline-block">Nuzlocke challenge?</h3></summary>
+                    <br>
+                    <button onclick="nuzlocke(0, -1)">Reset challenge</button><br><br>
+
+                    <b>Random:</b>
+                    <select onchange="nuzlocke(this.value, 2)" id="nuzlocke-rng" value="-">
+                        <option value='-' disabled>-choose-</option>
+                        <optgroup label="Select random">
+                            <option value="char">Character</option>
+                            <option value="body">Body</option>
+                            <option value="wheel">Wheels</option>
+                            <option value="kite">Glider</option>
+                            <option value="all">Entire build</option>
+                        </optgroup>
+                    </select><br>
+
+                    <b>Destroy:</b>
+                    <select onchange="nuzlocke(this.value, 0)" id="nuzlocke-kill" value="-">
+                        <option value='-' disabled>-choose-</option>
+                        <optgroup label="Destroy current">
+                            <option value="char">Character</option>
+                            <option value="body">Body</option>
+                            <option value="wheel">Wheels</option>
+                            <option value="kite">Glider</option>
+                            <option value="all">Entire build</option>
+                        </option>
+                    </select><br>
+
+                    <b>Restore:</b>
+                    <select onchange="nuzlocke(this.value, 1)" id="nuzlocke-resurrect" value="-">
+                        <option value='-' disabled>-choose-</option>
+                        <optgroup label="Restore current">
+                            <option value="char">Character</option>
+                            <option value="body">Body</option>
+                            <option value="wheel">Wheels</option>
+                            <option value="kite">Glider</option>
+                            <option value="all">Entire build</option>
+                        </optgroup>
+                    </select>
+                </details>
+            </div>
         </div>
         <div class="kart-build" style="flex-wrap: wrap;">
             <div class="char-select" id="char">

@@ -1,7 +1,6 @@
 function $(q, e = document) { return e.querySelector(q); }
 function $$(q, e = document) { return e.querySelectorAll(q); }
 
-
 function get_data() {
     try {
         data = JSON.parse(localStorage.getItem(V + "_progress"))
@@ -104,9 +103,9 @@ function update_table() {
         for(var cell of $$("td:nth-child(n+3):nth-child(-n+7)", row))
             num_trophies += cell.dataset.cup == "G3";
         for(var cell of $$("[id*='tt_150cc']", row))
-            num_tt_150cc += cell.checked;
+            num_tt_150cc += Boolean(cell.checked);
         for(var cell of $$("[id*='tt_200cc']", row))
-            num_tt_200cc += cell.checked
+            num_tt_200cc += Boolean(cell.checked);
 
         row.cells[11].children[0].innerHTML = (num_tt_150cc == 4 ? '&nbsp;' : 4 - num_tt_150cc)
         row.cells[11].children[1].innerHTML = (num_tt_200cc == 4 ? '&nbsp;' : 4 - num_tt_200cc)
@@ -139,27 +138,27 @@ function rotate_progress(elem, store = 1, s = '') {
     switch(s || elem.dataset.cup) {
         case "N":
             new_val = "B";
-            new_html = `<img src="./img/trophy/Bronze.svg" class="trophy"></img>`
+            new_html = `<img src="../img/trophy/Bronze.svg" class="trophy"></img>`
             break;
         case "B":
             new_val = "S";
-            new_html = `<img src="./img/trophy/Silver.svg" class="trophy"></img>`
+            new_html = `<img src="../img/trophy/Silver.svg" class="trophy"></img>`
             break;
         case "S":
             new_val = "G0";
-            new_html = `<img src="./img/trophy/Gold.svg" class="trophy"></img>`
+            new_html = `<img src="../img/trophy/Gold.svg" class="trophy"></img>`
             break;
         case "G0":
             new_val = "G1";
-            new_html = `<img src="./img/trophy/Gold.svg" class="mini"></img><br>` + `<img src="./img/trophy/Star.svg"></img>`.repeat(1);
+            new_html = `<img src="../img/trophy/Gold.svg" class="mini"></img><br>` + `<img src="../img/trophy/Star.svg"></img>`.repeat(1);
             break;
         case "G1":
             new_val = "G2";
-            new_html = `<img src="./img/trophy/Gold.svg" class="mini"></img><br>` + `<img src="./img/trophy/Star.svg"></img>`.repeat(2);
+            new_html = `<img src="../img/trophy/Gold.svg" class="mini"></img><br>` + `<img src="../img/trophy/Star.svg"></img>`.repeat(2);
             break;
         case "G2":
             new_val = "G3";
-            new_html = `<img src="./img/trophy/Gold.svg" class="mini"></img><br>` + `<img src="./img/trophy/Star.svg"></img>`.repeat(3);
+            new_html = `<img src="../img/trophy/Gold.svg" class="mini"></img><br>` + `<img src="../img/trophy/Star.svg"></img>`.repeat(3);
             break;
         default:
             new_val = "N";
@@ -228,3 +227,7 @@ for(var cup in cups) {
 
 
 get_data();
+
+for(var q of $$("input + label")) {
+    q.onclick = (evt) => { evt.currentTarget.previousElementSibling.click(); }
+}

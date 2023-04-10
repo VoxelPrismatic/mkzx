@@ -77,6 +77,7 @@ const cups = {
 const names = {
     "Mushroom": "Mushroom Cup",
     "Flower": "Flower Cup",
+    "Star": "Star Cup",
     "Special": "Special Cup",
     "Shell": "Shell Cup",
     "Banana": "Banana Cup",

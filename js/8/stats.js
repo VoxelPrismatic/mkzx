@@ -45,10 +45,9 @@ var cache_combo_floor = {};
 var cache_stats = {};
 var cache_results = {};
 
-var current_char = "Mario";
-var current_body = "StandardKart";
-var current_wheel = "Standard";
-var current_kite = "SuperGlider";
+var current_char, current_body, current_wheel, current_kite;
+var last_build = JSON.parse(localStorage.getItem(V + "_combo") || '["Mario","StandardKart","Standard","SuperGlider"]');
+[current_char, current_body, current_wheel, current_kite] = last_build;
 
 var similar_builds_timeout = 0;
 const IFRAMES = Boolean($("#stat-iframe"))
@@ -260,7 +259,11 @@ function calculate() {
         current_body = $("#body .select").dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
         current_wheel = $("#wheel .select").dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
         current_kite = $("#kite .select").dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-        [speed, accel, weight, handle, trxn] = cache_combo[`${current_char}+${current_body}+${current_wheel}+${current_kite}`];
+        try {
+            [speed, accel, weight, handle, trxn] = cache_combo[`${current_char}+${current_body}+${current_wheel}+${current_kite}`];
+        } catch(err) {
+            [speed, accel, weight, handle, trxn] = calculate_this(current_char, current_body, current_wheel, current_kite);
+        }
     }
 
 
@@ -322,61 +325,49 @@ function select_item(elem) {
             if(kart_classes[type].includes(current_body))
                 $("#kart-class").textContent = type;
         }
+        scroll_column("body", current_body);
     }
     else if(parent.id == "wheel") {
         current_wheel = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
         $("#wheel-name span").innerHTML = elem.title;
+        scroll_column("wheel", current_wheel);
     }
     else if(parent.id == "kite") {
         current_kite = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
         $("#kite-name span").innerHTML = elem.title;
+        scroll_column("kite", current_kite);
     }
 
-    reset_selection();
     return calculate();
 }
 
-var reset_scroll = false
-function reset_selection() {
-    console.log(current_body, current_wheel, current_kite);
-    var column = $("#body");
-    for(var e of $$(".select", column))
-        e.classList.remove("select");
+function scroll_column(column_name, item) {
+    var column = $("#" + column_name);
     var n = column.children.length / 2;
-    console.log("n", n)
-    while(!column.children[n].dataset.src.includes("/" + current_body + ".webp"))
+    while(!column.children[n].dataset.src.includes("/" + item + ".webp"))
         column.prepend(column.lastElementChild);
     column.children[n].classList.add("select");
-    $("#body-name span").innerHTML = column.children[n].title;
+    $("#" + column_name + "-name span").innerHTML = column.children[n].title;
     column.scrollTop = (n - 1) * 128;
-    for(var type in kart_classes) {
-        if(kart_classes[type].includes(current_body))
-            $("#kart-class").textContent = type;
+
+    if(column_name == "body") {
+        for(var type in kart_classes) {
+            if(kart_classes[type].includes(current_body))
+                $("#kart-class").textContent = type;
+        }
     }
+}
 
-    var column = $("#wheel");
-    for(var e of $$(".select", column))
+function reset_selection() {
+    for(var e of $$(".select"))
         e.classList.remove("select");
-    var n = column.children.length / 2;
-    while(!column.children[n].dataset.src.includes("/" + current_wheel + ".webp"))
-        column.prepend(column.lastElementChild);
-    column.children[n].classList.add("select");
-    $("#wheel-name span").innerHTML = column.children[n].title;
-    column.scrollTop = (n - 1) * 128;
 
-    var column = $("#kite");
-    for(var e of $$(".select", column))
-        e.classList.remove("select");
-    var n = column.children.length / 2;
-    while(!column.children[n].dataset.src.includes("/" + current_kite + ".webp"))
-        column.prepend(column.lastElementChild);
-    column.children[n].classList.add("select");
-    $("#kite-name span").innerHTML = column.children[n].title;
-    column.scrollTop = (n - 1) * 128;
+    scroll_column("body", current_body);
+    scroll_column("wheel", current_wheel);
+    scroll_column("kite", current_kite);
 
-    select_item($(`[data-src*='${current_char}.webp']`));
-
-    reset_scroll = true;
+    $(`[data-src*='/${current_char}.webp']`).classList.add("select");
+    $("#char-name span").innerHTML = $(`[data-src*='/${current_char}.webp']`).title;
 }
 
 function select_match(elem = 0) {
@@ -389,18 +380,17 @@ function select_match(elem = 0) {
         current_body = row.children[1].children[0].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
         current_wheel = row.children[2].children[0].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
         current_kite = row.children[3].children[0].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
+    } else {
+        // [current_char, current_body, current_wheel, current_kite] = last_build;
     }
+
     for(var elem of $$("#others tr"))
         elem.remove();
 
-    $(`[data-src*='${current_char}.webp']`).classList.add("select");
-    $("#char-name span").innerHTML = $(`[data-src*='/${current_char}.webp']`).title;
-
-    reset_selection();
+    window.setTimeout(reset_selection, 50);
     calculate();
 }
 
-[current_char, current_body, current_wheel, current_kite] = JSON.parse(localStorage.getItem(V + "_combo") || '["Mario","StandardKart","Standard","SuperGlider"]')
 
 function similar_groups(blocks) {
     var used = [];
@@ -490,16 +480,15 @@ function generate_cache() {
 
 }
 
-V_cache = localStorage.getItem("mkzx_cache_" + V + "_time") || 0
-if(Number(new Date()) - V_cache >= 3600000 || !localStorage.getItem("mkzx_cache_" + V + "_group")) { // 1hr
-    generate_cache();
-} else {
+function begin_retrieve() {
+    V_cache = localStorage.getItem("mkzx_cache_" + V + "_time") || 0
+    if(Number(new Date()) - V_cache >= 3600000 || !localStorage.getItem("mkzx_cache_" + V + "_group")) // 1hr
+        return generate_cache();
     console.time("Retrieving cache");
     restore_cache();
     if(Object.keys(cache_combo).length == 0)
-        generate_cache();
-    else
-        select_match();
+        return generate_cache();
+    select_match();
 }
 
 var LAST_ELEM = null;
@@ -515,13 +504,13 @@ window.onkeydown = (evt) => {
         if(evt.key == 'ArrowUp') {
             evt.preventDefault();
             LAST_ELEM.classList.add("x-hover");
-            return $("#" + LAST_ELEM.id + " img").click();
+            return $("#" + LAST_ELEM.id + " img:has(+ img.select)").click();
         }
 
         if(evt.key == 'ArrowDown') {
             evt.preventDefault();
             LAST_ELEM.classList.add("x-hover");
-            return $("#" + LAST_ELEM.id + " img:nth-child(3)").click();
+            return $("#" + LAST_ELEM.id + " img.select + img").click();
         }
 
         if(evt.key == 'ArrowLeft' || (evt.key == 'Tab' && evt.shiftKey)) {
@@ -631,25 +620,28 @@ window.onclick = (evt) => {
     LAST_ELEM = null;
 }
 
-var scrolled_elem = null;
-var scroll_timeout = 0;
+var scrolled_elem = {
+    "body": null,
+    "wheel": null,
+    "kite": null
+};
+var scroll_timeout = {
+    "body": 0,
+    "wheel": 0,
+    "kite": 0
+}
 function select_scroll(evt) {
-    if(reset_scroll)
-        return reset_scroll = false;
     var column = evt.currentTarget;
     column_rect = column.getBoundingClientRect();
     for(var elem of column.children) {
         var elem_rect = elem.getBoundingClientRect();
         var diff = column_rect.top - elem_rect.top;
         if(Math.abs(diff) <= elem_rect.height * 1.5 && diff < 0)
-            scrolled_elem = elem;
+            scrolled_elem[column.id] = elem;
     }
-    window.clearTimeout(scroll_timeout);
-    scroll_timeout = window.setTimeout(() => select_item(scrolled_elem), 100);
+    window.clearTimeout(scroll_timeout[column.id]);
+    scroll_timeout[column.id] = window.setTimeout(select_item, 50, scrolled_elem[column.id]);
 }
-$("#body").onscroll = (evt) => select_scroll(evt)
-$("#wheel").onscroll = (evt) => select_scroll(evt)
-$("#kite").onscroll = (evt) => select_scroll(evt)
 
 function restore_cache() {
     try {
@@ -698,6 +690,73 @@ function store_cache() {
         group_kites
     ]));
     localStorage.setItem("mkzx_cache_" + V + "_cache", JSON.stringify(group_stats))
+}
+
+function save_nuzlocke() {
+    nz_store = {
+        "char": [],
+        "body": [],
+        "wheel": [],
+        "kite": []
+    }
+    for(var nuz of $$("#char .nuzlocke"))
+        if(!nz_store["char"].includes(nuz.title))
+            nz_store["char"].push(nuz.title);
+
+    for(var nuz of $$("#body .nuzlocke"))
+        if(!nz_store["body"].includes(nuz.title))
+            nz_store["body"].push(nuz.title);
+
+    for(var nuz of $$("#wheel .nuzlocke"))
+        if(!nz_store["wheel"].includes(nuz.title))
+            nz_store["wheel"].push(nuz.title);
+
+    for(var nuz of $$("#kite .nuzlocke"))
+        if(!nz_store["kite"].includes(nuz.title))
+            nz_store["kite"].push(nuz.title);
+
+    localStorage.setItem("mkzx_" + V + "_nuzlocke", JSON.stringify(nz_store))
+}
+
+function nuzlocke(option, mode) {
+    if(mode == -1) { // Reset
+        for(var killed of $$(".nuzlocke"))
+            killed.classList.remove("nuzlocke");
+        return save_nuzlocke();
+    }
+    if(option == "all") {
+        nuzlocke("char", mode);
+        nuzlocke("body", mode);
+        nuzlocke("wheel", mode);
+        nuzlocke("kite", mode);
+        return;
+    }
+
+    if(mode == 0) { // Kill
+        $("#nuzlocke-kill").value = "-";
+        var item = $(`#${option} .select`);
+        for(var nuz of $$(`#${option} img[title="${item.title}"]`))
+            nuz.classList.add("nuzlocke");
+        nuzlocke(option, 2);
+        return save_nuzlocke();
+    }
+    if(mode == 1) { // Resurrect
+        $("#nuzlocke-resurrect").value = "-";
+        var item = $(`#${option} .select`);
+        for(var nuz of $$(`#${option} img[title="${item.title}"]`))
+            nuz.classList.remove("nuzlocke");
+        return save_nuzlocke();
+    }
+
+    $("#nuzlocke-rng").value = "-";
+    group = $$(`#${option} img:not(.nuzlocke)`)
+    try {
+        group[Math.floor(Math.random() * group.length)].click();
+    } catch(err) {
+        if(confirm("And that's it! Want to reset the nuzlocke challenge?"))
+            return nuzlocke(0, -1);
+    }
+
 }
 
 function random_kart() {
@@ -919,3 +978,25 @@ for(var compare of current_compare) {
         continue
     add_build_compare(...compare, 1);
 }
+
+for(var q of $$("input + label")) {
+    q.onclick = (evt) => { evt.currentTarget.previousElementSibling.click(); }
+}
+
+var nz_store = JSON.parse(localStorage.getItem("mkzx_" + V + "_nuzlocke") || `{"char":[],"body":[],"wheel":[],"kite":[]}`);
+for(var group in nz_store) {
+    for(var title of nz_store[group]) {
+        for(var item of $$(`#${group} img[title="${title}"]`))
+            item.classList.add("nuzlocke");
+    }
+}
+
+function prepare_scroll() {
+    $("#body").onscroll = (evt) => select_scroll(evt);
+    $("#wheel").onscroll = (evt) => select_scroll(evt);
+    $("#kite").onscroll = (evt) => select_scroll(evt);
+}
+
+begin_retrieve();
+
+window.setTimeout(prepare_scroll, 100);

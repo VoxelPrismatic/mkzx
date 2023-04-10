@@ -108,6 +108,13 @@
     src: local("Shin Go Bold"), local("Shin Go-Bold"), local("Shin Go-B"), local("Shin Go"), url("./shingo/ShinGo-B.otf");
 }
 
+input[type="checkbox"] + label,
+input[type="radio"] + label,
+input[type="checkbox"],
+input[type="radio"] {
+    cursor: pointer;
+}
+
 #logo {
     height: 148px;
     object-fit: contain;
@@ -117,19 +124,28 @@
     left: -8px;
     top: -8px;
     position: relative;
-} .shill {
+}
+
+.shill {
+    --edge: #08f;
+    --bg: #cef;
     padding: 8px 0px 8px 4px;
-    border-left: 4px solid #08f;
-    background-color: #cef;
+    border-left: 4px solid var(--edge);
+    background-color: var(--bg);
     margin: 16px;
     border-radius: 4px;
-} .red-shill {
-    padding: 8px 0px 8px 4px;
-    border-left: 4px solid #f00;
-    background-color: #fcc;
-    margin: 16px;
-    border-radius: 4px;
-} t {
+} .shill.red {
+    --edge: #f00;
+    --bg: #fcc;
+} .shill.green {
+    --edge: #0f0;
+    --bg: #cfc;
+} .shill.grey {
+    --edge: #888;
+    --bg: #efefef;
+}
+
+t {
     font-weight: 200;
     font-style: italic;
     font-size: small;

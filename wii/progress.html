@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en_US">
+    <head>
+        <meta charset="utf-8"/>
+        <title>MK Wii / Progress</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
+        <meta name="theme-color" content="#FF0000">
+        <meta name="author" content="PRIZ ;]" />
+
+        <meta name="twitter:site" content="@VoxelPrismatic">
+        <meta name="twitter:creator" content="@VoxelPrismatic">
+        <meta name="twitter:card" content="summary">
+
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="MK Wii / Progress">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" type="text/css" href="../css/fonts.css" />
+
+        <!-- DYNAMIC BETWEEN PAGES -->
+        <meta property="og:title" content="MK Wii / Progress" id="title" />
+        <meta property="og:description" content="Track your progress in Mario Kart Wii" />
+        <meta name="description" content="Track your progress in Mario Kart Wii" />
+
+        <style type="text/css">
+            body {
+                font-family: "Shin Go", "ubuntu";
+                line-height: 1.2;
+            }
+            table {
+                border-spacing: 0px;
+                max-width: 1640px;
+                width: 100%;
+/*                 table-layout: fixed; */
+            }
+
+            td:nth-child(n+3):nth-child(-n+7) {
+                text-align: center;
+                cursor: pointer;
+                min-width: 128px;
+            } span > input {
+                cursor: pointer;
+            } td > input {
+                cursor: no-drop !important;
+            }
+
+            th:nth-child(7), td:nth-child(7) {
+                display: none;
+            }
+
+
+
+            tr:nth-child(2n+3):nth-child(-n+10) td:nth-child(n+0):nth-child(-n+7) {
+                background-color: #0001;
+            }
+            tr:nth-child(2n+3):nth-child(-n+10) td:nth-child(n+8):nth-child(-n+11) {
+                background-color: #0004;
+            }
+            tr:nth-child(2n+4):nth-child(-n+10) td:nth-child(n+8):nth-child(-n+11),
+            tr:nth-child(2):nth-child(-n+10) th:nth-child(n+8):nth-child(-n+11),
+            tr:nth-child(1):nth-child(-n+10) th:nth-child(3) {
+                background-color: #0002;
+            }
+
+
+            tr:nth-child(2n+4):nth-child(n+11) td:nth-child(n+0):nth-child(-n+7) {
+                background-color: #0000ff0c;
+            }
+            tr:nth-child(2n+3):nth-child(n+11) td:nth-child(n+0):nth-child(-n+7) {
+                background-color: #00f2;
+            }
+            tr:nth-child(2n+3):nth-child(n+11) td:nth-child(n+8):nth-child(-n+11) {
+                background-color: #00f5;
+            }
+            tr:nth-child(2n+4):nth-child(n+11) td:nth-child(n+8):nth-child(-n+11),
+            tr:nth-child(2):nth-child(n+11) th:nth-child(n+8):nth-child(-n+11),
+            tr:nth-child(1):nth-child(n+11) th:nth-child(3) {
+                background-color: #00f3;
+            }
+
+
+            table img {
+                width: 98%;
+                display: block;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+            }
+            td:nth-child(n+2), th:nth-child(n+2) {
+                border-left: 1px solid #000;
+            }
+            tr:nth-child(n+3):hover {
+                background-color: #0002;
+            }
+
+            td.trophy img {
+                width: 36px;
+                display: inline;
+            } td.trophy img.trophy {
+                width: 64px;
+            }  td.trophy img.mini {
+                width: 32px;
+            }
+
+            td input[type="checkbox"] {
+                transform: scale(2);
+                width: 16px;
+                padding-right: 2px;
+            }
+
+            td, th {
+                font-weight: 200 !important;
+            } td:nth-child(n+3):nth-child(-n+7) {
+                min-width: 120px;
+            } td:nth-child(n+8):not(:last-child) {
+                min-width: 136px;
+            } td:nth-child(2) {
+                min-width: 54px;
+            } tr:nth-child(1) th {
+                position: sticky;
+                top: 0px;
+                font-weight: 800 !important;
+                font-size: x-large;
+            } tr:nth-child(-n+2) th {
+                background-color: #fff !important;
+                z-index: 5;
+            } tr:nth-child(2) th {
+                position: sticky;
+                top: 30px;
+                border-bottom: 2px solid #000;
+            } tr:nth-child(2) th:nth-child(n+8):not(:last-child) {
+                background-color: #ddd !important;
+            } tr:nth-child(1) th:nth-child(3) {
+                background-color: #ddd !important;
+            }
+
+            input[id*='_tt_150cc'] + br,
+            input[id*='_tt_150cc'] + br + br,
+            input[id*='_tt_150cc'] + br + br + input[id*='_tt_200cc'],
+            div[id*='_tt_150cc_complete'] + br,
+            div[id*='_tt_150cc_complete'] + br + div[id*='_tt_200cc_complete'] {
+                display: none;
+            }
+
+            .track_img {
+                border-radius: 8px;
+            } .cup_img {
+                aspect-ratio: 1 / 1;
+                object-fit: contain;
+            }
+        </style>
+    </head>
+    <body>
+        <img id="logo" src="../img/Wii.webp"></img>
+        <br>
+        <div>
+            <!--<a href="./stats.html">Kart Builder</a> | --><a href="../index.html">Home</a><br>
+            <sub><i>Lazily slapped together by <b>PRIZ ;]</b>. No, it will not ever be pretty, nor work well on mobile</i></sub>
+        </div>
+        <table>
+            <colgroup>
+                <col span="1" style="width: 2%;">
+                <col span="1" style="width: 7%;">
+                <col span="1" style="width: 9%;">
+                <col span="1" style="width: 9%;">
+                <col span="1" style="width: 9%;">
+                <col span="1" style="width: 9%;">
+                <col span="1" style="width: 11%;">
+                <col span="1" style="width: 11%;">
+                <col span="1" style="width: 11%;">
+                <col span="1" style="width: 11%;">
+                <col span="1" style="width: 2%;">
+            </colgroup>
+
+            <tbody>
+                <tr>
+                    <th></th>
+                    <th colspan="5">Mario Kart Wii Progress</th>
+                    <th colspan="4">Time Trials</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>Cup</th>
+                    <th>50cc</th>
+                    <th>100cc</th>
+                    <th>150cc</th>
+                    <th>Mirror</th>
+                    <th>200cc</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th></th>
+                </tr>
+            </tbody>
+        </table>
+        <br><br>
+        <div>
+            <h3>Random unfinished cup:</h3>
+            <img id="rng_img" style="width: 96px; display: inline; cursor: pointer;" onclick="random_cup();"></img><br>
+            <input type="checkbox" id="rng_grand_prix" onclick="update_table();"><label>Grand Prix</label></input><br>
+            <input type="checkbox" id="rng_tt_150cc" onclick="update_table();"><label>Time Trials</label></input><br>
+            <input type="checkbox" id="rng_tt_200cc" onclick="update_table();" style="display: none"></input><br>
+        </div>
+
+        <div class="shill">
+            <b>Wanna support my work?</b><br>
+            <a href="https://patreon.com/VoxelPrismatic" target="_blank">patreon/VoxelPrismatic</a> |
+            <a href="https://cash.app/$VoxelPrismatic" target="_blank">cashapp/$VoxelPrismatic</a><br>
+            <t>Anything and everything is greatly appreciated</t>
+        </div>
+
+        <script type="text/javascript" src="./cups.js"></script>
+        <script type="text/javascript" src="../js/8/progress.js"></script>
+    </body>
+</html>

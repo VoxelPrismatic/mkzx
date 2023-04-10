@@ -93,7 +93,10 @@
                         <td><img data-src="./img/karts/char/DryBowser.webp" title="Dry Bowser" class="char-img" onclick="select_item(this)"/></td>
                     </tr>
                 </table>
-                <h3 id="char-name" class="item-name"><span>Mario</span> <input type="checkbox" id="match-char" onchange="list_timeout()"/></h3>
+                <h3 id="char-name" class="item-name">
+                    <span>Mario</span>
+                    <input type="checkbox" id="match-char" onchange="list_timeout()" title="Find builds with this character"/>
+                </h3>
             </div>
             <div style="display: flex">
             <div class="kart-select">
@@ -136,7 +139,11 @@
                     <img data-src="./img/karts/body/WildWiggler.webp" title="Wild Wiggler" class="kart-img" onclick="select_item(this)"/>
                     <img data-src="./img/karts/body/TeddyBuggy.webp" title="Teddy Buggy" class="kart-img" onclick="select_item(this)"/>
                 </div>
-                <h3 id="body-name" class="item-name"><span>Standard Kart</span> <input type="checkbox" id="match-kart" onchange="list_timeout()"/><div id="kart-class">Kart</div></h3>
+                <h3 id="body-name" class="item-name">
+                    <span>Standard Kart</span>
+                    <input type="checkbox" id="match-kart" onchange="list_timeout()" title="Find builds with this body"/>
+                    <div id="kart-class">Kart</div>
+                </h3>
             </div>
             <div class="kart-select">
                 <div id="wheel">
@@ -162,7 +169,10 @@
                     <img data-src="./img/karts/wheel/Benz-GLA-Tires.webp" title="Benz GLA Tires" class="kart-img" onclick="select_item(this)"/>
                     <img data-src="./img/karts/wheel/Triforce.webp" title="Triforce Tires" class="kart-img" onclick="select_item(this)"/>
                 </div>
-                <h3 id="wheel-name" class="item-name"><span>Standard</span> <input type="checkbox" id="match-wheel" onchange="list_timeout()"/></h3>
+                <h3 id="wheel-name" class="item-name">
+                    <span>Standard</span>
+                    <input type="checkbox" id="match-wheel" onchange="list_timeout()" title="Find builds with these wheels"/>
+                </h3>
             </div>
             <div class="kart-select">
                 <div id="kite">
@@ -181,37 +191,40 @@
                     <img data-src="./img/karts/kite/GoldGlider.webp" title="Gold Glider" class="kart-img" onclick="select_item(this)"/>
                     <img data-src="./img/karts/kite/HylianKite.webp" title="Hylian Kite" class="kart-img" onclick="select_item(this)"/>
                 </div>
-                <h3 id="kite-name" class="item-name"><span>Super Glider</span> <input type="checkbox" id="match-kite" onchange="list_timeout()"/></h3>
+                <h3 id="kite-name" class="item-name">
+                    <span>Super Glider</span>
+                    <input type="checkbox" id="match-kite" onchange="list_timeout()" title="Find builds with this glider"/>
+                </h3>
             </div>
             </div>
             <div style="display: flex">
             <div class="stats">
                 <br><br>
-                <h3>Speed <input id="check-speed" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
+                <h3>Speed <input id="check-speed" type="checkbox" checked="checked" onchange="list_timeout()" title="Find builds with this speed"/></h3>
                 <div class="stats-bar">
                     <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
                 </div>
                 <input id="slide-speed" type="range" min="0" max="6" step="0.25" onchange="list_timeout()"/>
 
-                <h3>Acceleration <input id="check-accel" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
+                <h3>Acceleration <input id="check-accel" type="checkbox" checked="checked" onchange="list_timeout()" title="Find builds with this acceleration"/></h3>
                 <div class="stats-bar">
                     <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
                 </div>
                 <input id="slide-accel" type="range" min="0" max="6" step="0.25" onchange="list_timeout()"/>
 
-                <h3>Weight <input id="check-weight" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
+                <h3>Weight <input id="check-weight" type="checkbox" checked="checked" onchange="list_timeout()" title="Find builds with this weight"/></h3>
                 <div class="stats-bar">
                     <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
                 </div>
                 <input id="slide-weight" type="range" min="0" max="6" step="0.25" onchange="list_timeout()"/>
 
-                <h3>Handling <input id="check-handle" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
+                <h3>Handling <input id="check-handle" type="checkbox" checked="checked" onchange="list_timeout()" title="Find builds with this handling"/></h3>
                 <div class="stats-bar">
                     <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
                 </div>
                 <input id="slide-handle" type="range" min="0" max="6" step="0.25" onchange="list_timeout()"/>
 
-                <h3>Traction <input id="check-trxn" type="checkbox" checked="checked" onchange="list_timeout()"/></h3>
+                <h3>Traction <input id="check-trxn" type="checkbox" checked="checked" onchange="list_timeout()" title="Find builds with this traction"/></h3>
                 <div class="stats-bar">
                     <div>[</div><div>/</div><div>/</div><div>/</div><div>/</div><div>/</div><div>]</div>
                 </div>
@@ -244,9 +257,6 @@
 
                     <tr>
                         <td><b>Acceleration</b></td>
-                    </tr>
-                    <tr>
-                        <td>All</td>
                         <td><progress id="stat-accel" value="0.5" q="AC"></progress><span></span></td>
                     </tr>
 
@@ -254,9 +264,6 @@
 
                     <tr>
                         <td><b>Weight</b></td>
-                    </tr>
-                    <tr>
-                        <td>All</td>
                         <td><progress id="stat-weight" value="0.5" q="WG"></progress><span></span></td>
                     </tr>
 
@@ -314,8 +321,8 @@
         </div>
         <hr>
         <div id="build-select">
-            <input type="radio" name="build-select" id="build-similar" onchange="similar_or_compare()">Similar builds</input><br>
-            <input type="radio" name="build-select" id="build-compare" onchange="similar_or_compare()">Compare</input>
+            <input type="radio" name="build-select" id="build-similar" onchange="similar_or_compare()"><label>Similar builds</label></input><br>
+            <input type="radio" name="build-select" id="build-compare" onchange="similar_or_compare()"><label>Compare</label></input>
         </div>
         <div id="similar-builds">
             <h2>Other similar builds <button onclick="input_changed(this)">generate</button></h2>

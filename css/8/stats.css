@@ -84,8 +84,6 @@ img.char-img {
     object-fit: contain;
     scroll-margin: 0px;
     scroll-snap-align: start;
-} .kart-select img:not(.select) {
-    opacity: 50%;
 } .kart-select h3 {
     position: relative;
     z-index: 3;
@@ -270,4 +268,17 @@ td.hr {
     border-bottom: 2px solid #888;
     padding: 2px;
     column-span: all;
+}
+
+.nuzlocke {
+    filter: saturate(0) sepia(1) !important;
+    opacity: 0.25 !important;
+}
+
+.kart-select > div {
+    mask-image: linear-gradient(to bottom, #0000, #0008 25%, #000 33%, #000 66%, #0008 75%, #0000);
+}
+
+img:has(+ img.select) {
+    background-color: #000 !important;
 }

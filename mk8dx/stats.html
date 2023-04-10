@@ -30,7 +30,7 @@
     <img id="logo" src="../img/MK8dx.webp"></img>
     <body>
         <div>
-            <a href="./progress.html">Progress</a> | <a href="../index.html">Home</a><br>
+            <a href="./progress.html">Progress</a> | <a href="./optimal.html">Build Optimizer</a> | <a href="../index.html">Home</a><br>
             <sub><i>Lazily slapped together by <b>PRIZ ;]</b>. No, it will not ever be pretty, nor work well on mobile</i></sub><br>
             <sup>Updated to MarioKart <b>v2.3.0</b>;</sup><br>
             <div class="shill green">
@@ -391,8 +391,8 @@
         </div>
         <div id="similar-builds">
             <h2>Other similar builds <button onclick="input_changed(this)">generate</button></h2>
-            <table id="others">
-            </table>
+            <div id="others" style="display: flex; flex-wrap: wrap;">
+            </div>
             <div id="just-a-sec" style="display:none">Just a sec, generating...</div>
             <div id="wait-for-done" style="display:none">Waiting for you to finish...</div>
             <div id="avoid-stall" style="display:none">To avoid stalling your browser, the search for similar builds has stopped here</div>

@@ -6,11 +6,11 @@ body {
 img:not(#logo):not(.compare):hover {
     background-color: #ccc;
     border-radius: 16px;
-} #compared img:first-child:hover {
+} body:not(.loading) .compare-contain img:first-child:hover {
     background-color: #faa;
     border-color: #f66;
     cursor: pointer;
-} #compared img:nth-child(2):hover {
+} body:not(.loading) .compare-contain img:nth-child(2):hover {
     background-color: #dda;
     border-color: #ff6;
     cursor: pointer;
@@ -49,34 +49,38 @@ img.char-img {
     border-radius: 16px;
 }
 @keyframes select-anim {
-    0% {
-        background-color: #ff8;
-    }
-    33% {
-        background-color: #fd8;
-    }
-    66% {
-        background-color: #ffa;
-    }
-    100% {
-        background-color: #ff8;
-    }
+    0% { background-color: #ff8; }
+    33% { background-color: #fd8; }
+    66% { background-color: #ffa; }
+    100% { background-color: #ff8; }
 }
 @keyframes select-hover-anim {
-    0% {
-        background-color: #8ff;
-    }
-    33% {
-        background-color: #8df;
-    }
-    66% {
-        background-color: #aff;
-    }
-    100% {
-        background-color: #8ff;
-    }
+    0% { background-color: #8ff; }
+    33% { background-color: #8df; }
+    66% { background-color: #aff; }
+    100% { background-color: #8ff; }
 }
 
+@keyframes select-diamond {
+    0% { fill: #08f; }
+    33% { fill: #8cf; }
+    66% { fill: #04f; }
+    100% { fill: #08f; }
+}
+
+@keyframes select-circle {
+    0% { fill: #fa0; }
+    33% { fill: #fc8; }
+    66% { fill: #f80; }
+    100% { fill: #fa0; }
+}
+
+@keyframes select-optimal {
+    0% { fill: #f08; }
+    33% { fill: #f8c; }
+    66% { fill: #f04; }
+    100% { fill: #f08; }
+}
 .kart-select img {
     display: block;
     width: 200px;
@@ -143,11 +147,11 @@ button {
     cursor: pointer;
 }
 
-#others img, #compared img {
+#others img, .compare-contain img {
     width: 96px;
     cursor: default;
-} #compared img:nth-child(-n+2) {
-    width: 32px;
+} .compare-contain img:nth-child(-n+2) {
+    width: 32px !important;
     padding: 4px;
     border-radius: 16px;
     border: 4px solid #0000;
@@ -181,6 +185,7 @@ button {
     padding: 8px;
     align-items: center;
     font-size: small;
+    min-width: 412px;
 }
 
 progress {
@@ -281,4 +286,52 @@ td.hr {
 
 img:has(+ img.select) {
     background-color: #000 !important;
+}
+
+#build-graph {
+    height: calc(100% - 24px);
+    min-height: 346px;
+    width: 512px;
+    border: 2px solid #ccc;
+    border-radius: 16px;
+} text {
+    font: normal 10px "Shin Go";
+} #build-graph line.axis {
+    stroke: black;
+} #build-graph line.bar {
+    stroke: #666;
+} #build-graph line.qtr {
+    stroke: #ddd;
+} #build-graph polygon {
+    fill: #08f;
+} #build-graph circle.optimal {
+    fill: #f08;
+    r: 5px;
+} body:not(.loading) circle, body:not(.loading) polygon {
+    cursor: pointer;
+} body.loading, body.loading * {
+    cursor: progress;
+} .compare-scroll {
+    display: flex;
+    width: 100%;
+    mask-image: linear-gradient(to right, #000, #000 90%, #0008 93%, #0000);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+} .compare-scroll .compare-contain:last-child {
+    margin-right: 412px;
+} .compare-scroll .compare-contain {
+    scroll-margin: 0px;
+    scroll-snap-align: start;
+} #current-build .compare-contain img:nth-child(-n+2) {
+    display: none;
+}
+
+
+#build-graph polygon.selected {
+    animation: select-diamond 0.5s infinite ease-in-out;
+} #build-graph circle.selected {
+    animation: select-circle 0.5s infinite ease-in-out;
+    r: 8px;
+} #build-graph circle.optimal.selected {
+    animation: select-optimal 0.5s infinite ease-in-out;
 }

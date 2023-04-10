@@ -68,18 +68,20 @@ function calculate_this(char, body, wheel, kite) {
     return [speed, accel, weight, handle, trxn];
 }
 
+function get_name(img) {
+    return img.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
+}
 
 function input_changed(natural = 0) {
     window.clearTimeout(similar_builds_timeout);
-    for(var elem of $$("#others tr"))
-        elem.remove();
+    $("#others").innerHTML = "";
 
     if(!natural) {
         for(var sel of $$(".select"))
             sel.classList.remove("select");
     }
 
-    var table = $("#others")
+    var block = $("#others")
 
     var speed, accel, weight, handle, trxn;
     var b_speed, b_accel, b_weight, b_handle, b_trxn;
@@ -118,13 +120,15 @@ function input_changed(natural = 0) {
                    (check_trxn ? "_" : trxn);
 
     var valid_combos = []
-    if(!cache_results[cache_st]) {
+    if(!cache_results[cache_st] || $(".nuzlocke")) {
         if(match_char || match_kart || match_kite || match_wheel) {
             var ls = [];
             var ls_char = match_char ? [current_char] : Object.keys(chars);
             var ls_kart = match_kart ? [current_body] : Object.keys(karts);
             var ls_kite = match_kite ? [current_kite] : Object.keys(kites);
             var ls_wheel = match_wheel ? [current_wheel] : Object.keys(wheels);
+
+
             for(var char of ls_char) {
                 for(var kart of ls_kart) {
                     for(var wheel of ls_wheel) {
@@ -139,6 +143,20 @@ function input_changed(natural = 0) {
         }
         var time = new Date();
         $("#avoid-stall").style.display = "none";
+
+        // Remove nuzlocke'd karts
+        for(var c of $$("#char .nuzlocke"))
+            if(valid_chars.includes(get_name(c)))
+                valid_chars.splice(valid_chars.indexOf(get_name(c)), 1);
+        for(var c of $$("#body .nuzlocke"))
+            if(valid_karts.includes(get_name(c)))
+                valid_karts.splice(valid_karts.indexOf(get_name(c)), 1);
+        for(var c of $$("#wheel .nuzlocke"))
+            if(valid_wheels.includes(get_name(c)))
+                valid_wheels.splice(valid_wheels.indexOf(get_name(c)), 1);
+        for(var c of $$("#kite .nuzlocke"))
+            if(valid_kites.includes(get_name(c)))
+                valid_kites.splice(valid_kites.indexOf(get_name(c)), 1);
 
         for(var stats in cache_stats) {
             [b_speed, b_accel, b_weight, b_handle, b_trxn] = stats.split(/\+/g);
@@ -186,32 +204,9 @@ function input_changed(natural = 0) {
             continue;
         completed_combos.push(combo);
 
-        [z_char, z_kart, z_wheel, z_kite] = combo.split(/\+/g);
-        var row = $("#others").insertRow();
+        block.appendChild(add_build_compare(...combo.split(/\+/g), 1));
 
-        // character
-        var cell = row.insertCell();
-        cell.innerHTML = $(`#char [data-src*='/${z_char}.webp']`).outerHTML;
-
-
-        // kart
-        cell = row.insertCell();
-        cell.innerHTML = $(`#body [data-src*='/${z_kart}.webp']`).outerHTML;
-        if(alts["body"].includes(z_kart))
-            cell.children[0].src = `./img/karts/body/alt/${z_kart}/${z_char}.webp`;
-
-        // wheel
-        cell = row.insertCell();
-        cell.innerHTML = $(`#wheel [data-src*='/${z_wheel}.webp']`).outerHTML;
-
-        // kite
-        cell = row.insertCell();
-        cell.innerHTML = $(`#kite [data-src*='/${z_kite}.webp']`).outerHTML;
-        if(alts["kite"].includes(z_kite))
-            cell.children[0].src = `./img/karts/kite/alt/${z_kite}/${z_char}.webp`;
-
-
-        if(table.rows.length >= 256) {
+        if(block.children.length >= 64) {
             $("#avoid-stall").style.display = "";
             break;
         }
@@ -221,8 +216,12 @@ function input_changed(natural = 0) {
         sel.classList.remove("select");
     for(var img of $$("#others img"))
         img.onclick = (evt) => select_match(evt.currentTarget);
-    if(table.rows.length == 0) {
-        table.insertRow().insertCell().innerHTML = "[no matches] [" + Math.floor(Math.random() * 65536).toString(16).padStart(4, "0") + "]";
+    if(block.children.length == 0) {
+        block.innerHTML = "<div>There were no matches with that set of criteria.<br>" +
+                          "If you think your browser is stalled, this code shouldn't change between cycles: " +
+                          Math.floor(Math.random() * 65536).toString(16).padStart(4, "0") +
+                          ($(".nuzlocke") ? "<br><b>Perhaps a part of your build is killed by Nuzlocke.</b>" : "") +
+                          "</div>";
     }
 
     $("#wait-for-done").style.display = "none";
@@ -230,8 +229,7 @@ function input_changed(natural = 0) {
 }
 
 function list_timeout() {
-    for(var elem of $$("#others tr"))
-        elem.remove();
+    $("#others").innerHTML = "";
     window.clearTimeout(similar_builds_timeout);
     $("#wait-for-done").style.display = "";
     $("#just-a-sec").style.display = "none";
@@ -255,10 +253,10 @@ function calculate() {
     try {
         [speed, accel, weight, handle, trxn] = cache_combo[`${current_char}+${current_body}+${current_wheel}+${current_kite}`];
     } catch(err) {
-        current_char = $("#char .select").dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-        current_body = $("#body .select").dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-        current_wheel = $("#wheel .select").dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-        current_kite = $("#kite .select").dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
+        current_char = get_name($("#char .select"));
+        current_body = get_name($("#body .select"));
+        current_wheel = get_name($("#wheel .select"));
+        current_kite = get_name($("#kite .select"));
         try {
             [speed, accel, weight, handle, trxn] = cache_combo[`${current_char}+${current_body}+${current_wheel}+${current_kite}`];
         } catch(err) {
@@ -306,21 +304,26 @@ function select_item(elem) {
     elem.classList.add("select");
 
 
+    try {
+        elem_name = elem.className.includes("nuzlocke") ? "<s><i>&nbsp;" + elem.title + " </i></s>" : elem.title;
+    } catch(err) {
+        elem_name = "";
+    }
     if(parent.id == "char") {
-        current_char = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
+        current_char = get_name(elem);
         for(var alt of alts["body"])
             for(var q of $$(`#body [data-src*='/${alt}.webp']`))
                 q.src = `./img/karts/body/alt/${alt}/${current_char}.webp`
         for(var alt of alts["kite"])
             for(var q of $$(`#kite [data-src*='/${alt}.webp']`))
                 q.src = `./img/karts/kite/alt/${alt}/${current_char}.webp`
-        $("#char-name span").innerHTML = elem.title;
+        $("#char-name span").innerHTML = elem_name;
         return calculate();
     }
 
     if(parent.id == "body") {
-        current_body = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-        $("#body-name span").innerHTML = elem.title;
+        current_body = get_name(elem);
+        $("#body-name span").innerHTML = elem_name;
         for(var type in kart_classes) {
             if(kart_classes[type].includes(current_body))
                 $("#kart-class").textContent = type;
@@ -328,13 +331,13 @@ function select_item(elem) {
         scroll_column("body", current_body);
     }
     else if(parent.id == "wheel") {
-        current_wheel = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-        $("#wheel-name span").innerHTML = elem.title;
+        current_wheel = get_name(elem);
+        $("#wheel-name span").innerHTML = elem_name;
         scroll_column("wheel", current_wheel);
     }
     else if(parent.id == "kite") {
-        current_kite = elem.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-        $("#kite-name span").innerHTML = elem.title;
+        current_kite = get_name(elem);
+        $("#kite-name span").innerHTML = elem_name;
         scroll_column("kite", current_kite);
     }
 
@@ -954,17 +957,17 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
     if(alts["body"].includes(kart_name))
         $(".compare-contain:last-child img:nth-child(6)").src = `./img/karts/body/alt/${kart_name}/${char_name}.webp`;
     if(skip)
-        return
+        return $("#compared").lastElementChild;
     store_compare();
     localStorage.setItem("mkzx_compare_" + V, JSON.stringify(current_compare));
 }
 
 function compare_select(evt) {
     imgs = evt.currentTarget.parentElement.querySelectorAll("img");
-    current_char = imgs[2].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-    current_body = imgs[3].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-    current_wheel = imgs[4].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-    current_kite = imgs[5].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
+    current_char = get_name(imgs[2]);
+    current_body = get_name(imgs[3]);
+    current_wheel = get_name(imgs[4]);
+    current_kite = get_name(imgs[5]);
     select_match();
 }
 

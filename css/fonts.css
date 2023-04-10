@@ -143,6 +143,9 @@ input[type="radio"] {
 } .shill.grey {
     --edge: #888;
     --bg: #efefef;
+} .shill.yellow {
+    --edge: #fa4;
+    --bg: #ffa;
 }
 
 t {

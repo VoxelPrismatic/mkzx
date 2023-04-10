@@ -1014,3 +1014,9 @@ window.setTimeout(prepare_scroll, 100);
 $("#nuzlocke-rng").value = "-";
 $("#nuzlocke-kill").value = "-";
 $("#nuzlocke-resurrect").value = "-";
+
+if(!window.navigator.userAgent.includes("Firefox")) {
+    $("#logo").outerHTML += `<div class="shill yellow">
+<b>Note:</b> This tool works best in Firefox, and is largely untested in chrome. Please consider switching.
+</div>`;
+}

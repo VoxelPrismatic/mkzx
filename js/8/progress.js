@@ -231,3 +231,9 @@ get_data();
 for(var q of $$("input + label")) {
     q.onclick = (evt) => { evt.currentTarget.previousElementSibling.click(); }
 }
+
+if(!window.navigator.userAgent.includes("Firefox")) {
+    $("#logo").outerHTML += `<div class="shill yellow">
+<b>Note:</b> This tool works best in Firefox, and is largely untested in chrome. Please consider switching.
+</div>`;
+}

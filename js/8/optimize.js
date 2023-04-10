@@ -579,3 +579,8 @@ begin_retrieve();
 build_graph();
 
 window.onresize = (evt) => build_graph();
+if(!window.navigator.userAgent.includes("Firefox")) {
+    $("#logo").outerHTML += `<div class="shill yellow">
+<b>Note:</b> This tool works best in Firefox, and is largely untested in chrome. Please consider switching.
+</div>`;
+}

@@ -559,6 +559,7 @@ function begin_retrieve() {
     $("#plot-wheel-text").textContent = imgs[4].title;
     $("#plot-kite-text").textContent = imgs[5].title;
     localStorage.setItem(V + "_combo", JSON.stringify([current_char, current_body, current_wheel, current_kite]))
+    plot_points();
     generate_matches();
 }
 

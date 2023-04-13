@@ -106,7 +106,7 @@ function construct_svg_vars() {
     SVG_VARS.AX.step_horiz = SVG_VARS.AX.bottom / SVG_VARS.COUNT;
     SVG_VARS.AX.step_vert = SVG_VARS.AX.width / SVG_VARS.COUNT;
 }
-
+construct_svg_vars();
 var plotted = {};
 var plot_pts = {};
 var current_stats = [];

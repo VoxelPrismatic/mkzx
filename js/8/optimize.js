@@ -251,6 +251,15 @@ function plot_points() {
     }
 }
 
+function select_parts(build, block, current, plot_only) {
+    for(var item of block) {
+        if(plot_only && item != current || build.includes(item))
+            continue
+        build.push(item);
+    }
+    return build;
+}
+
 function push_builds(ls, block) {
     var builds = [];
     var var0 = $("#var0").value;
@@ -262,27 +271,25 @@ function push_builds(ls, block) {
     var plot_only_wheel = $("#plot-only-wheel").checked;
     var plot_only_kite = $("#plot-only-kite").checked;
 
-
+    var build_char = [];
+    var build_kart = [];
+    var build_wheel = [];
+    var build_kite = [];
     for(var q of ls) {
         var char_set, kart_set, wheel_set, kite_set;
         for(var combo of plotted[q]) {
             [char_set, kart_set, wheel_set, kite_set] = combo;
-            for(var char of char_set) {
-                if(plot_only_char && char != current_char)
-                    continue;
-                for(var kart of kart_set) {
-                    if(plot_only_kart && kart != current_body)
-                        continue;
-                    for(var wheel of wheel_set) {
-                        if(plot_only_wheel && wheel != current_wheel)
-                            continue;
-                        for(var kite of kite_set) {
-                            if(plot_only_kite && kite != current_kite)
-                                continue;
-                            if(!builds.includes(char + "+" + kart + "+" + wheel + "+" + kite))
-                                builds.push(char + "+" + kart + "+" + wheel + "+" + kite);
-                        }
-                    }
+            select_parts(build_char, char_set, current_char, plot_only_char);
+            select_parts(build_kart, kart_set, current_body, plot_only_kart);
+            select_parts(build_wheel, wheel_set, current_wheel, plot_only_wheel);
+            select_parts(build_kite, kite_set, current_kite, plot_only_kite);
+        }
+    }
+    for(var char of build_char) {
+        for(var kart of build_kart) {
+            for(var wheel of build_wheel) {
+                for(var kite of build_kite) {
+                    builds.push(char + "+" + kart + "+" + wheel + "+" + kite);
                 }
             }
         }
@@ -563,6 +570,11 @@ function begin_retrieve() {
     generate_matches();
 }
 
+function plot_gen() {
+    plot_points();
+    generate_matches();
+}
+
 function compare_select(evt) {
     imgs = evt.currentTarget.parentElement.querySelectorAll("img");
     current_char = imgs[2].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
@@ -571,6 +583,11 @@ function compare_select(evt) {
     current_kite = imgs[5].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
     begin_retrieve();
 }
+
+$("#plot-only-char").onclick = () => plot_gen();
+$("#plot-only-kart").onclick = () => plot_gen();
+$("#plot-only-wheel").onclick = () => plot_gen();
+$("#plot-only-kite").onclick = () => plot_gen();
 
 for(var q of $$("input + label")) {
     q.onclick = (evt) => { evt.currentTarget.previousElementSibling.click(); }

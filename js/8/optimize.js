@@ -13,6 +13,10 @@ var cache_results = {};
 var cache_similar = {};
 var cache_cards = {};
 
+function get_name(img) {
+    return img.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
+}
+
 var last_build = JSON.parse(localStorage.getItem(V + "_combo") || '["Mario","StandardKart","Standard","SuperGlider"]');
 [current_char, current_body, current_wheel, current_kite] = last_build;
 
@@ -142,6 +146,8 @@ function plot_points() {
     optimal_stats = [];
     superior_stats = [];
 
+    var seen_pts = [];
+
     for(var char_set of group_chars) {
         var char_val0 = chars[char_set[0]][Y[var0]];
         var char_val1 = chars[char_set[0]][Y[var1]];
@@ -176,9 +182,10 @@ function plot_points() {
 
                     var new_point = false;
 
-                    if(!plotted[ttl_st]) {
+                    if(!plotted[ttl_st] || !seen_pts.includes(ttl_st)) {
                         plotted[ttl_st] = [];
                         new_point = true;
+                        seen_pts.push(ttl_st);
                     }
 
                     var build_exists = false;
@@ -195,7 +202,7 @@ function plot_points() {
                         break;
                     }
                     if(!build_exists)
-                        plotted[ttl_st].push([char_set, kart_set, wheel_set, kite_set]);
+                        plotted[ttl_st].push([char_set.slice(0), kart_set.slice(0), wheel_set.slice(0), kite_set.slice(0)]);
 
                     var cx = SVG_VARS.AX.width * (ttl_val0 / SVG_VARS.BARS) + SVG_VARS.margin;
                     var cy = SVG_VARS.AX.bottom - (SVG_VARS.AX.bottom * (ttl_val1 / SVG_VARS.BARS));
@@ -231,8 +238,8 @@ function plot_points() {
         }
     }
     for(var pt in plot_pts) {
-        var ttl_val0 = Number(pt.split("+")[0]);
-        var ttl_val1 = Number(pt.split("+")[1]);
+        var ttl_val0 = Number(pt.split(/\+/g)[0]);
+        var ttl_val1 = Number(pt.split(/\+/g)[1]);
         var skip = false;
         for(var ttl_add = 0.25; ttl_add < 6; ttl_add += 0.25) {
             var tmp_val0 = ttl_val0 + ttl_add;
@@ -251,40 +258,14 @@ function plot_points() {
     }
 }
 
-function select_parts(build, block, current, plot_only) {
-    for(var item of block) {
-        if(plot_only && item != current || build.includes(item))
-            continue
-        build.push(item);
-    }
-    return build;
+function select_parts(block, current, plot_only) {
+    if(plot_only)
+        return (block.includes(current) ? [current] : []);
+
+    return block;
 }
 
-function push_builds(ls, block) {
-    var builds = [];
-    var var0 = $("#var0").value;
-    var var1 = $("#var1").value;
-    builds = [];
-
-    var plot_only_char = $("#plot-only-char").checked;
-    var plot_only_kart = $("#plot-only-kart").checked;
-    var plot_only_wheel = $("#plot-only-wheel").checked;
-    var plot_only_kite = $("#plot-only-kite").checked;
-
-    var build_char = [];
-    var build_kart = [];
-    var build_wheel = [];
-    var build_kite = [];
-    for(var q of ls) {
-        var char_set, kart_set, wheel_set, kite_set;
-        for(var combo of plotted[q]) {
-            [char_set, kart_set, wheel_set, kite_set] = combo;
-            select_parts(build_char, char_set, current_char, plot_only_char);
-            select_parts(build_kart, kart_set, current_body, plot_only_kart);
-            select_parts(build_wheel, wheel_set, current_wheel, plot_only_wheel);
-            select_parts(build_kite, kite_set, current_kite, plot_only_kite);
-        }
-    }
+function push_parts(builds, build_char, build_kart, build_wheel, build_kite) {
     for(var char of build_char) {
         for(var kart of build_kart) {
             for(var wheel of build_wheel) {
@@ -294,6 +275,43 @@ function push_builds(ls, block) {
             }
         }
     }
+    return builds;
+}
+
+var cache_builds = {}
+
+function push_builds(ls, block) {
+    var builds = [];
+    builds = [];
+
+    var var_st = $("#var0").value + $("#var1").value;
+
+    var plot_only_char = $("#plot-only-char").checked;
+    var plot_only_kart = $("#plot-only-kart").checked;
+    var plot_only_wheel = $("#plot-only-wheel").checked;
+    var plot_only_kite = $("#plot-only-kite").checked;
+
+    var char_set, kart_set, wheel_set, kite_set;
+
+    console.time("Generate builds")
+    for(var q of ls) {
+        if(cache_builds[q + "+" + var_st]) {
+            builds.push(...cache_builds[q + "+" + var_st]);
+            continue
+        }
+        var build_set = [];
+        for(var combo of plotted[q]) {
+            [char_set, kart_set, wheel_set, kite_set] = combo;
+            build_char = select_parts(char_set, current_char, plot_only_char);
+            build_kart = select_parts(kart_set, current_body, plot_only_kart);
+            build_wheel = select_parts(wheel_set, current_wheel, plot_only_wheel);
+            build_kite = select_parts(kite_set, current_kite, plot_only_kite);
+            push_parts(build_set, build_char, build_kart, build_wheel, build_kite);
+        }
+        cache_builds[q + "+" + var_st] = build_set;
+        builds.extend(...build_set);
+    }
+    console.timeEnd("Generate builds")
 
     var block_elem = $("#" + block);
     var l = Math.min(32, builds.length);
@@ -405,145 +423,160 @@ function remove_compare(evt) {
     evt.currentTarget.parentElement.parentElement.remove();
 }
 
-function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
-    if($("#compared").children.length >= 32) {
-        return window.alert("You can only compare 32 karts at once. Delete a few to continue.")
+var img_elems = {
+    "char": {},
+    "body": {},
+    "wheel": {},
+    "kite": {}
+}
+function generate_image_dict() {
+    for(var p in chars) {
+        var elem = $(`#char img[data-src*='/${p}.webp']`);
+        var name = get_name(elem);
+        var html = `<img class="char-img compare" data-src="${elem.dataset.src}" title="${elem.title}" src="${elem.src}"/><br>`;
+        img_elems["char"][p] = [elem, name, html];
     }
+    for(var p in karts) {
+        var elem = $(`#body img[data-src*='/${p}.webp']`);
+        var name = get_name(elem);
+        var html = `<img class="char-img compare" data-src="${elem.dataset.src}" title="${elem.title}" src="${elem.src}"/><br>`;
+        img_elems["body"][p] = [elem, name, html];
+    }
+    for(var p in wheels) {
+        var elem = $(`#wheel img[data-src*='/${p}.webp']`);
+        var name = get_name(elem);
+        var html = `<img class="char-img compare" data-src="${elem.dataset.src}" title="${elem.title}" src="${elem.src}"/><br>`;
+        img_elems["wheel"][p] = [elem, name, html];
+    }
+    for(var p in kites) {
+        var elem = $(`#kite img[data-src*='/${p}.webp']`);
+        var name = get_name(elem);
+        var html = `<img class="char-img compare" data-src="${elem.dataset.src}" title="${elem.title}" src="${elem.src}"/>`;
+        img_elems["kite"][p] = [elem, name, html];
+    }
+}
 
+generate_image_dict();
+
+function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
     if(cache_cards[w_char + "+" + w_body + "+" + w_wheel + "+" + w_kite]) {
         $("#compared").innerHTML += cache_cards[w_char + "+" + w_body + "+" + w_wheel + "+" + w_kite];
         return $("#compared").children[0];
     }
 
-    if(w_char)
-        var elem_char = $(`#char img[data-src*='/${w_char}.webp']`);
-    else
-        var elem_char = $("#char .select");
-    if(w_body)
-        var elem_kart = $(`#body img[data-src*='/${w_body}.webp']`);
-    else
-        var elem_kart = $("#body .select");
-    if(w_wheel)
-        var elem_wheel = $(`#wheel img[data-src*='/${w_wheel}.webp']`);
-    else
-        var elem_wheel = $("#wheel .select");
-    if(w_kite)
-        var elem_kite = $(`#kite img[data-src*='/${w_kite}.webp']`);
-    else
-        var elem_kite = $("#kite .select");
+    var elem_char, elem_kart, elem_wheel, elem_kite;
+    var char_name, kart_name, wheel_name, kite_name;
+    var char_html, kart_html, wheel_html, kite_html;
 
-    var char_name = elem_char.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-    var kart_name = elem_kart.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-    var wheel_name = elem_wheel.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-    var kite_name = elem_kite.dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
+    [elem_char, char_name, char_html] = img_elems["char"][w_char];
+    [elem_kart, kart_name, kart_html] = img_elems["body"][w_body];
+    [elem_wheel, wheel_name, wheel_html] = img_elems["wheel"][w_wheel];
+    [elem_kite, kite_name, kite_html] = img_elems["kite"][w_kite];
 
     var sums = new Array(14);
     for(var i = 0; i < 14; i++)
         sums[i] = chars[char_name][i] + karts[kart_name][i] + wheels[wheel_name][i] + kites[kite_name][i];
 
-    $("#compared").innerHTML += `
-    <div style="display: flex" class="compare-contain">
-        <div>
-            <img class="compare" data-src="../img/rm-compare.svg" title="Remove build" src="../img/rm-compare.svg" onclick="remove_compare(event)"/>
-            <img class="compare" data-src="../img/sel-compare.svg" title="Select build" src="../img/sel-compare.svg" onclick="compare_select(event)"/><br>
-            <img class="char-img compare" data-src="${elem_char.dataset.src}" title="${elem_char.title}" src="${elem_char.src}"/><br>
-            <img class="char-img compare" data-src="${elem_kart.dataset.src}" title="${elem_kart.title}" src="${elem_kart.src}"/><br>
-            <img class="char-img compare" data-src="${elem_wheel.dataset.src}" title="${elem_wheel.title}" src="${elem_wheel.src}"/><br>
-            <img class="char-img compare" data-src="${elem_kite.dataset.src}" title="${elem_kite.title}" src="${elem_kite.src}"/>
-        </div>
-        <div>
-            <table>
-                <tr>
-                    <td><b>Speed:</b> Ground</td>
-                    <td><progress value="${S(sums[Y.SL]) / 6}" q="SL"></progress></td>
-                    <td> ${D(sums[Y.SL])}</td>
-                </tr>
-                <tr>
-                    <td><b>Speed:</b> Water</td>
-                    <td><progress value="${S(sums[Y.SW]) / 6}" q="SW"></progress></td>
-                    <td>${D(sums[Y.SW])}</td>
-                </tr>
-                <tr>
-                    <td><b>Speed:</b> Air</td>
-                    <td><progress value="${S(sums[Y.SG]) / 6}" q="SG"></progress></td>
-                    <td>${D(sums[Y.SG])}</td>
-                </tr>
-                <tr>
-                    <td><b>Speed:</b> Anti-Grav</td>
-                    <td><progress value="${S(sums[Y.SA]) / 6}" q="SA"></progress></td>
-                    <td>${D(sums[Y.SA])}</td>
-                </tr>
-                <tr>
-                    <td class="hr" colspan="3">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td><b>Acceleration</b></td>
-                    <td><progress value="${S(sums[Y.AC]) / 6}" q="AC"></progress></td>
-                    <td>${D(sums[Y.AC])}</td>
-                </tr>
-                <tr>
-                    <td class="hr" colspan="3">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td><b>Weight</b></td>
-                    <td><progress value="${S(sums[Y.WG]) / 6}" q="WG"></progress></td>
-                    <td>${D(sums[Y.WG])}</td>
-                </tr>
-                <tr>
-                    <td class="hr" colspan="3">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td><b>Handle:</b> Ground</td>
-                    <td><progress value="${S(sums[Y.TL]) / 6}" q="TL"></progress></td>
-                    <td> ${D(sums[Y.TL])}</td>
-                </tr>
-                <tr>
-                    <td><b>Handle:</b> Water</td>
-                    <td><progress value="${S(sums[Y.TW]) / 6}" q="TW"></progress></td>
-                    <td>${D(sums[Y.TW])}</td>
-                </tr>
-                <tr>
-                    <td><b>Handle:</b> Air</td>
-                    <td><progress value="${S(sums[Y.TG]) / 6}" q="TG"></progress></td>
-                    <td>${D(sums[Y.TG])}</td>
-                </tr>
-                <tr>
-                    <td><b>Handle:</b> Anti-Grav</td>
-                    <td><progress value="${S(sums[Y.TA]) / 6}" q="TA"></progress></td>
-                    <td>${D(sums[Y.TA])}</td>
-                </tr>
-                <tr>
-                    <td class="hr" colspan="3">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td><b>Traction:</b> On Road</td>
-                    <td><progress value="${S(sums[Y.ON]) / 6}" q="ON"></progress></td>
-                    <td>${D(sums[Y.ON])}</td>
-                </tr>
-                <tr>
-                    <td><b>Traction:</b> Off Road</td>
-                    <td><progress value="${S(sums[Y.OF]) / 6}" q="OF"></progress></td>
-                    <td>${D(sums[Y.OF])}</td>
-                </tr>
-                <tr>
-                    <td class="hr" colspan="3">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td><b>Mini Turbo</b></td>
-                    <td><progress value="${S(sums[Y.MT]) / 6}" q="MT"></progress></td>
-                    <td>${D(sums[Y.MT])}</td>
-                </tr>
-                <tr ${IFRAMES ? '' : "style='display: none'"}>
-                    <td class="hr" colspan="3">&nbsp;</td>
-                </tr>
-                <tr ${IFRAMES ? '' : "style='display: none'"}>
-                    <td><b>Invincibility</b></td>
-                    <td><progress value="${S(sums[Y.IF]) / 6}" q="IF"></progress></td>
-                    <td>${D(sums[Y.IF])}</td>
-                </tr>
-            </table>
-        </div>
-    </div>`;
+    $("#compared").innerHTML += `\
+<div style="display: flex" class="compare-contain">
+    <div>
+        <img class="compare" data-src="../img/rm-compare.svg" title="Remove build" src="../img/rm-compare.svg" onclick="remove_compare(event)"/>
+        <img class="compare" data-src="../img/sel-compare.svg" title="Select build" src="../img/sel-compare.svg" onclick="compare_select(event)"/><br>
+        ${char_html} ${kart_html} ${wheel_html} ${kite_html}
+    </div>
+    <div>
+        <table>
+            <tr>
+                <td><b>Speed:</b> Ground</td>
+                <td><progress value="${S(sums[Y.SL]) / 6}" q="SL"></progress></td>
+                <td> ${D(sums[Y.SL])}</td>
+            </tr>
+            <tr>
+                <td><b>Speed:</b> Water</td>
+                <td><progress value="${S(sums[Y.SW]) / 6}" q="SW"></progress></td>
+                <td>${D(sums[Y.SW])}</td>
+            </tr>
+            <tr>
+                <td><b>Speed:</b> Air</td>
+                <td><progress value="${S(sums[Y.SG]) / 6}" q="SG"></progress></td>
+                <td>${D(sums[Y.SG])}</td>
+            </tr>
+            <tr>
+                <td><b>Speed:</b> Anti-Grav</td>
+                <td><progress value="${S(sums[Y.SA]) / 6}" q="SA"></progress></td>
+                <td>${D(sums[Y.SA])}</td>
+            </tr>
+            <tr>
+                <td class="hr" colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+                <td><b>Acceleration</b></td>
+                <td><progress value="${S(sums[Y.AC]) / 6}" q="AC"></progress></td>
+                <td>${D(sums[Y.AC])}</td>
+            </tr>
+            <tr>
+                <td class="hr" colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+                <td><b>Weight</b></td>
+                <td><progress value="${S(sums[Y.WG]) / 6}" q="WG"></progress></td>
+                <td>${D(sums[Y.WG])}</td>
+            </tr>
+            <tr>
+                <td class="hr" colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+                <td><b>Handle:</b> Ground</td>
+                <td><progress value="${S(sums[Y.TL]) / 6}" q="TL"></progress></td>
+                <td> ${D(sums[Y.TL])}</td>
+            </tr>
+            <tr>
+                <td><b>Handle:</b> Water</td>
+                <td><progress value="${S(sums[Y.TW]) / 6}" q="TW"></progress></td>
+                <td>${D(sums[Y.TW])}</td>
+            </tr>
+            <tr>
+                <td><b>Handle:</b> Air</td>
+                <td><progress value="${S(sums[Y.TG]) / 6}" q="TG"></progress></td>
+                <td>${D(sums[Y.TG])}</td>
+            </tr>
+            <tr>
+                <td><b>Handle:</b> Anti-Grav</td>
+                <td><progress value="${S(sums[Y.TA]) / 6}" q="TA"></progress></td>
+                <td>${D(sums[Y.TA])}</td>
+            </tr>
+            <tr>
+                <td class="hr" colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+                <td><b>Traction:</b> On Road</td>
+                <td><progress value="${S(sums[Y.ON]) / 6}" q="ON"></progress></td>
+                <td>${D(sums[Y.ON])}</td>
+            </tr>
+            <tr>
+                <td><b>Traction:</b> Off Road</td>
+                <td><progress value="${S(sums[Y.OF]) / 6}" q="OF"></progress></td>
+                <td>${D(sums[Y.OF])}</td>
+            </tr>
+            <tr>
+                <td class="hr" colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+                <td><b>Mini Turbo</b></td>
+                <td><progress value="${S(sums[Y.MT]) / 6}" q="MT"></progress></td>
+                <td>${D(sums[Y.MT])}</td>
+            </tr>
+            <tr ${IFRAMES ? '' : "style='display: none'"}>
+                <td class="hr" colspan="3">&nbsp;</td>
+            </tr>
+            <tr ${IFRAMES ? '' : "style='display: none'"}>
+                <td><b>Invincibility</b></td>
+                <td><progress value="${S(sums[Y.IF]) / 6}" q="IF"></progress></td>
+                <td>${D(sums[Y.IF])}</td>
+            </tr>
+        </table>
+    </div>
+</div>`;
 
     if(alts["kite"].includes(kite_name))
         $("#compared .compare-contain:last-child img:last-child").src = `./img/karts/kite/alt/${kite_name}/${char_name}.webp`;
@@ -577,10 +610,10 @@ function plot_gen() {
 
 function compare_select(evt) {
     imgs = evt.currentTarget.parentElement.querySelectorAll("img");
-    current_char = imgs[2].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-    current_body = imgs[3].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-    current_wheel = imgs[4].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
-    current_kite = imgs[5].dataset.src.split(/\//g).slice(-1)[0].split(".webp")[0];
+    current_char = get_name(imgs[2]);
+    current_body = get_name(imgs[3]);
+    current_wheel = get_name(imgs[4]);
+    current_kite = get_name(imgs[5]);
     begin_retrieve();
 }
 

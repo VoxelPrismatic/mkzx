@@ -8,6 +8,8 @@ function compute_layer_sum() {
     layer_cups = 0n;
     layer_tt = 0n;
     for(var item of $$("td[id*='trophy_']")) {
+        if(V != "mk8dx" && item.id.includes("200cc"))
+            continue;
         layer_cups *= 8n;
         switch(item.dataset.cup) {
             case "N":
@@ -36,6 +38,8 @@ function compute_layer_sum() {
         }
     }
     for(var item of $$("td input[id*='_tt_']")) {
+        if(V != "mk8dx" && item.id.includes("200cc"))
+            continue;
         layer_tt *= 2n;
         layer_tt += item.checked ? 1n : 0n;
     }
@@ -309,6 +313,8 @@ function restore_from_shared() {
         ls.push(item)
     ls.reverse();
     for(var elem of ls) {
+        if(V != "mk8dx" && item.id.includes("200cc"));
+            continue;
         elem.dataset.cup = previous[layered_cups % 8n];
         rotate_progress(elem, 0);
         layered_cups /= 8n;
@@ -319,6 +325,8 @@ function restore_from_shared() {
         ls.push(item)
     ls.reverse();
     for(var elem of ls) {
+        if(V != "mk8dx" && item.id.includes("200cc"))
+            continue;
         elem.checked = layered_tt % 2n;
         layered_tt /= 2n;
     }

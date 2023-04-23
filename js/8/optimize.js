@@ -278,13 +278,9 @@ function push_parts(builds, build_char, build_kart, build_wheel, build_kite) {
     return builds;
 }
 
-var cache_builds = {}
-
 function push_builds(ls, block) {
     var builds = [];
     builds = [];
-
-    var var_st = $("#var0").value + $("#var1").value;
 
     var plot_only_char = $("#plot-only-char").checked;
     var plot_only_kart = $("#plot-only-kart").checked;
@@ -294,21 +290,14 @@ function push_builds(ls, block) {
     var char_set, kart_set, wheel_set, kite_set;
 
     for(var q of ls) {
-        if(cache_builds[q + "+" + var_st]) {
-            builds.push(...cache_builds[q + "+" + var_st]);
-            continue
-        }
-        var build_set = [];
         for(var combo of plotted[q]) {
             [char_set, kart_set, wheel_set, kite_set] = combo;
             build_char = select_parts(char_set, current_char, plot_only_char);
             build_kart = select_parts(kart_set, current_body, plot_only_kart);
             build_wheel = select_parts(wheel_set, current_wheel, plot_only_wheel);
             build_kite = select_parts(kite_set, current_kite, plot_only_kite);
-            push_parts(build_set, build_char, build_kart, build_wheel, build_kite);
+            push_parts(builds, build_char, build_kart, build_wheel, build_kite);
         }
-        cache_builds[q + "+" + var_st] = build_set;
-        builds.push(...build_set);
     }
 
     var block_elem = $("#" + block);

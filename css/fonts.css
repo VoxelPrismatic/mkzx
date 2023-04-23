@@ -242,6 +242,9 @@ input[type="radio"] {
 } .shill.yellow {
     --edge: #fa4;
     --bg: #ffa;
+} .shill.orange {
+    --edge: #f62;
+    --bg: #fca;
 }
 
 t {

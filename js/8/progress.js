@@ -1,6 +1,46 @@
 function $(q, e = document) { return e.querySelector(q); }
 function $$(q, e = document) { return e.querySelectorAll(q); }
 
+var layer_cups = 0n;
+var layer_tt = 0n;
+
+function compute_layer_sum() {
+    layer_cups = 0n;
+    layer_tt = 0n;
+    for(var item of $$("td[id*='trophy_']")) {
+        layer_cups *= 8n;
+        switch(item.dataset.cup) {
+            case "N":
+                layer_cups += 0b000n;
+                break
+            case "B":
+                layer_cups += 0b001n;
+                break;
+            case "S":
+                layer_cups += 0b010n;
+                break;
+            case "G0":
+                layer_cups += 0b100n;
+                break
+            case "G1":
+                layer_cups += 0b101n;
+                break;
+            case "G2":
+                layer_cups += 0b110n;
+                break;
+            case "G3":
+                layer_cups += 0b111n;
+                break;
+            default:
+                console.warn("Cup item doesn't exist:", item.dataset.cup);
+        }
+    }
+    for(var item of $$("td input[id*='_tt_']")) {
+        layer_tt *= 2n;
+        layer_tt += item.checked ? 1n : 0n;
+    }
+}
+
 function get_data() {
     try {
         data = JSON.parse(localStorage.getItem(V + "_progress"))
@@ -57,6 +97,16 @@ function get_data() {
         n++;
     }
     update_table();
+    compute_layer_sum();
+}
+
+const digits64 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_";
+function to64(n) {
+    return n.toString(2).split(/(?=(?:.{6})+(?!.))/g).map(v=>digits64[parseInt(v,2)]).join("");
+}
+
+function from64(n) {
+    return n.split("").reduce((s,v)=>s*64n+BigInt(digits64.indexOf(v)),0n);
 }
 
 function store_data() {
@@ -84,7 +134,11 @@ function store_data() {
     for(var elem of $$("[id*='tt_200cc']"))
         data['tt_200cc'].push(Number(elem.checked));
 
-    localStorage.setItem(V + "_progress", JSON.stringify(data));
+    compute_layer_sum();
+    history.replaceState(null, "", "?share=" + to64(layer_cups) + "+" + to64(layer_tt));
+
+    if(!SHARED)
+        localStorage.setItem(V + "_progress", JSON.stringify(data));
 }
 
 function update_table() {
@@ -108,7 +162,7 @@ function update_table() {
             num_tt_200cc += Boolean(cell.checked);
 
         row.cells[11].children[0].innerHTML = (num_tt_150cc == 4 ? '&nbsp;' : 4 - num_tt_150cc)
-        row.cells[11].children[1].innerHTML = (num_tt_200cc == 4 ? '&nbsp;' : 4 - num_tt_200cc)
+        row.cells[11].children[2].innerHTML = (num_tt_200cc == 4 ? '&nbsp;' : 4 - num_tt_200cc)
 
         if(do_150cc && num_tt_150cc != 4)
             continue;
@@ -186,7 +240,6 @@ function random_cup() {
     if(c >= 128) {
         return
     }
-    console.log(n)
     $("#rng_img").src = $("table").rows[n + 2].cells[1].children[0].src;
 }
 const tt_empty = Array(8).fill(Array(2).fill("[tbd]"));
@@ -236,4 +289,65 @@ if(!window.navigator.userAgent.includes("Firefox")) {
     $("#logo").outerHTML += `<div class="shill yellow">
 <b>Note:</b> This tool works best in Firefox, and is largely untested in chrome. Please consider switching.
 </div>`;
+}
+
+function restore_from_shared() {
+    var previous = {
+        0b111n: "G2",
+        0b110n: "G1",
+        0b101n: "G0",
+        0b100n: "S",
+        0b010n: "B",
+        0b001n: "N",
+        0b000n: "G3"
+    };
+
+    layered_tt = from64(location.href.split("?share=")[1].split("+")[1]);
+    layered_cups = from64(location.href.split("?share=")[1].split("+")[0]);
+    var ls = [];
+    for(var item of $$("td[id*='trophy_']"))
+        ls.push(item)
+    ls.reverse();
+    for(var elem of ls) {
+        elem.dataset.cup = previous[layered_cups % 8n];
+        rotate_progress(elem, 0);
+        layered_cups /= 8n;
+    }
+
+    var ls = [];
+    for(var item of $$("td input[id*='_tt_']"))
+        ls.push(item)
+    ls.reverse();
+    for(var elem of ls) {
+        elem.checked = layered_tt % 2n;
+        layered_tt /= 2n;
+    }
+
+    compute_layer_sum();
+    history.replaceState(null, "", "?share=" + to64(layer_cups) + "+" + to64(layer_tt));
+    update_table();
+}
+
+function force_save() {
+    if(!window.confirm("Are you sure you want to save this table as your own?"))
+        return
+    SHARED = false;
+    $("#nosave").remove();
+    store_data();
+}
+
+var SHARED = false;
+if(location.href.includes("?share=") && !location.href.includes("?share=" + to64(layer_cups) + "+" + to64(layer_tt))) {
+    SHARED = true
+    $("#logo").outerHTML += `<div class="shill orange" id="nosave">
+<b>Warning:</b> This table appears to be shared. Any changes here will not be saved.<br>
+Click <a href="./progress.html">here</a> to edit your own.<br><br>
+Or, you can <button onclick='force_save()'>save</button> this table as your own
+</div>`;
+
+    restore_from_shared();
+}
+
+for(var q of $$("input + label")) {
+    q.onclick = (evt) => { evt.currentTarget.previousElementSibling.click(); }
 }

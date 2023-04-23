@@ -293,7 +293,6 @@ function push_builds(ls, block) {
 
     var char_set, kart_set, wheel_set, kite_set;
 
-    console.time("Generate builds")
     for(var q of ls) {
         if(cache_builds[q + "+" + var_st]) {
             builds.push(...cache_builds[q + "+" + var_st]);
@@ -309,9 +308,8 @@ function push_builds(ls, block) {
             push_parts(build_set, build_char, build_kart, build_wheel, build_kite);
         }
         cache_builds[q + "+" + var_st] = build_set;
-        builds.extend(...build_set);
+        builds.push(...build_set);
     }
-    console.timeEnd("Generate builds")
 
     var block_elem = $("#" + block);
     var l = Math.min(32, builds.length);

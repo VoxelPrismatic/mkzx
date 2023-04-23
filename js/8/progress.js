@@ -154,7 +154,7 @@ function update_table() {
 
     for(var row of $$("table tr:nth-child(n+3)")) {
         row.cells[0].children[0].checked = false;
-        num_trophies = 0;
+        num_trophies = V != "mk8dx";
         num_tt_150cc = 0;
         num_tt_200cc = 0;
 

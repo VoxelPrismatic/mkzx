@@ -106,11 +106,13 @@ function get_data() {
 
 const digits64 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_";
 function to64(n) {
-    return n.toString(2).split(/(?=(?:.{6})+(?!.))/g).map(v=>digits64[parseInt(v,2)]).join("");
+    return n.toString(2).split(/(?=(?:.{6})+(?!.))/g).map(v=>digits64[parseInt(v,2)]).join("")
+            .replace(/____/g, ".").replace(/0000/g, "!");
 }
 
 function from64(n) {
-    return n.split("").reduce((s,v)=>s*64n+BigInt(digits64.indexOf(v)),0n);
+    return n.replace(/\./g, "____").replace(/\!/g, "0000")
+            .split("").reduce((s,v)=>s*64n+BigInt(digits64.indexOf(v)),0n);
 }
 
 function store_data() {
@@ -359,3 +361,5 @@ Or, you can <button onclick='force_save()'>save</button> this table as your own
 for(var q of $$("input + label")) {
     q.onclick = (evt) => { evt.currentTarget.previousElementSibling.click(); }
 }
+
+store_data();

@@ -848,6 +848,7 @@ function generate_image_dict() {
 }
 
 generate_image_dict();
+var card_parser = new DOMParser();
 
 function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
     if($("#compared").children.length >= 32) {
@@ -875,7 +876,7 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
     for(var i = 0; i < 14; i++)
         sums[i] = chars[char_name][i] + karts[kart_name][i] + wheels[wheel_name][i] + kites[kite_name][i];
 
-    $("#compared").innerHTML += `\
+    var card_elem = card_parser.parseFromString(`\
 <div style="display: flex" class="compare-contain">
     <div>
         <img class="compare" data-src="../img/rm-compare.svg" title="Remove build" src="../img/rm-compare.svg" onclick="remove_compare(event)"/>
@@ -974,15 +975,18 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
             </tr>
         </table>
     </div>
-</div>`;
+</div>`, "text/html");
 
+    var card = $(".compare-contain", card_elem);
+    console.log(card_elem);
     if(alts["kite"].includes(kite_name))
-        $("#compared .compare-contain:last-child img:last-child").src = `./img/karts/kite/alt/${kite_name}/${char_name}.webp`;
+        $("img:last-child", card).src = `./img/karts/kite/alt/${kite_name}/${char_name}.webp`;
     if(alts["body"].includes(kart_name))
-        $("#compared .compare-contain:last-child img:nth-child(6)").src = `./img/karts/body/alt/${kart_name}/${char_name}.webp`;
+        $("img:nth-child(6)", card).src = `./img/karts/body/alt/${kart_name}/${char_name}.webp`;
 
     if(skip)
-        return $("#compared").lastElementChild;
+        return card;
+    $("#compared").appendChild(card);
 
     store_compare();
     localStorage.setItem("mkzx_compare_" + V, JSON.stringify(current_compare));

@@ -977,9 +977,9 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
 </div>`;
 
     if(alts["kite"].includes(kite_name))
-        $(".compare-contain:last-child img:last-child").src = `./img/karts/kite/alt/${kite_name}/${char_name}.webp`;
+        $("#compared .compare-contain:last-child img:last-child").src = `./img/karts/kite/alt/${kite_name}/${char_name}.webp`;
     if(alts["body"].includes(kart_name))
-        $(".compare-contain:last-child img:nth-child(6)").src = `./img/karts/body/alt/${kart_name}/${char_name}.webp`;
+        $("#compared .compare-contain:last-child img:nth-child(6)").src = `./img/karts/body/alt/${kart_name}/${char_name}.webp`;
 
     if(skip)
         return $("#compared").lastElementChild;

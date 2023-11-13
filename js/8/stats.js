@@ -978,7 +978,7 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
 </div>`, "text/html");
 
     var card = $(".compare-contain", card_elem);
-    console.log(card_elem);
+    // console.log(card_elem);
     if(alts["kite"].includes(kite_name))
         $("img:last-child", card).src = `./img/karts/kite/alt/${kite_name}/${char_name}.webp`;
     if(alts["body"].includes(kart_name))

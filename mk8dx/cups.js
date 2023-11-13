@@ -119,6 +119,30 @@ const cups = {
         "DS_MarioCircuit",
         "GCN_WaluigiStadium",
         "Tour_SingaporeSpeedway"
+    ],
+    "Feather": [
+        "Tour_AthensDash",
+        "GCN_DaisyCruiser",
+        "Wii_MoonviewHighway",
+        "SqueakyCleanSprint"
+    ],
+    "Cherry": [
+        "Tour_LosAngelesLaps",
+        "GBA_SunsetWilds",
+        "Wii_KoopaCape",
+        "Tour_VancouverVelocity"
+    ],
+    "Acorn": [
+        "Tour_RomeAvanti",
+        "GCN_DKMountain",
+        "Wii_DaisyCircuit",
+        "PiranhaPlantCove"
+    ],
+    "Spiny": [
+        "Tour_MadridDrive",
+        "3DS_RosalinasIceWorld",
+        "SNES_BowserCastle3",
+        "Wii_RainbowRoad"
     ]
 };
 
@@ -143,7 +167,11 @@ const names = {
     "Rock": "Rock Cup",
     "Moon": "Moon Cup",
     "Fruit": "Fruit Cup",
-    "Boomerang": "Boomerang Cup"
+    "Boomerang": "Boomerang Cup",
+    "Feather": "Feather Cup",
+    "Cherry": "Cherry Cup",
+    "Acorn": "Acorn Cup",
+    "Spiny": "Spiny Cup"
 };
 
 const labels = {
@@ -266,6 +294,30 @@ const labels = {
         "[DS] Mario Circuit",
         "[GCN] Waluigi Stadium",
         "[Tour] Singapore Speedway"
+    ],
+    "Feather": [
+        "[Tour] Athens Dash",
+        "[GCN] Daisy Cruiser",
+        "[Wii] Moonview Highway",
+        "Squeaky Clean Sprint"
+    ],
+    "Cherry": [
+        "[Tour] Los Angeles Laps",
+        "[GBA] Sunset Wilds",
+        "[Wii] Koopa Cape",
+        "[Tour] Vancouver Velocity"
+    ],
+    "Acorn": [
+        "[Tour] Rome Avanti",
+        "[GCN] DK Mountain",
+        "[Wii] Daisy Circuit",
+        "Piranha Plant Cove"
+    ],
+    "Spiny": [
+        "[Tour] Madrid Drive",
+        "[3DS] Rosalina's Ice World",
+        "[SNES] Bowser Castle 3",
+        "[Wii] Rainbow Road"
     ]
 }
 

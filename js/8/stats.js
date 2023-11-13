@@ -984,9 +984,11 @@ function add_build_compare(w_char, w_body, w_wheel, w_kite, skip = 0) {
     if(alts["body"].includes(kart_name))
         $("img:nth-child(6)", card).src = `./img/karts/body/alt/${kart_name}/${char_name}.webp`;
 
-    if(skip)
+    if(skip == 1)
         return card;
     $("#compared").appendChild(card);
+    if(skip == 2)
+        return
 
     store_compare();
     localStorage.setItem("mkzx_compare_" + V, JSON.stringify(current_compare));
@@ -1016,7 +1018,7 @@ for(var compare of current_compare) {
         continue
     if(!chars[compare[0]] || !karts[compare[1]] || !wheels[compare[2]] || !kites[compare[3]])
         continue
-    add_build_compare(...compare, 1);
+    add_build_compare(...compare, 2);
 }
 
 for(var q of $$("input + label")) {
